@@ -19,13 +19,13 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <sys/mman.h>
-#ifdef ANDROID
+#if defined(ANDROID) && !TARGET_OS_IPHONE
 #include <sys/ioctl.h>
 #include <linux/ashmem.h>
 #endif
 #endif
 
-#ifdef ANDROID
+#if defined(ANDROID) && !TARGET_OS_IPHONE
 #define ASHMEM_DEVICE "/dev/ashmem"
 
 static int AshmemCreateFileMapping(const char *name, size_t size)
@@ -53,7 +53,7 @@ void MemArena::GrabSHMSegment(size_t size)
 {
 #ifdef _WIN32
 	hMemoryMapping = CreateFileMapping(INVALID_HANDLE_VALUE, nullptr, PAGE_READWRITE, 0, (DWORD)(size), nullptr);
-#elif defined(ANDROID)
+#elif defined(ANDROID) && !TARGET_OS_IPHONE
 	fd = AshmemCreateFileMapping("Dolphin-emu", size);
 	if (fd < 0)
 	{
@@ -142,7 +142,7 @@ u8* MemArena::FindMemoryBase()
 #endif
 
 #else // 32 bit
-#ifdef ANDROID
+#if defined(ANDROID) && !TARGET_OS_IPHONE
 	// Android 4.3 changed how mmap works.
 	// if we map it private and then munmap it, we can't use the base returned.
 	// This may be due to changes in them support a full SELinux implementation.

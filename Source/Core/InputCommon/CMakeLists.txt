@@ -14,7 +14,7 @@ if(WIN32)
 				ControllerInterface/DInput/DInputKeyboardMouse.cpp
 				ControllerInterface/XInput/XInput.cpp
 				ControllerInterface/ForceFeedback/ForceFeedbackDevice.cpp)
-elseif(APPLE)
+elseif(APPLE AND NOT IOS)
 	find_library(COREFOUNDATION_LIBRARY CoreFoundation)
 	find_library(CARBON_LIBRARY Carbon)
 	find_library(COCOA_LIBRARY Cocoa)
@@ -32,7 +32,7 @@ elseif(X11_FOUND)
 					ControllerInterface/Xlib/XInput2.cpp)
 	endif()
 	set(LIBS ${LIBS} ${X11_LIBRARIES} ${XINPUT2_LIBRARIES})
-elseif(ANDROID)
+elseif(ANDROID OR IOS)
 	set(SRCS	${SRCS}
 				ControllerInterface/Android/Android.cpp)
 endif()

@@ -2,8 +2,9 @@
 // Licensed under GPLv2
 // Refer to the license.txt file included.
 
-#include <CoreServices/CoreServices.h>
 
+#include "AudioUnit/AUComponent.h"
+#include "AudioUnit/AudioUnitProperties.h"
 #include "AudioCommon/CoreAudioSoundStream.h"
 
 OSStatus CoreAudioSound::callback(void *inRefCon,
@@ -36,7 +37,11 @@ bool CoreAudioSound::Start()
 	AudioComponent component;
 
 	desc.componentType = kAudioUnitType_Output;
+#if !TARGET_OS_IPHONE
 	desc.componentSubType = kAudioUnitSubType_DefaultOutput;
+#else
+	desc.componentSubType = kAudioUnitSubType_RemoteIO; // different on iOS for some reason
+#endif
 	desc.componentFlags = 0;
 	desc.componentFlagsMask = 0;
 	desc.componentManufacturer = kAudioUnitManufacturer_Apple;
@@ -80,7 +85,11 @@ bool CoreAudioSound::Start()
 
 	err = AudioUnitSetParameter(audioUnit,
 					kHALOutputParam_Volume,
+#if !TARGET_OS_IPHONE
 					kAudioUnitParameterFlag_Output, 0,
+#else
+					kAudioUnitScope_Output, 0,
+#endif
 					m_volume / 100., 0);
 	if (err != noErr)
 		ERROR_LOG(AUDIO, "error setting volume");
@@ -109,7 +118,11 @@ void CoreAudioSound::SetVolume(int volume)
 
 	err = AudioUnitSetParameter(audioUnit,
 					kHALOutputParam_Volume,
-					kAudioUnitParameterFlag_Output, 0,
+#if !TARGET_OS_IPHONE
+                                        kAudioUnitParameterFlag_Output, 0,
+#else
+                                        kAudioUnitScope_Output, 0,
+#endif
 					volume / 100., 0);
 	if (err != noErr)
 		ERROR_LOG(AUDIO, "error setting volume");
