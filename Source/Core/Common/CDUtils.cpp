@@ -12,12 +12,14 @@
 #ifdef _WIN32
 #include <windows.h>
 #elif __APPLE__
+#if !TARGET_OS_IPHONE
 #include <CoreFoundation/CoreFoundation.h>
 #include <IOKit/IOBSD.h>
 #include <IOKit/IOKitLib.h>
 #include <IOKit/storage/IOCDMedia.h>
 #include <IOKit/storage/IOMedia.h>
 #include <paths.h>
+#endif
 #else
 #include <fcntl.h>
 #include <sys/stat.h>
@@ -65,6 +67,7 @@ std::vector<std::string> cdio_get_devices()
 // Returns a pointer to an array of strings with the device names
 std::vector<std::string> cdio_get_devices()
 {
+#if !TARGET_OS_IPHONE
 	io_object_t   next_media;
 	mach_port_t   master_port;
 	kern_return_t kern_result;
@@ -126,6 +129,10 @@ std::vector<std::string> cdio_get_devices()
 	}
 	IOObjectRelease(media_iterator);
 	return drives;
+#else
+	std::vector<std::string> drives;
+	return drives; // there are no drives on iOS, so we return nothing
+#endif
 }
 #else
 // checklist: /dev/cdrom, /dev/dvd /dev/hd?, /dev/scd? /dev/sr?

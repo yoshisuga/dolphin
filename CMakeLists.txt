@@ -130,6 +130,15 @@ else()
 	set(DOLPHIN_VERSION_PATCH ${DOLPHIN_WC_REVISION})
 endif()
 
+# CMAKE_SYSTEM_PROCESSOR is unset if we're building for iOS, so
+# we have to set it before anything uses it.
+if (IOS)
+	message("Building for iOS, setting CMAKE_SYSTEM_PROCESSOR and adding defs")
+	set(CMAKE_SYSTEM_PROCESSOR "aarch64")
+	add_definitions("-D_ARCH_64")
+	add_definitions("-DTARGET_OS_IPHONE")
+endif()
+
 # Architecture detection and arch specific settings
 message(${CMAKE_SYSTEM_PROCESSOR})
 
@@ -149,7 +158,13 @@ if(NOT ENABLE_GENERIC)
 	if(${CMAKE_SYSTEM_PROCESSOR} MATCHES "^x86" OR
 	   ${CMAKE_SYSTEM_PROCESSOR} MATCHES "i.86" OR
 	   APPLE)
-		if(_ARCH_64)
+		if(IOS)
+                	# Build for 64bit ARM
+                	set(_M_ARM 1)
+                	set(_M_ARM_64 1)
+                	add_definitions(-D_M_ARM=1 -D_M_ARM_64=1)
+                	add_definitions(-march=armv8-a+crc)
+		elseif(_ARCH_64)
 			set(_M_X86 1)
 			set(_M_X86_64 1)
 			add_definitions(-D_M_X86=1 -D_M_X86_64=1 -msse2)
@@ -246,6 +261,20 @@ if(APPLE)
 	# Avoid mistaking an object file for a source file on the link command line.
 	set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -x none")
 
+	if (IOS)
+	message("setting iOS SYSROOT")
+	# Ask for 64bit ARM binary.
+	set(TARGET_FLAGS "-arch arm64")
+	# Minimum iOS version.
+        # This is inserted into the Info.plist as well.
+        # Note that the SDK determines the maximum version of which optional
+        # features can be used, not the minimum required version to run.
+        set(OSX_MIN_VERSION "8.1")
+        set(TARGET_FLAGS "${TARGET_FLAGS} -mios-version-min=${OSX_MIN_VERSION}")
+        set(SYSROOT_LEGACY_PATH "/Developer/SDKs/iPhoneOS.sdk")
+        set(SYSROOT_PATH "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk")
+	else()
+	message("setting OS X SYSROOT")
 	# Identify the target system:
 	# Ask for 64-bit binary.
 	set(TARGET_FLAGS "-arch x86_64")
@@ -257,21 +286,30 @@ if(APPLE)
 	set(TARGET_FLAGS "${TARGET_FLAGS} -mmacosx-version-min=${OSX_MIN_VERSION}")
 	set(SYSROOT_LEGACY_PATH "/Developer/SDKs/MacOSX10.9.sdk")
 	set(SYSROOT_PATH "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk")
+	endif() # oatmealdome - IF (IOS)
+	message("setting TARGET_SYSROOT and others")
 	if(EXISTS "${SYSROOT_PATH}/")
+		message("setting regular sysroot path")
 		set(TARGET_SYSROOT ${SYSROOT_PATH})
 	elseif(EXISTS "${SYSROOT_LEGACY_PATH}/")
+		message("setting legacy sysroot path")
 		set(TARGET_SYSROOT ${SYSROOT_LEGACY_PATH})
 	endif()
-	if(${TARGET_SYSROOT})
+	#if(${TARGET_SYSROOT}) # not sure what's going on here. we need this to run so it uses the iOS headers but it doesn't for some reason
 		set(TARGET_FLAGS "${TARGET_FLAGS} -isysroot ${TARGET_SYSROOT}")
 		set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-syslibroot,${TARGET_SYSROOT}")
-	endif()
+	#endif()
+
 	# Do not warn about frameworks that are not available on all architectures.
 	# This avoids a warning when linking with QuickTime.
 	set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-no_arch_warnings")
+	IF (NOT IOS)
 	# Specify target CPUs.
 	set(TARGET_FLAGS "${TARGET_FLAGS} -mssse3")
 	set(TARGET_FLAGS "${TARGET_FLAGS} -march=core2")
+	else()
+	set(TARGET_FLAGS "${TARGET_FLAGS} -march=arm64")
+	endif()
 	# Target flags apply to both C and C++ compilation.
 	# CMake passes these to the compiler on the link command line as well.
 	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${TARGET_FLAGS}")
@@ -285,6 +323,10 @@ if(APPLE)
 	# page on x86_64 is 4GB in size.
 	set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-pagezero_size,0x1000")
 
+	message(${TARGET_FLAGS})
+	message(${CMAKE_EXE_LINKER_FLAGS})
+
+	if (NOT IOS)
 	find_library(APPKIT_LIBRARY AppKit)
 	find_library(APPSERV_LIBRARY ApplicationServices)
 	find_library(ATB_LIBRARY AudioToolbox)
@@ -301,6 +343,15 @@ if(APPLE)
 	find_library(WEBKIT_LIBRARY WebKit)
 	find_library(FORCEFEEDBACK ForceFeedback)
 	find_library(OPENGL_LIBRARY OpenGL)
+	else()
+	find_library(APPKIT_LIBRARY UIKit)
+	#find_library(CARBON_LIBRARY Carbon)
+	find_library(COCOA_LIBRARY Cocoa)
+	#find_library(COREAUDIO_LIBRARY CoreAudio)
+	#find_library(CORESERV_LIBRARY MobileCoreServices)
+	find_library(ATB_LIBRARY AudioToolbox)
+	find_library(AU_LIBRARY AudioUnit)
+	endif()
 endif()
 
 if(WIN32)
@@ -354,8 +405,8 @@ if(VTUNE)
 	)
 endif(VTUNE)
 
-if(ANDROID)
-	message("Building for Android")
+if(ANDROID OR IOS)
+	message("Building for Android/iOS")
 	add_definitions(-DANDROID)
 	set(USE_X11 0)
 	set(USE_UPNP 0)
@@ -375,7 +426,7 @@ add_definitions(-D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE)
 include(CheckLib)
 include(CheckCXXSourceRuns)
 
-if(NOT ANDROID)
+if(NOT ANDROID AND NOT IOS)
 
 	include(FindOpenGL)
 	include_directories(${OPENGL_INCLUDE_DIR})

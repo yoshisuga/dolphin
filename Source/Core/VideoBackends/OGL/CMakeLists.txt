@@ -17,7 +17,7 @@ set(SRCS GLExtensions/GLExtensions.cpp
 
 if(USE_EGL)
     set(SRCS ${SRCS} GLInterface/EGL.cpp)
-    if(ANDROID)
+    if(ANDROID OR IOS)
         set(SRCS ${SRCS} GLInterface/EGLAndroid.cpp)
     elseif(USE_X11)
         set(SRCS ${SRCS} GLInterface/EGLX11.cpp)
@@ -26,7 +26,7 @@ endif()
 
 if(WIN32)
     set(SRCS ${SRCS} GLInterface/WGL.cpp)
-elseif(APPLE)
+elseif(APPLE AND NOT IOS)
     set(SRCS ${SRCS} GLInterface/AGL.cpp)
 elseif(USE_X11)
     if (NOT USE_EGL)
