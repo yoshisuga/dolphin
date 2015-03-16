@@ -2,6 +2,29 @@
 
 [Homepage](https://dolphin-emu.org/) | [Project Site](https://github.com/dolphin-emu/dolphin) | [Forums](https://forums.dolphin-emu.org/) | [Wiki](https://wiki.dolphin-emu.org/) | [Issue Tracker](https://code.google.com/p/dolphin-emu/issues/list) | [Coding Style](https://github.com/dolphin-emu/dolphin/blob/master/Contributing.md) | [Transifex Page](https://www.transifex.com/projects/p/dolphin-emu/)
 
+
+## An iOS version
+I am 100% sure this doesn't work at the moment. In fact, if you try to compile, it only reaches 30% then fails (as of March 16). The code formatting and style guidelines have probably gone out the window for now, and there's also a bunch of random and unused Xcode stuff lying around.
+
+If you still want to try to build, here's how I've done it:
+<ul>
+<li>Install Xcode from the Mac App Store.</li>
+<li>Install brew.</li>
+<li>Install cmake with brew.</li>
+<li>Run the following in the dolphin directory:</li>
+</ul>
+```
+mkdir Build
+cd Build
+cmake -DCMAKE_TOOLCHAIN_FILE=../Source/iOS/ios.toolchain.cmake -DCMAKE_BUILD_TYPE=Release -DDISABLE_WX=true -DENABLE_PCH=false ..
+make
+```
+<ul>
+<li>[ instructions for building the actual application you can put on your device will come later when the emulation core actually compiles ]</li>
+</ul>
+
+## Original Dolphin Readme
+
 Dolphin is an emulator for running GameCube, Wii, and Triforce games on
 Windows, Linux, OS X, and recent Android devices. It's licensed under
 the terms of the GNU General Public License, version 2 (GPLv2).
