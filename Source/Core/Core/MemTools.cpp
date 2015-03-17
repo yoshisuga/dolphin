@@ -4,6 +4,9 @@
 
 #include <cstdio>
 #include <vector>
+#if TARGET_OS_IPHONE
+#include <signal.h>
+#endif
 
 #include "Common/CommonFuncs.h"
 #include "Common/CommonTypes.h"
@@ -92,7 +95,7 @@ void InstallExceptionHandler()
 
 void UninstallExceptionHandler() {}
 
-#elif defined(__APPLE__) && !defined(USE_SIGACTION_ON_APPLE)
+#elif defined(__APPLE__) && !defined(USE_SIGACTION_ON_APPLE) && !TARGET_OS_IPHONE
 
 const bool g_exception_handlers_supported = true;
 
@@ -238,7 +241,7 @@ static void sigsegv_handler(int sig, siginfo_t *info, void *raw_context)
 	mcontext_t *ctx = &context->uc_mcontext;
 	// assume it's not a write
 	if (!JitInterface::HandleFault(bad_address,
-#ifdef __APPLE__
+#if defined(__APPLE__)
 		*ctx
 #else
 		ctx
@@ -260,7 +263,7 @@ void InstallExceptionHandler()
 	signal_stack.ss_size = SIGSTKSZ;
 	signal_stack.ss_flags = 0;
 	if (sigaltstack(&signal_stack, nullptr))
-		PanicAlert("sigaltstack failed");
+        PanicAlert("sigaltstack failed");
 	struct sigaction sa;
 	sa.sa_handler = nullptr;
 	sa.sa_sigaction = &sigsegv_handler;

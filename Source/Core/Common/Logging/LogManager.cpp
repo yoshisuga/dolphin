@@ -9,7 +9,7 @@
 #include <set>
 #include <string>
 
-#ifdef ANDROID
+#if defined(ANDROID) && !TARGET_OS_IPHONE
 #include <android/log.h>
 #endif
 #include "Common/FileUtil.h"
@@ -133,7 +133,7 @@ void LogManager::Log(LogTypes::LOG_LEVELS level, LogTypes::LOG_TYPE type,
 	                                   file, line,
 	                                   LogTypes::LOG_LEVEL_TO_CHAR[(int)level],
 	                                   log->GetShortName().c_str(), temp);
-#ifdef ANDROID
+#if defined(ANDROID) && !TARGET_OS_IPHONE
 	__android_log_write(ANDROID_LOG_INFO, "Dolphinemu", msg.c_str());
 #endif
 	log->Trigger(level, msg.c_str());
