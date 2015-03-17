@@ -4,10 +4,12 @@
 
 #include "VideoBackends/OGL/GLInterfaceBase.h"
 
-#ifdef ANDROID
+#if defined(ANDROID) && !TARGET_OS_IPHONE
 #include "VideoBackends/OGL/GLInterface/EGLAndroid.h"
-#elif defined(__APPLE__)
+#elif defined(__APPLE__) && !TARGET_OS_IPHONE
 #include "VideoBackends/OGL/GLInterface/AGL.h"
+#elif TARGET_OS_IPHONE
+#include "VideoBackends/OGL/GLInterface/EAGL.h"
 #elif defined(_WIN32)
 #include "VideoBackends/OGL/GLInterface/WGL.h"
 #elif HAVE_X11
@@ -22,10 +24,12 @@
 
 cInterfaceBase* HostGL_CreateGLInterface()
 {
-	#ifdef ANDROID
+	#if defined(ANDROID) && !TARGET_OS_IPHONE
 		return new cInterfaceEGLAndroid;
-	#elif defined(__APPLE__)
+	#elif defined(__APPLE__) && !TARGET_OS_IPHONE
 		return new cInterfaceAGL;
+    #elif TARGET_OS_IPHONE
+        return new cInterfaceEAGL;
 	#elif defined(_WIN32)
 		return new cInterfaceWGL;
 	#elif defined(HAVE_X11) && HAVE_X11
