@@ -11,3 +11,8 @@ add_subdirectory(VideoBackends)
 if(ENABLE_QT)
 	add_subdirectory(DolphinQt)
 endif()
+
+if (IOS)
+	message(“building iOS host file”)
+	add_subdirectory(DolphiniOS)
+endif()

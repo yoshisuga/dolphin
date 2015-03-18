@@ -6,6 +6,7 @@
 //
 //
 
+#include <UIKit/UIKit.h>
 #include "Core/Host.h"
 
 bool Host_UIHasFocus()
@@ -25,7 +26,7 @@ bool Host_RendererIsFullscreen()
 
 void* Host_GetRenderHandle()
 {
-    UIView *window = [[UIApplication sharedApplication] keyWindow];
+    UIWindow *window = [[UIApplication sharedApplication] keyWindow];
     return window.rootViewController.view;
 }
 
