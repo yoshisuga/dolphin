@@ -864,6 +864,8 @@ if(APPLE)
 		)
 endif()
 
+
+
 ########################################
 # Pre-build events: Define configuration variables and write SCM info header
 #
@@ -901,8 +903,12 @@ add_definitions(-std=gnu++0x)
 # but some dependencies require them (LLVM, libav).
 add_definitions(-D__STDC_LIMIT_MACROS -D__STDC_CONSTANT_MACROS)
 
+#if (NOT IOS)
 add_subdirectory(Source)
-
+#else()
+#SET_TARGET_PROPERTIES(dolphin PROPERTIES LINKER_LANGUAGE CXX)
+#add_library(dolphin STATIC Source)
+#endif()
 
 ########################################
 # Install shared data files

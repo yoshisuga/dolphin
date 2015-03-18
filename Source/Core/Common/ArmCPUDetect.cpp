@@ -172,11 +172,9 @@ void CPUInfo::Detect()
 	bool isVFP3 = false;
 	bool isVFP4 = false;
 #ifdef IOS
+    // We only build for arm64, so VFP3 and VFP4 definitely exist
 	isVFP3 = true;
-	// Check for swift arch (VFP4`)
-	#ifdef __ARM_ARCH_7S__
-		isVFP4 = true;
-	#endif // #ifdef __ARM_ARCH_7S__
+    isVFP4 = true;
 #elif defined(BLACKBERRY)
 	isVFP3 = true;
 	const char cpuInfoPath[] = "/pps/services/hw_info/inventory";
@@ -204,7 +202,7 @@ void CPUInfo::Detect()
 		}
 	}
 #endif
-	// Hardcode this for now
+    // Hardcode this for now
 	bSwp = true;
 	bHalf = true;
 	bThumb = false;
