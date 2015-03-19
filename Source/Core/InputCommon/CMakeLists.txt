@@ -32,7 +32,7 @@ elseif(X11_FOUND)
 					ControllerInterface/Xlib/XInput2.cpp)
 	endif()
 	set(LIBS ${LIBS} ${X11_LIBRARIES} ${XINPUT2_LIBRARIES})
-elseif(ANDROID OR IOS)
+elseif(ANDROID AND NOT IOS)
 	set(SRCS	${SRCS}
 				ControllerInterface/Android/Android.cpp)
 endif()

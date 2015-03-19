@@ -11,7 +11,7 @@
 
 class OpenSLESStream final : public SoundStream
 {
-#ifdef ANDROID
+#if defined(ANDROID) && !TARGET_OS_IPHONE
 public:
 	OpenSLESStream(CMixer *mixer)
 		: SoundStream(mixer)

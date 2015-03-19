@@ -6,10 +6,10 @@ set(SRCS	AudioCommon.cpp
 
 set(LIBS "")
 
-if(ANDROID)
+if(ANDROID AND NOT IOS)
 	set(SRCS ${SRCS} OpenSLESStream.cpp)
 	set(LIBS ${LIBS} OpenSLES)
-endif(ANDROID)
+endif()
 
 if(ALSA_FOUND)
 	set(SRCS ${SRCS} AlsaSoundStream.cpp)

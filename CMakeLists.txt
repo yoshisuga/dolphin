@@ -138,6 +138,7 @@ if (IOS)
 	set(CMAKE_LIBRARY_OUTPUT_DIRECTORY $CMAKE_BINARY_DIR/lib)
 	add_definitions("-D_ARCH_64")
 	add_definitions("-DTARGET_OS_IPHONE")
+	add_definitions("-DIOS")
 	#add_definitions("-D_STRUCT_SIGALTSTACK")
 endif()
 

@@ -6,6 +6,10 @@
 
 #include "Common/Arm64Emitter.h"
 #include "Common/MathUtil.h"
+#ifdef IOS
+#include "libkern/OSCacheControl.h"
+#endif
+
 
 namespace Arm64Gen
 {
