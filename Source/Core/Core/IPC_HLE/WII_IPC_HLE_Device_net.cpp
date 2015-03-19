@@ -316,7 +316,7 @@ static void GetMacAddress(u8* mac)
 	std::string wireless_mac = SConfig::GetInstance().m_WirelessMac;
 	if (!StringToMacAddress(wireless_mac, mac))
 	{
-		GenerateMacAddress(IOS, mac);
+		GenerateMacAddress(WII_IOS, mac);
 		SaveMacAddress(mac);
 		if (!wireless_mac.empty())
 		{

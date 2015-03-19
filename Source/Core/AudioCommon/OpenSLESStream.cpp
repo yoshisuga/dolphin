@@ -2,13 +2,14 @@
 // Licensed under GPLv2
 // Refer to the license.txt file included.
 
-#ifdef ANDROID
+#include "AudioCommon/OpenSLESStream.h"
+
+#if defined(ANDROID) && !TARGET_OS_IPHONE
 #include <assert.h>
 
 #include <SLES/OpenSLES.h>
 #include <SLES/OpenSLES_Android.h>
 
-#include "AudioCommon/OpenSLESStream.h"
 #include "Common/CommonTypes.h"
 
 // engine interfaces

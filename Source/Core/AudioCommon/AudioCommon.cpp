@@ -2,18 +2,17 @@
 // Licensed under GPLv2
 // Refer to the license.txt file included.
 
-
 #include "AudioCommon/AlsaSoundStream.h"
 #include "AudioCommon/AOSoundStream.h"
-#include "AudioCommon/AudioCommon.h"
-#include "AudioCommon/CoreAudioSoundStream.h"
-#include "AudioCommon/Mixer.h"
 #include "AudioCommon/NullSoundStream.h"
 #include "AudioCommon/OpenALStream.h"
 #include "AudioCommon/OpenSLESStream.h"
 #include "AudioCommon/PulseAudioStream.h"
 #include "AudioCommon/XAudio2_7Stream.h"
 #include "AudioCommon/XAudio2Stream.h"
+#include "AudioCommon/AudioCommon.h"
+#include "AudioCommon/CoreAudioSoundStream.h"
+#include "AudioCommon/Mixer.h"
 
 #include "Common/FileUtil.h"
 

@@ -11,7 +11,9 @@
 enum MACConsumer
 {
 	BBA = 0,
-	IOS = 1
+	// the original name conflicts with our preprocessor macro for iOS :(
+	// if somebody has a better name, feel free to open up a pull request
+	WII_IOS = 1
 };
 
 enum
