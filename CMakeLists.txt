@@ -152,9 +152,11 @@ message(${CMAKE_SYSTEM_PROCESSOR})
 if(CMAKE_SIZEOF_VOID_P EQUAL 8)
 	set(_ARCH_64 1)
 	add_definitions(-D_ARCH_64=1)
+	message(arch64)
 else()
 	set(_ARCH_32 1)
 	add_definitions(-D_ARCH_32=1)
+	message(arch32)
 endif()
 
 if(NOT ENABLE_GENERIC)
@@ -347,6 +349,8 @@ if(APPLE)
 	find_library(FORCEFEEDBACK ForceFeedback)
 	find_library(OPENGL_LIBRARY OpenGL)
 	else()
+	find_library(COREFUND_LIBRARY CoreFoundation)
+	find_library(FOUNDATION_LIBRARY Foundation)
 	find_library(APPKIT_LIBRARY UIKit)
 	#find_library(CARBON_LIBRARY Carbon)
 	find_library(COCOA_LIBRARY Cocoa)
@@ -855,6 +859,7 @@ endif()
 if(APPLE)
 	# Link against OS X system frameworks.
 	list(APPEND LIBS
+		${FOUNDATION_LIBRARY}
 		${APPKIT_LIBRARY}
 		${AU_LIBRARY}
 		${COREAUDIO_LIBRARY}

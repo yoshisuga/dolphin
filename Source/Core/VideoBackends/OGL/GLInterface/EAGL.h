@@ -9,6 +9,11 @@
 #import <OpenGLES/ES3/gl.h>
 #import <OpenGLES/ES3/glext.h>
 #import <UIKit/UIKit.h>
+#include <dlfcn.h>
+//#import <Foundation/Foundation.h>
+//#include <CoreFoundation/CFBundle.h>
+//#include <CoreFoundation/CFString.h>
+#include <mach-o/dyld.h>
 #endif
 
 #include "VideoBackends/OGL/GLInterfaceBase.h"
@@ -28,6 +33,6 @@ public:
 	void Shutdown();
 	void Update();
 	void SwapInterval(int interval);
-    void presentRenderbuffer();
+    void* GetFuncAddress(const std::string& name);
 
 };

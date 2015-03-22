@@ -1,0 +1,436 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		044494291ABCBEAD000E306A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 044494281ABCBEAD000E306A /* main.m */; };
+		0444942C1ABCBEAD000E306A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0444942B1ABCBEAD000E306A /* AppDelegate.m */; };
+		044494381ABCBEAD000E306A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 044494371ABCBEAD000E306A /* Images.xcassets */; };
+		0444943B1ABCBEAD000E306A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 044494391ABCBEAD000E306A /* LaunchScreen.xib */; };
+		0464404E1ABCC85A008CA8C8 /* libsfml-network.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0482C6181ABCC14300014444 /* libsfml-network.a */; };
+		0464404F1ABCC85B008CA8C8 /* libpolarssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0482C6171ABCC14300014444 /* libpolarssl.a */; };
+		046440501ABCC85D008CA8C8 /* libsfml-system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0482C6191ABCC14300014444 /* libsfml-system.a */; };
+		046440511ABCC864008CA8C8 /* libSOIL.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0482C61A1ABCC14300014444 /* libSOIL.a */; };
+		046440521ABCC868008CA8C8 /* libxxhash.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0482C61F1ABCC14300014444 /* libxxhash.a */; };
+		046440531ABCC869008CA8C8 /* libdiscio.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0482C6101ABCC13900014444 /* libdiscio.a */; };
+		046440541ABCC890008CA8C8 /* libcommon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0482C60C1ABCC11B00014444 /* libcommon.a */; };
+		046440551ABCC89F008CA8C8 /* libcore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0482C60E1ABCC11C00014444 /* libcore.a */; };
+		046440561ABCC8BA008CA8C8 /* libuicommon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0482C61B1ABCC14300014444 /* libuicommon.a */; };
+		046440571ABCC8EF008CA8C8 /* libaudiocommon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0482C6081ABCC11800014444 /* libaudiocommon.a */; };
+		046440581ABCC901008CA8C8 /* libvideoogl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0482C61D1ABCC14300014444 /* libvideoogl.a */; };
+		046440591ABCC903008CA8C8 /* libvideocommon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0482C61C1ABCC14300014444 /* libvideocommon.a */; };
+		0464405A1ABCC905008CA8C8 /* libvideosoftware.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0482C61E1ABCC14300014444 /* libvideosoftware.a */; };
+		0464405B1ABCC92A008CA8C8 /* libinputcommon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0482C6131ABCC14300014444 /* libinputcommon.a */; };
+		0464405C1ABCC92F008CA8C8 /* libios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0482C6141ABCC14300014444 /* libios.a */; };
+		0464405E1ABCC96B008CA8C8 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0464405D1ABCC96B008CA8C8 /* OpenGLES.framework */; };
+		0464406E1ABCFD79008CA8C8 /* ViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0464406D1ABCFD79008CA8C8 /* ViewController.mm */; };
+		046440701ABD0014008CA8C8 /* starfield.dol in Resources */ = {isa = PBXBuildFile; fileRef = 0464406F1ABD0014008CA8C8 /* starfield.dol */; };
+		046440731ABD0039008CA8C8 /* DolphinBridge.mm in Sources */ = {isa = PBXBuildFile; fileRef = 046440721ABD0039008CA8C8 /* DolphinBridge.mm */; };
+		0482C5FE1ABCC04600014444 /* GLView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0482C5FA1ABCC04600014444 /* GLView.m */; };
+		0482C6011ABCC08700014444 /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0482C6001ABCC08700014444 /* Entitlements.plist */; };
+		0482C6031ABCC0EF00014444 /* GC in Resources */ = {isa = PBXBuildFile; fileRef = 0482C6021ABCC0EF00014444 /* GC */; };
+		0482C6051ABCC0FF00014444 /* Shaders in Resources */ = {isa = PBXBuildFile; fileRef = 0482C6041ABCC0FF00014444 /* Shaders */; };
+		0482C60B1ABCC11A00014444 /* libbdisasm.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0482C60A1ABCC11900014444 /* libbdisasm.a */; };
+		0482C6201ABCC14300014444 /* libenet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0482C6121ABCC14300014444 /* libenet.a */; };
+		0482C6231ABCC14300014444 /* liblzo2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0482C6151ABCC14300014444 /* liblzo2.a */; };
+		0482C6241ABCC14300014444 /* libpng.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0482C6161ABCC14300014444 /* libpng.a */; };
+		0482C6331ABCC1E900014444 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0482C6301ABCC1E900014444 /* AudioToolbox.framework */; };
+		0482C6351ABCC1E900014444 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0482C6321ABCC1E900014444 /* CoreAudio.framework */; };
+		0482C6371ABCC1EF00014444 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0482C6361ABCC1EF00014444 /* UIKit.framework */; };
+		0482C6391ABCC1F300014444 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0482C6381ABCC1F300014444 /* libz.dylib */; };
+		0482C63B1ABCC1F800014444 /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0482C63A1ABCC1F800014444 /* libiconv.dylib */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		044494231ABCBEAD000E306A /* DolphiniOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DolphiniOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		044494271ABCBEAD000E306A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		044494281ABCBEAD000E306A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		0444942A1ABCBEAD000E306A /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		0444942B1ABCBEAD000E306A /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		044494371ABCBEAD000E306A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		0444943A1ABCBEAD000E306A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
+		0464405D1ABCC96B008CA8C8 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
+		0464406D1ABCFD79008CA8C8 /* ViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ViewController.mm; sourceTree = "<group>"; };
+		0464406F1ABD0014008CA8C8 /* starfield.dol */ = {isa = PBXFileReference; lastKnownFileType = file; path = starfield.dol; sourceTree = "<group>"; };
+		046440711ABD0039008CA8C8 /* DolphinBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DolphinBridge.h; sourceTree = "<group>"; };
+		046440721ABD0039008CA8C8 /* DolphinBridge.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = DolphinBridge.mm; sourceTree = "<group>"; };
+		0482C5F91ABCC04600014444 /* GLView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLView.h; sourceTree = "<group>"; };
+		0482C5FA1ABCC04600014444 /* GLView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GLView.m; sourceTree = "<group>"; };
+		0482C5FB1ABCC04600014444 /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		0482C6001ABCC08700014444 /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
+		0482C6021ABCC0EF00014444 /* GC */ = {isa = PBXFileReference; lastKnownFileType = folder; name = GC; path = ../../Data/Sys/GC; sourceTree = "<group>"; };
+		0482C6041ABCC0FF00014444 /* Shaders */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Shaders; path = ../../Data/Sys/Shaders; sourceTree = "<group>"; };
+		0482C6061ABCC11100014444 /* libraries */ = {isa = PBXFileReference; lastKnownFileType = folder; name = libraries; path = DolphiniOS/libraries; sourceTree = "<group>"; };
+		0482C6081ABCC11800014444 /* libaudiocommon.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libaudiocommon.a; path = DolphiniOS/libraries/libaudiocommon.a; sourceTree = "<group>"; };
+		0482C60A1ABCC11900014444 /* libbdisasm.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libbdisasm.a; path = DolphiniOS/libraries/libbdisasm.a; sourceTree = "<group>"; };
+		0482C60C1ABCC11B00014444 /* libcommon.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcommon.a; path = DolphiniOS/libraries/libcommon.a; sourceTree = "<group>"; };
+		0482C60E1ABCC11C00014444 /* libcore.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcore.a; path = DolphiniOS/libraries/libcore.a; sourceTree = "<group>"; };
+		0482C6101ABCC13900014444 /* libdiscio.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libdiscio.a; path = DolphiniOS/libraries/libdiscio.a; sourceTree = "<group>"; };
+		0482C6121ABCC14300014444 /* libenet.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libenet.a; path = DolphiniOS/libraries/libenet.a; sourceTree = "<group>"; };
+		0482C6131ABCC14300014444 /* libinputcommon.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libinputcommon.a; path = DolphiniOS/libraries/libinputcommon.a; sourceTree = "<group>"; };
+		0482C6141ABCC14300014444 /* libios.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libios.a; path = DolphiniOS/libraries/libios.a; sourceTree = "<group>"; };
+		0482C6151ABCC14300014444 /* liblzo2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = liblzo2.a; path = DolphiniOS/libraries/liblzo2.a; sourceTree = "<group>"; };
+		0482C6161ABCC14300014444 /* libpng.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libpng.a; path = DolphiniOS/libraries/libpng.a; sourceTree = "<group>"; };
+		0482C6171ABCC14300014444 /* libpolarssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libpolarssl.a; path = DolphiniOS/libraries/libpolarssl.a; sourceTree = "<group>"; };
+		0482C6181ABCC14300014444 /* libsfml-network.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libsfml-network.a"; path = "DolphiniOS/libraries/libsfml-network.a"; sourceTree = "<group>"; };
+		0482C6191ABCC14300014444 /* libsfml-system.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libsfml-system.a"; path = "DolphiniOS/libraries/libsfml-system.a"; sourceTree = "<group>"; };
+		0482C61A1ABCC14300014444 /* libSOIL.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSOIL.a; path = DolphiniOS/libraries/libSOIL.a; sourceTree = "<group>"; };
+		0482C61B1ABCC14300014444 /* libuicommon.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libuicommon.a; path = DolphiniOS/libraries/libuicommon.a; sourceTree = "<group>"; };
+		0482C61C1ABCC14300014444 /* libvideocommon.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libvideocommon.a; path = DolphiniOS/libraries/libvideocommon.a; sourceTree = "<group>"; };
+		0482C61D1ABCC14300014444 /* libvideoogl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libvideoogl.a; path = DolphiniOS/libraries/libvideoogl.a; sourceTree = "<group>"; };
+		0482C61E1ABCC14300014444 /* libvideosoftware.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libvideosoftware.a; path = DolphiniOS/libraries/libvideosoftware.a; sourceTree = "<group>"; };
+		0482C61F1ABCC14300014444 /* libxxhash.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libxxhash.a; path = DolphiniOS/libraries/libxxhash.a; sourceTree = "<group>"; };
+		0482C6301ABCC1E900014444 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		0482C6321ABCC1E900014444 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
+		0482C6361ABCC1EF00014444 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		0482C6381ABCC1F300014444 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		0482C63A1ABCC1F800014444 /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = usr/lib/libiconv.dylib; sourceTree = SDKROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		044494201ABCBEAD000E306A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0464405E1ABCC96B008CA8C8 /* OpenGLES.framework in Frameworks */,
+				0482C63B1ABCC1F800014444 /* libiconv.dylib in Frameworks */,
+				0482C6391ABCC1F300014444 /* libz.dylib in Frameworks */,
+				0482C6371ABCC1EF00014444 /* UIKit.framework in Frameworks */,
+				0482C6331ABCC1E900014444 /* AudioToolbox.framework in Frameworks */,
+				0482C6351ABCC1E900014444 /* CoreAudio.framework in Frameworks */,
+				0482C60B1ABCC11A00014444 /* libbdisasm.a in Frameworks */,
+				0482C6241ABCC14300014444 /* libpng.a in Frameworks */,
+				0482C6201ABCC14300014444 /* libenet.a in Frameworks */,
+				0482C6231ABCC14300014444 /* liblzo2.a in Frameworks */,
+				0464404F1ABCC85B008CA8C8 /* libpolarssl.a in Frameworks */,
+				046440501ABCC85D008CA8C8 /* libsfml-system.a in Frameworks */,
+				0464404E1ABCC85A008CA8C8 /* libsfml-network.a in Frameworks */,
+				046440511ABCC864008CA8C8 /* libSOIL.a in Frameworks */,
+				046440521ABCC868008CA8C8 /* libxxhash.a in Frameworks */,
+				046440531ABCC869008CA8C8 /* libdiscio.a in Frameworks */,
+				0464405C1ABCC92F008CA8C8 /* libios.a in Frameworks */,
+				046440551ABCC89F008CA8C8 /* libcore.a in Frameworks */,
+				046440541ABCC890008CA8C8 /* libcommon.a in Frameworks */,
+				046440561ABCC8BA008CA8C8 /* libuicommon.a in Frameworks */,
+				046440571ABCC8EF008CA8C8 /* libaudiocommon.a in Frameworks */,
+				0464405B1ABCC92A008CA8C8 /* libinputcommon.a in Frameworks */,
+				046440591ABCC903008CA8C8 /* libvideocommon.a in Frameworks */,
+				046440581ABCC901008CA8C8 /* libvideoogl.a in Frameworks */,
+				0464405A1ABCC905008CA8C8 /* libvideosoftware.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0444941A1ABCBEAD000E306A = {
+			isa = PBXGroup;
+			children = (
+				0464405D1ABCC96B008CA8C8 /* OpenGLES.framework */,
+				0482C63A1ABCC1F800014444 /* libiconv.dylib */,
+				0482C6381ABCC1F300014444 /* libz.dylib */,
+				0482C6361ABCC1EF00014444 /* UIKit.framework */,
+				0482C6301ABCC1E900014444 /* AudioToolbox.framework */,
+				0482C6321ABCC1E900014444 /* CoreAudio.framework */,
+				0482C6121ABCC14300014444 /* libenet.a */,
+				0482C6131ABCC14300014444 /* libinputcommon.a */,
+				0482C6141ABCC14300014444 /* libios.a */,
+				0482C6151ABCC14300014444 /* liblzo2.a */,
+				0482C6161ABCC14300014444 /* libpng.a */,
+				0482C6171ABCC14300014444 /* libpolarssl.a */,
+				0482C6181ABCC14300014444 /* libsfml-network.a */,
+				0482C6191ABCC14300014444 /* libsfml-system.a */,
+				0482C61A1ABCC14300014444 /* libSOIL.a */,
+				0482C61B1ABCC14300014444 /* libuicommon.a */,
+				0482C61C1ABCC14300014444 /* libvideocommon.a */,
+				0482C61D1ABCC14300014444 /* libvideoogl.a */,
+				0482C61E1ABCC14300014444 /* libvideosoftware.a */,
+				0482C61F1ABCC14300014444 /* libxxhash.a */,
+				0482C6101ABCC13900014444 /* libdiscio.a */,
+				0482C60E1ABCC11C00014444 /* libcore.a */,
+				0482C60C1ABCC11B00014444 /* libcommon.a */,
+				0482C60A1ABCC11900014444 /* libbdisasm.a */,
+				0482C6081ABCC11800014444 /* libaudiocommon.a */,
+				0482C6061ABCC11100014444 /* libraries */,
+				0482C6041ABCC0FF00014444 /* Shaders */,
+				0482C6021ABCC0EF00014444 /* GC */,
+				0482C6001ABCC08700014444 /* Entitlements.plist */,
+				044494251ABCBEAD000E306A /* DolphiniOS */,
+				044494241ABCBEAD000E306A /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		044494241ABCBEAD000E306A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				044494231ABCBEAD000E306A /* DolphiniOS.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		044494251ABCBEAD000E306A /* DolphiniOS */ = {
+			isa = PBXGroup;
+			children = (
+				046440711ABD0039008CA8C8 /* DolphinBridge.h */,
+				046440721ABD0039008CA8C8 /* DolphinBridge.mm */,
+				0444942A1ABCBEAD000E306A /* AppDelegate.h */,
+				0444942B1ABCBEAD000E306A /* AppDelegate.m */,
+				0464406F1ABD0014008CA8C8 /* starfield.dol */,
+				0482C5F91ABCC04600014444 /* GLView.h */,
+				0482C5FA1ABCC04600014444 /* GLView.m */,
+				0482C5FB1ABCC04600014444 /* ViewController.h */,
+				0464406D1ABCFD79008CA8C8 /* ViewController.mm */,
+				044494371ABCBEAD000E306A /* Images.xcassets */,
+				044494391ABCBEAD000E306A /* LaunchScreen.xib */,
+				044494261ABCBEAD000E306A /* Supporting Files */,
+			);
+			path = DolphiniOS;
+			sourceTree = "<group>";
+		};
+		044494261ABCBEAD000E306A /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				044494271ABCBEAD000E306A /* Info.plist */,
+				044494281ABCBEAD000E306A /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		044494221ABCBEAD000E306A /* DolphiniOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0444944A1ABCBEAD000E306A /* Build configuration list for PBXNativeTarget "DolphiniOS" */;
+			buildPhases = (
+				044494201ABCBEAD000E306A /* Frameworks */,
+				0444941F1ABCBEAD000E306A /* Sources */,
+				044494211ABCBEAD000E306A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = DolphiniOS;
+			productName = DolphiniOS;
+			productReference = 044494231ABCBEAD000E306A /* DolphiniOS.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		0444941B1ABCBEAD000E306A /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0620;
+				ORGANIZATIONNAME = OatmealDome;
+				TargetAttributes = {
+					044494221ABCBEAD000E306A = {
+						CreatedOnToolsVersion = 6.2;
+					};
+				};
+			};
+			buildConfigurationList = 0444941E1ABCBEAD000E306A /* Build configuration list for PBXProject "DolphiniOS" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 0444941A1ABCBEAD000E306A;
+			productRefGroup = 044494241ABCBEAD000E306A /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				044494221ABCBEAD000E306A /* DolphiniOS */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		044494211ABCBEAD000E306A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0482C6031ABCC0EF00014444 /* GC in Resources */,
+				0482C6051ABCC0FF00014444 /* Shaders in Resources */,
+				0482C6011ABCC08700014444 /* Entitlements.plist in Resources */,
+				0444943B1ABCBEAD000E306A /* LaunchScreen.xib in Resources */,
+				046440701ABD0014008CA8C8 /* starfield.dol in Resources */,
+				044494381ABCBEAD000E306A /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		0444941F1ABCBEAD000E306A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				046440731ABD0039008CA8C8 /* DolphinBridge.mm in Sources */,
+				0444942C1ABCBEAD000E306A /* AppDelegate.m in Sources */,
+				0482C5FE1ABCC04600014444 /* GLView.m in Sources */,
+				0464406E1ABCFD79008CA8C8 /* ViewController.mm in Sources */,
+				044494291ABCBEAD000E306A /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		044494391ABCBEAD000E306A /* LaunchScreen.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0444943A1ABCBEAD000E306A /* Base */,
+			);
+			name = LaunchScreen.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		044494481ABCBEAD000E306A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
+				CODE_SIGN_IDENTITY = "-";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "-";
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/DolphiniOS/libraries/includes/**";
+				VALID_ARCHS = arm64;
+			};
+			name = Debug;
+		};
+		044494491ABCBEAD000E306A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
+				CODE_SIGN_IDENTITY = "-";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "-";
+				COPY_PHASE_STRIP = NO;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/DolphiniOS/libraries/includes/**";
+				VALIDATE_PRODUCT = YES;
+				VALID_ARCHS = arm64;
+			};
+			name = Release;
+		};
+		0444944B1ABCBEAD000E306A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = DolphiniOS/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/DolphiniOS/libraries",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		0444944C1ABCBEAD000E306A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = DolphiniOS/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/DolphiniOS/libraries",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		0444941E1ABCBEAD000E306A /* Build configuration list for PBXProject "DolphiniOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				044494481ABCBEAD000E306A /* Debug */,
+				044494491ABCBEAD000E306A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		0444944A1ABCBEAD000E306A /* Build configuration list for PBXNativeTarget "DolphiniOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0444944B1ABCBEAD000E306A /* Debug */,
+				0444944C1ABCBEAD000E306A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 0444941B1ABCBEAD000E306A /* Project object */;
+}

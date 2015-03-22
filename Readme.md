@@ -4,7 +4,7 @@
 
 
 ## An iOS version
-I am 100% sure this doesn't work at the moment. In fact, if you try to compile, it only reaches 30% then fails (as of March 16). The code formatting and style guidelines have probably gone out the window for now, and there's also a bunch of random and unused Xcode stuff lying around.
+I am 100% sure this doesn't work at the moment. It simply crashes when you try to run the emulator. The code formatting and style guidelines have probably gone out the window for now, and there's also a bunch of random and unused Xcode stuff lying around.
 
 If you still want to try to build, here's how I've done it:
 <ul>
@@ -20,8 +20,47 @@ cmake -DCMAKE_TOOLCHAIN_FILE=../Source/iOS/ios.toolchain.cmake -DCMAKE_BUILD_TYP
 make
 ```
 <ul>
-<li>[ instructions for building the actual application you can put on your device will come later when the emulation core actually compiles ]</li>
+<li>Copy all .a files in Build's subdirectories in Source/iOS/DolphiniOS/libraries</li>
+<li>Copy all .h files in Source's subdirectories in Source/iOS/DolphiniOS/libraries/include</li>
 </ul>
+
+### To install the application: 
+
+<ul>
+<li>If you don't have a signing identity, make sure that you've modified SDKSettings.plist and that you have AppSync Unified and sudo installed (see Google for more information). If you do, make sure that you set your Code Signing Settings to 'iOS Developer' and not 'Ad Hoc Code Sign'.</li>
+<li>Plug in your 64-Bit iOS device and make sure your destination is set to that device.</li>
+<li>Click the run (play) button in the upper left to install the application.</li>
+<li>Quit the application when it runs.</li>
+<li>SSH into your device and run:</li>
+</ul>
+```
+find ~/Containers/Bundle/Application -name 'DolphiniOS'
+sudo cp -R ~/Containers/Bundle/Application/(long uuid here)/DolphiniOS.app /Applications/
+```
+<ul>
+<li>Delete the application from your home screen.</li>
+<li>Run:</li>
+</ul>
+```
+uicache
+```
+<ul>
+<li>Run the application.</li>
+</ul>
+
+### To replace the application with a new copy:
+
+<ul>
+<li>Kill any existing instances of the application in the App Switcher (Multitasking).</li>
+<li>Run:</li>
+<ul>
+```
+sudo rm -rf /Applications/DolphiniOS.app
+uicache
+```
+</ul>
+
+You can now install a new copy of the app via Xcode.
 
 ## Original Dolphin Readme
 

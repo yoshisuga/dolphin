@@ -25,6 +25,7 @@
 #include "Core/IPC_HLE/WII_IPC_HLE.h"
 #include "Core/PowerPC/PowerPC.h"
 #include "Core/PowerPC/PPCAnalyst.h"
+#include "Core/Host.h";
 
 namespace HW
 {
@@ -40,7 +41,7 @@ namespace HW
 		VideoInterface::Init();
 		SerialInterface::Init();
 		ProcessorInterface::Init();
-		ExpansionInterface::Init(); // Needs to be initialized before Memory
+        ExpansionInterface::Init(); // Needs to be initialized before Memory
 		Memory::Init();
 		DSP::Init(SConfig::GetInstance().m_LocalCoreStartupParameter.bDSPHLE);
 		DVDInterface::Init();
