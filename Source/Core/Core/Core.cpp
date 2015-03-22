@@ -325,8 +325,7 @@ static void CpuThread()
 		State::LoadAs(s_state_filename);
 
 	s_is_started = true;
-
-
+    
 	#ifdef USE_GDBSTUB
 	if (_CoreParameter.iGDBPort > 0)
 	{

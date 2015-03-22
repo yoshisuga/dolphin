@@ -59,7 +59,7 @@ void CCPU::Run()
 			if (PowerPC::GetState() == PowerPC::CPU_POWERDOWN)
 				return;
 			if (PowerPC::GetState() != PowerPC::CPU_STEPPING)
-				continue;
+                continue;
 
 			//3: do a step
 			PowerPC::SingleStep();
