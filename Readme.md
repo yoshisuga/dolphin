@@ -53,12 +53,11 @@ uicache
 <ul>
 <li>Kill any existing instances of the application in the App Switcher (Multitasking).</li>
 <li>Run:</li>
-<ul>
+</ul>
 ```
 sudo rm -rf /Applications/DolphiniOS.app
 uicache
 ```
-</ul>
 
 You can now install a new copy of the app via Xcode.
 
