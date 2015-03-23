@@ -143,6 +143,7 @@ u8* MemArena::FindMemoryBase()
     // only finding a block of 1GB memory is the cause of the crash problem
     // when running with JitArm64. (also, even though we only find 1GB, it STILL
     // fails like 90% of the time!)
+    const int flags = MAP_ANON | MAP_PRIVATE;
     void* base = mmap(0, 0x31000000, PROT_NONE, flags, -1, 0);
     if (base == MAP_FAILED)
     {
@@ -173,7 +174,6 @@ u8* MemArena::FindMemoryBase()
         return 0;
     }
     munmap(base, 0x31000000);
-#endif
     return static_cast<u8*>(base);
 #endif
 }
