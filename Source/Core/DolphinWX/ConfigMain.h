@@ -99,6 +99,7 @@ private:
 		ID_INTERFACE_CONFIRMSTOP,
 		ID_INTERFACE_USEPANICHANDLERS,
 		ID_INTERFACE_ONSCREENDISPLAYMESSAGES,
+		ID_INTERFACE_PAUSEONFOCUSLOST,
 		ID_INTERFACE_LANG,
 		ID_HOTKEY_CONFIG,
 
@@ -146,7 +147,7 @@ private:
 
 	// Advanced
 	wxRadioBox* CPUEngine;
-	wxCheckBox* _NTSCJ;
+	wxCheckBox* ForceNTSCJ;
 	wxSlider* OCSlider;
 	wxStaticText* OCText;
 	wxCheckBox* EnableOC;
@@ -170,6 +171,7 @@ private:
 	wxCheckBox* ConfirmStop;
 	wxCheckBox* UsePanicHandlers;
 	wxCheckBox* OnScreenDisplayMessages;
+	wxCheckBox* PauseOnFocusLost;
 	wxChoice* InterfaceLang;
 	wxButton* HotkeyConfig;
 

@@ -154,6 +154,7 @@ EVT_SLIDER(ID_VOLUME, CConfigMain::AudioSettingsChanged)
 EVT_CHECKBOX(ID_INTERFACE_CONFIRMSTOP, CConfigMain::DisplaySettingsChanged)
 EVT_CHECKBOX(ID_INTERFACE_USEPANICHANDLERS, CConfigMain::DisplaySettingsChanged)
 EVT_CHECKBOX(ID_INTERFACE_ONSCREENDISPLAYMESSAGES, CConfigMain::DisplaySettingsChanged)
+EVT_CHECKBOX(ID_INTERFACE_PAUSEONFOCUSLOST, CConfigMain::DisplaySettingsChanged)
 EVT_CHOICE(ID_INTERFACE_LANG, CConfigMain::DisplaySettingsChanged)
 EVT_BUTTON(ID_HOTKEY_CONFIG, CConfigMain::DisplaySettingsChanged)
 
@@ -232,7 +233,7 @@ void CConfigMain::UpdateGUI()
 		EnableCheats->Disable();
 
 		CPUEngine->Disable();
-		_NTSCJ->Disable();
+		ForceNTSCJ->Disable();
 
 		// Disable stuff on AudioPage
 		DSPEngine->Disable();
@@ -347,13 +348,14 @@ void CConfigMain::InitializeGUIValues()
 	for (unsigned int a = 0; a < (sizeof(CPUCores) / sizeof(CPUCore)); ++a)
 		if (CPUCores[a].CPUid == startup_params.iCPUCore)
 			CPUEngine->SetSelection(a);
-	_NTSCJ->SetValue(startup_params.bForceNTSCJ);
+	ForceNTSCJ->SetValue(startup_params.bForceNTSCJ);
 
 
 	// Display - Interface
 	ConfirmStop->SetValue(startup_params.bConfirmStop);
 	UsePanicHandlers->SetValue(startup_params.bUsePanicHandlers);
 	OnScreenDisplayMessages->SetValue(startup_params.bOnScreenDisplayMessages);
+	PauseOnFocusLost->SetValue(SConfig::GetInstance().m_PauseOnFocusLost);
 	// need redesign
 	for (unsigned int i = 0; i < sizeof(langIds) / sizeof(wxLanguage); i++)
 	{
@@ -480,12 +482,13 @@ void CConfigMain::InitializeGUITooltips()
 	Framelimit->SetToolTip(_("Limits the game speed to the specified number of frames per second (full speed is 60 for NTSC and 50 for PAL)."));
 
 	// General - Advanced
-	_NTSCJ->SetToolTip(_("Forces NTSC-J mode for using the Japanese ROM font.\nIf left unchecked, Dolphin defaults to NTSC-U and automatically enables this setting when playing Japanese games."));
+	ForceNTSCJ->SetToolTip(_("Forces NTSC-J mode for using the Japanese ROM font.\nIf left unchecked, Dolphin defaults to NTSC-U and automatically enables this setting when playing Japanese games."));
 
 	// Display - Interface
 	ConfirmStop->SetToolTip(_("Show a confirmation box before stopping a game."));
 	UsePanicHandlers->SetToolTip(_("Show a message box when a potentially serious error has occurred.\nDisabling this may avoid annoying and non-fatal messages, but it may result in major crashes having no explanation at all."));
 	OnScreenDisplayMessages->SetToolTip(_("Display messages over the emulation screen area.\nThese messages include memory card writes, video backend and CPU information, and JIT cache clearing."));
+	PauseOnFocusLost->SetToolTip(_("Pauses the emulator when focus is taken away from the emulation window."));
 
 	InterfaceLang->SetToolTip(_("Change the language of the user interface.\nRequires restart."));
 
@@ -547,7 +550,7 @@ void CConfigMain::CreateGUIControls()
 	Framelimit = new wxChoice(GeneralPage, ID_FRAMELIMIT, wxDefaultPosition, wxDefaultSize, arrayStringFor_Framelimit);
 	// Core Settings - Advanced
 	CPUEngine = new wxRadioBox(GeneralPage, ID_CPUENGINE, _("CPU Emulator Engine"), wxDefaultPosition, wxDefaultSize, arrayStringFor_CPUEngine, 0, wxRA_SPECIFY_ROWS);
-	_NTSCJ = new wxCheckBox(GeneralPage, ID_NTSCJ, _("Force Console as NTSC-J"));
+	ForceNTSCJ = new wxCheckBox(GeneralPage, ID_NTSCJ, _("Force Console as NTSC-J"));
 
 	// Populate the General settings
 	wxBoxSizer* sFramelimit = new wxBoxSizer(wxHORIZONTAL);
@@ -562,7 +565,7 @@ void CConfigMain::CreateGUIControls()
 
 	wxStaticBoxSizer* const sbAdvanced = new wxStaticBoxSizer(wxVERTICAL, GeneralPage, _("Advanced Settings"));
 	sbAdvanced->Add(CPUEngine, 0, wxALL, 5);
-	sbAdvanced->Add(_NTSCJ, 0, wxALL, 5);
+	sbAdvanced->Add(ForceNTSCJ, 0, wxALL, 5);
 
 	wxBoxSizer* const sGeneralPage = new wxBoxSizer(wxVERTICAL);
 	sGeneralPage->Add(sbBasic, 0, wxEXPAND | wxALL, 5);
@@ -577,6 +580,7 @@ void CConfigMain::CreateGUIControls()
 	ConfirmStop = new wxCheckBox(DisplayPage, ID_INTERFACE_CONFIRMSTOP, _("Confirm on Stop"));
 	UsePanicHandlers = new wxCheckBox(DisplayPage, ID_INTERFACE_USEPANICHANDLERS, _("Use Panic Handlers"));
 	OnScreenDisplayMessages = new wxCheckBox(DisplayPage, ID_INTERFACE_ONSCREENDISPLAYMESSAGES, _("On-Screen Display Messages"));
+	PauseOnFocusLost = new wxCheckBox(DisplayPage, ID_INTERFACE_PAUSEONFOCUSLOST, _("Pause on Focus Lost"));
 
 	wxBoxSizer* sInterface = new wxBoxSizer(wxHORIZONTAL);
 	sInterface->Add(TEXT_BOX(DisplayPage, _("Language:")), 0, wxALIGN_CENTER_VERTICAL | wxALL, 5);
@@ -623,6 +627,7 @@ void CConfigMain::CreateGUIControls()
 	sbInterface->Add(ConfirmStop, 0, wxALL, 5);
 	sbInterface->Add(UsePanicHandlers, 0, wxALL, 5);
 	sbInterface->Add(OnScreenDisplayMessages, 0, wxALL, 5);
+	sbInterface->Add(PauseOnFocusLost, 0, wxALL, 5);
 	sbInterface->Add(scInterface, 0, wxEXPAND | wxALL, 5);
 	sbInterface->Add(sInterface, 0, wxEXPAND | wxALL, 5);
 	sDisplayPage = new wxBoxSizer(wxVERTICAL);
@@ -906,7 +911,7 @@ void CConfigMain::CoreSettingsChanged(wxCommandEvent& event)
 		}
 		break;
 	case ID_NTSCJ:
-		startup_params.bForceNTSCJ = _NTSCJ->IsChecked();
+		startup_params.bForceNTSCJ = ForceNTSCJ->IsChecked();
 		break;
 	case ID_ENABLEOVERCLOCK:
 		SConfig::GetInstance().m_OCEnable = EnableOC->IsChecked();
@@ -937,6 +942,9 @@ void CConfigMain::DisplaySettingsChanged(wxCommandEvent& event)
 	case ID_INTERFACE_ONSCREENDISPLAYMESSAGES:
 		SConfig::GetInstance().m_LocalCoreStartupParameter.bOnScreenDisplayMessages = OnScreenDisplayMessages->IsChecked();
 		SetEnableAlert(OnScreenDisplayMessages->IsChecked());
+		break;
+	case ID_INTERFACE_PAUSEONFOCUSLOST:
+		SConfig::GetInstance().m_PauseOnFocusLost = PauseOnFocusLost->IsChecked();
 		break;
 	case ID_INTERFACE_LANG:
 		if (SConfig::GetInstance().m_InterfaceLanguage != langIds[InterfaceLang->GetSelection()])
