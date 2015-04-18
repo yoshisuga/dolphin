@@ -21,16 +21,16 @@
     DolphinBridge *bridge = [DolphinBridge alloc];
     NSString *userDir = [bridge getUserDirectory];
     
-    // redirect console to .log files.
+    // redirect console to ~/Documents/dolphin-console.log.
     // because we have to copy  the bundle directly to /Applications, we have to attach
     // Xcode's debugger manually. when doing so, it doesn't attach the console for some
     // reason, forcing us to have to redirect the console into a file and tail it over ssh.
     [bridge redirectConsole];
     NSLog(@"NEW INSTANCE ---");
-    NSLog(@"Waiting for 10s...");
+    NSLog(@"Waiting for 15s...");
     
-    // let's have a change to actually attach the debugger and run setrlimit
-    [NSThread sleepForTimeInterval:30];
+    // let's have a change to actually attach the debugger
+    [NSThread sleepForTimeInterval:15];
     
     if (userDir.length == 0)
     {

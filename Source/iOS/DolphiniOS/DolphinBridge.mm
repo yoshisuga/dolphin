@@ -160,12 +160,20 @@
     
 }
 
+static bool MsgAlert(const char* caption, const char* text, bool /*yes_no*/, int /*Style*/)
+{
+    NSLog(@"[%s] %s", caption, text);
+    return false;
+}
+
 // oh my!
 - (void) startEmulation
 {
     
     NSLog(@"Emulation will now commence!! Setting user dir...");
     UICommon::SetUserDirectory([[self getUserDirectory] cStringUsingEncoding:NSUTF8StringEncoding]);
+    NSLog(@"Registering MsgAlert handler");
+    RegisterMsgAlertHandler(&MsgAlert);
     NSLog(@"Calling UICommon::Init()");
     UICommon::Init();
     
@@ -184,13 +192,10 @@
 // stackoverflow question #3184235
 - (void) redirectConsole
 {
-   NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,
                                                          NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *errLogPath = [documentsDirectory stringByAppendingPathComponent:@"err-dolphin.log"];
-    NSString *outLogPath = [documentsDirectory stringByAppendingPathComponent:@"out-dolphin.log"];
-    freopen([errLogPath fileSystemRepresentation],"a+", stderr);
-    freopen([outLogPath fileSystemRepresentation], "a+", stdout);
-}
+    NSString *errLogPath = [documentsDirectory stringByAppendingPathComponent:@"dolphin-console.log"];
+    freopen([errLogPath fileSystemRepresentation],"a+", stderr);}
 
 @end
