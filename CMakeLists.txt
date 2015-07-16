@@ -146,7 +146,7 @@ endif()
 # we have to set it before anything uses it.
 if (IOS)
 	message("Building for iOS, setting CMAKE_SYSTEM_PROCESSOR and adding defs")
-	set(CMAKE_SYSTEM_PROCESSOR "arm64")
+	set(CMAKE_SYSTEM_PROCESSOR "aarch64”)
 	set(CMAKE_LIBRARY_OUTPUT_DIRECTORY $CMAKE_BINARY_DIR/lib)
 	add_definitions("-D_ARCH_64")
 	add_definitions("-DTARGET_OS_IPHONE")
@@ -174,15 +174,8 @@ endif()
 if(NOT ENABLE_GENERIC)
 	if(${CMAKE_SYSTEM_PROCESSOR} MATCHES "^x86" OR
 	   ${CMAKE_SYSTEM_PROCESSOR} MATCHES "i.86" OR
-	   ${CMAKE_SYSTEM_PROCESSOR} MATCHES "amd64" OR
-	   APPLE)
-		if(IOS)
-                	# Build for 64bit ARM
-                	set(_M_ARM 1)
-                	set(_M_ARM_64 1)
-                	add_definitions(-D_M_ARM=1 -D_M_ARM_64=1)
-                	add_definitions(-march=arm64)
-		elseif(_ARCH_64)
+	   ${CMAKE_SYSTEM_PROCESSOR} MATCHES "amd64”)
+		if(_ARCH_64)
 			set(_M_X86 1)
 			set(_M_X86_64 1)
 			add_definitions(-D_M_X86=1 -D_M_X86_64=1 -msse2)
