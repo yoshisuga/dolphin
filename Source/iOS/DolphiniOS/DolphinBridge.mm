@@ -125,7 +125,7 @@
     dolphinConfig.Load(File::GetUserPath(D_CONFIG_IDX) + "Dolphin.ini");
     dolphinConfig.GetOrCreateSection("Core")->Set("CPUCore", PowerPC::CORE_JITARM64);
     dolphinConfig.GetOrCreateSection("Core")->Set("CPUThread", "True"); // originally false
-    dolphinConfig.GetOrCreateSection("Core")->Set("Fastmem", "True"); // originally false
+    dolphinConfig.GetOrCreateSection("Core")->Set("Fastmem", "False"); // originally false
     dolphinConfig.GetOrCreateSection("Core")->Set("GFXBackend", "OGL");
     dolphinConfig.Save(File::GetUserPath(D_CONFIG_IDX) + "Dolphin.ini");
     

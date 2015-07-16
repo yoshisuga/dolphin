@@ -151,7 +151,7 @@ bool IsInitialized()
 //
 // TODO: The actual size of RAM is REALRAM_SIZE (24MB); the other 8MB shouldn't
 // be backed by actual memory.
-static MemoryView views[] =
+/*static MemoryView views[] =
 {
 	{&m_pRAM,      0x00000000, RAM_SIZE,      0},
 	{nullptr,      0x200000000, RAM_SIZE,     MV_MIRROR_PREVIOUS},
@@ -163,6 +163,25 @@ static MemoryView views[] =
 	{nullptr,      0x290000000, EXRAM_SIZE,   MV_WII_ONLY | MV_MIRROR_PREVIOUS},
 	{nullptr,      0x2D0000000, EXRAM_SIZE,   MV_WII_ONLY | MV_MIRROR_PREVIOUS},
 };
+/*static MemoryView views[] =
+{
+    {&m_pRAM,      0x00000000, RAM_SIZE,      0},
+    {nullptr,      0x07000000, RAM_SIZE,     MV_MIRROR_PREVIOUS},
+    {nullptr,      0x0b200000, RAM_SIZE,     MV_MIRROR_PREVIOUS},
+    {nullptr,      0x11300000, RAM_SIZE,     MV_MIRROR_PREVIOUS},
+    {&m_pL1Cache,  0x17500000, L1_CACHE_SIZE, 0},
+    {&m_pFakeVMEM, 0x09100000, FAKEVMEM_SIZE, MV_FAKE_VMEM},
+    {&m_pEXRAM,    0x02100000, EXRAM_SIZE,    MV_WII_ONLY},
+    {nullptr,      0x0d200000, EXRAM_SIZE,   MV_WII_ONLY | MV_MIRROR_PREVIOUS},
+    {nullptr,      0x13400000, EXRAM_SIZE,   MV_WII_ONLY | MV_MIRROR_PREVIOUS},
+};*/
+    static MemoryView views[] =
+    {
+        {&m_pRAM,      0x00000000, RAM_SIZE,      0},
+        {&m_pL1Cache,  0x17500000, L1_CACHE_SIZE, 0},
+        {&m_pFakeVMEM, 0x09100000, FAKEVMEM_SIZE, MV_FAKE_VMEM},
+        {&m_pEXRAM,    0x02000000, EXRAM_SIZE,    MV_WII_ONLY},
+    };
 static const int num_views = sizeof(views) / sizeof(MemoryView);
 
 void Init()
