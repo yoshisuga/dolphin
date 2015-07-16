@@ -1,10 +1,12 @@
-// Copyright 2013 Dolphin Emulator Project
-// Licensed under GPLv2
+// Copyright 2008 Dolphin Emulator Project
+// Licensed under GPLv2+
 // Refer to the license.txt file included.
 
 #pragma once
 
 #include "Core/IPC_HLE/WII_IPC_HLE_Device.h"
+
+class PointerWrap;
 
 struct NANDStat
 {

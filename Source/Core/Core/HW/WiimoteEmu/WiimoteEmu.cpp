@@ -1,17 +1,16 @@
-// Copyright 2013 Dolphin Emulator Project
-// Licensed under GPLv2
+// Copyright 2010 Dolphin Emulator Project
+// Licensed under GPLv2+
 // Refer to the license.txt file included.
 
 #include <cmath>
 
+#include "Common/ChunkFile.h"
 #include "Common/CommonTypes.h"
 #include "Common/Timer.h"
-
 #include "Core/ConfigManager.h"
 #include "Core/Host.h"
 #include "Core/Movie.h"
 #include "Core/NetPlayClient.h"
-
 #include "Core/HW/WiimoteEmu/MatrixMath.h"
 #include "Core/HW/WiimoteEmu/WiimoteEmu.h"
 #include "Core/HW/WiimoteEmu/WiimoteHid.h"
@@ -38,8 +37,9 @@ static const u8 eeprom_data_0[] = {
 	0xA1, 0xAA, 0x8B, 0x99, 0xAE, 0x9E, 0x78, 0x30, 0xA7, /*0x74, 0xD3,*/ 0x00, 0x00, // messing up the checksum on purpose
 	0xA1, 0xAA, 0x8B, 0x99, 0xAE, 0x9E, 0x78, 0x30, 0xA7, /*0x74, 0xD3,*/ 0x00, 0x00,
 	// Accelerometer
-	ACCEL_ZERO_G, ACCEL_ZERO_G, ACCEL_ZERO_G, 0, ACCEL_ONE_G, ACCEL_ONE_G, ACCEL_ONE_G, 0, 0, 0,
-	ACCEL_ZERO_G, ACCEL_ZERO_G, ACCEL_ZERO_G, 0, ACCEL_ONE_G, ACCEL_ONE_G, ACCEL_ONE_G, 0, 0, 0,
+	// Important: checksum is required for tilt games
+	ACCEL_ZERO_G, ACCEL_ZERO_G, ACCEL_ZERO_G, 0, ACCEL_ONE_G, ACCEL_ONE_G, ACCEL_ONE_G, 0, 0, 0xA3,
+	ACCEL_ZERO_G, ACCEL_ZERO_G, ACCEL_ZERO_G, 0, ACCEL_ONE_G, ACCEL_ONE_G, ACCEL_ONE_G, 0, 0, 0xA3,
 };
 
 static const u8 motion_plus_id[] = { 0x00, 0x00, 0xA6, 0x20, 0x00, 0x05 };
@@ -231,7 +231,7 @@ void Wiimote::Reset()
 	//   0x33 - 0x43: level 2
 	//   0x33 - 0x54: level 3
 	//   0x55 - 0xff: level 4
-	m_status.battery = 0x5f;
+	m_status.battery = (u8)(m_options->settings[5]->GetValue() * 100);
 
 	memset(m_shake_step, 0, sizeof(m_shake_step));
 
@@ -302,6 +302,7 @@ Wiimote::Wiimote( const unsigned int index )
 	m_options->settings.emplace_back(new ControlGroup::Setting(_trans("Upright Wiimote"), false));
 	m_options->settings.emplace_back(new ControlGroup::IterateUI(_trans("Iterative Input")));
 	m_options->settings.emplace_back(new ControlGroup::Setting(_trans("Speaker Pan"), 0, -127, 127));
+	m_options->settings.emplace_back(new ControlGroup::Setting(_trans("Battery"), 95.0 / 100, 0, 255));
 
 	// TODO: This value should probably be re-read if SYSCONF gets changed
 	m_sensor_bar_on_top = SConfig::GetInstance().m_SYSCONF->GetData<u8>("BT.BAR") != 0;
@@ -641,6 +642,8 @@ void Wiimote::Update()
 
 	Movie::SetPolledDevice();
 
+	m_status.battery = (u8)(m_options->settings[5]->GetValue() * 100);
+
 	const ReportFeatures& rptf = reporting_mode_features[m_reporting_mode - WM_REPORT_CORE];
 	s8 rptf_size = rptf.size;
 	if (Movie::IsPlayingInput() && Movie::PlayWiimote(m_index, data, rptf, m_extension->active_extension, m_ext_key))
@@ -893,9 +896,9 @@ void Wiimote::LoadDefaults(const ControllerInterface& ciface)
 	set_control(m_buttons, 5, "E"); // +
 
 #ifdef _WIN32
-	set_control(m_buttons, 6, "RETURN"); // Home
+	set_control(m_buttons, 6, "!LMENU & RETURN"); // Home
 #else
-	set_control(m_buttons, 6, "Return"); // Home
+	set_control(m_buttons, 6, "!`Alt_L` & Return"); // Home
 #endif
 
 	// Shake

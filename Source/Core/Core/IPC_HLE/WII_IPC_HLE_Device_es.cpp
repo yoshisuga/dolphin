@@ -1,5 +1,5 @@
-// Copyright 2013 Dolphin Emulator Project
-// Licensed under GPLv2
+// Copyright 2009 Dolphin Emulator Project
+// Licensed under GPLv2+
 // Refer to the license.txt file included.
 
 
@@ -36,23 +36,24 @@
 // need to include this before polarssl/aes.h,
 // otherwise we may not get __STDC_FORMAT_MACROS
 #include <cinttypes>
-
 #include <polarssl/aes.h>
 
+#include "Common/ChunkFile.h"
 #include "Common/CommonPaths.h"
 #include "Common/FileUtil.h"
 #include "Common/NandPaths.h"
 #include "Common/StdMakeUnique.h"
 #include "Common/StringUtil.h"
-
 #include "Core/ConfigManager.h"
 #include "Core/ec_wii.h"
 #include "Core/Movie.h"
-#include "Core/VolumeHandler.h"
 #include "Core/Boot/Boot_DOL.h"
+#include "Core/HW/DVDInterface.h"
 #include "Core/IPC_HLE/WII_IPC_HLE_Device_es.h"
 #include "Core/IPC_HLE/WII_IPC_HLE_Device_usb.h"
+#include "Core/IPC_HLE/WII_IPC_HLE_WiiMote.h"
 #include "Core/PowerPC/PowerPC.h"
+#include "DiscIO/NANDContentLoader.h"
 
 #ifdef _WIN32
 #include <Windows.h>
@@ -110,11 +111,11 @@ void CWII_IPC_HLE_Device_es::OpenInternal()
 		// m_TitleIDsOwned.clear();
 		// DiscIO::cUIDsys::AccessInstance().GetTitleIDs(m_TitleIDsOwned, true);
 	}
-	else if (VolumeHandler::IsValid())
+	else if (DVDInterface::VolumeIsValid())
 	{
 		// blindly grab the titleID from the disc - it's unencrypted at:
 		// offset 0x0F8001DC and 0x0F80044C
-		VolumeHandler::GetVolume()->GetTitleID((u8*)&m_TitleID);
+		DVDInterface::GetVolume().GetTitleID((u8*)&m_TitleID);
 		m_TitleID = Common::swap64(m_TitleID);
 	}
 	else
@@ -426,7 +427,7 @@ IPCCommandResult CWII_IPC_HLE_Device_es::IOCtlV(u32 _CommandAddress)
 					}
 					rContent.m_Position += Size;
 				} else {
-					PanicAlertT("IOCTL_ES_READCONTENT - bad destination");
+					PanicAlert("IOCTL_ES_READCONTENT - bad destination");
 				}
 			}
 
@@ -924,10 +925,20 @@ IPCCommandResult CWII_IPC_HLE_Device_es::IOCtlV(u32 _CommandAddress)
 						{
 							pDolLoader = std::make_unique<CDolLoader>(pContent->m_Filename);
 						}
-						pDolLoader->Load(); // TODO: Check why sysmenu does not load the DOL correctly
-						PC = pDolLoader->GetEntryPoint();
+
+						if (pDolLoader->IsValid())
+						{
+							pDolLoader->Load(); // TODO: Check why sysmenu does not load the DOL correctly
+							PC = pDolLoader->GetEntryPoint();
+							bSuccess = true;
+						}
+						else
+						{
+							PanicAlertT("IOCTL_ES_LAUNCH: The DOL file is invalid!");
+							bSuccess = false;
+						}
+
 						IOSv = ContentLoader.GetIosVersion();
-						bSuccess = true;
 					}
 				}
 			}
@@ -1093,7 +1104,7 @@ u32 CWII_IPC_HLE_Device_es::ES_DIVerify(u8* _pTMD, u32 _sz)
 {
 	u64 titleID = 0xDEADBEEFDEADBEEFull;
 	u64 tmdTitleID = Common::swap64(*(u64*)(_pTMD+0x18c));
-	VolumeHandler::GetVolume()->GetTitleID((u8*)&titleID);
+	DVDInterface::GetVolume().GetTitleID((u8*)&titleID);
 	if (Common::swap64(titleID) != tmdTitleID)
 	{
 		return -1;

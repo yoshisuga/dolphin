@@ -1,5 +1,5 @@
-// Copyright 2013 Dolphin Emulator Project
-// Licensed under GPLv2
+// Copyright 2008 Dolphin Emulator Project
+// Licensed under GPLv2+
 // Refer to the license.txt file included.
 
 
@@ -17,6 +17,7 @@
 
 #include <algorithm>
 #include <map>
+#include <set>
 #include <string>
 #include <vector>
 
@@ -92,7 +93,7 @@ void LoadPatchSection(const std::string& section, std::vector<Patch>& patches, I
 			}
 			else
 			{
-				std::string::size_type loc = line.find_first_of('=', 0);
+				std::string::size_type loc = line.find('=');
 
 				if (loc != std::string::npos)
 				{
@@ -160,9 +161,9 @@ int GetSpeedhackCycles(const u32 addr)
 
 void LoadPatches()
 {
-	IniFile merged = SConfig::GetInstance().m_LocalCoreStartupParameter.LoadGameIni();
-	IniFile globalIni = SConfig::GetInstance().m_LocalCoreStartupParameter.LoadDefaultGameIni();
-	IniFile localIni = SConfig::GetInstance().m_LocalCoreStartupParameter.LoadLocalGameIni();
+	IniFile merged = SConfig::GetInstance().LoadGameIni();
+	IniFile globalIni = SConfig::GetInstance().LoadDefaultGameIni();
+	IniFile localIni = SConfig::GetInstance().LoadLocalGameIni();
 
 	LoadPatchSection("OnFrame", onFrame, globalIni, localIni);
 	ActionReplay::LoadCodes(globalIni, localIni, false);

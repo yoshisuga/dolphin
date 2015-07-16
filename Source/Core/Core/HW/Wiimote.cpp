@@ -1,5 +1,5 @@
-// Copyright 2013 Dolphin Emulator Project
-// Licensed under GPLv2
+// Copyright 2010 Dolphin Emulator Project
+// Licensed under GPLv2+
 // Refer to the license.txt file included.
 
 #include "Common/CommonTypes.h"
@@ -118,8 +118,13 @@ void Update(int _number)
 {
 	//PanicAlert( "Wiimote_Update" );
 
-	// TODO: change this to a try_to_lock, and make it give empty input on failure
-	std::unique_lock<std::recursive_mutex> lk(s_config.controls_lock, std::try_to_lock);
+	// if we are on the next input cycle, update output and input
+	static int _last_number = 4;
+	if (_number <= _last_number)
+	{
+		g_controller_interface.UpdateInput();
+	}
+	_last_number = _number;
 
 	if (WIIMOTE_SRC_EMU & g_wiimote_sources[_number])
 		((WiimoteEmu::Wiimote*)s_config.controllers[_number])->Update();

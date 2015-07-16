@@ -1,10 +1,11 @@
-// Copyright 2013 Dolphin Emulator Project
-// Licensed under GPLv2
+// Copyright 2008 Dolphin Emulator Project
+// Licensed under GPLv2+
 // Refer to the license.txt file included.
 
 #pragma once
 
 #include <algorithm>
+#include <deque>
 #include <queue>
 #include <vector>
 
@@ -12,7 +13,8 @@
 #include "Core/IPC_HLE/hci.h"
 #include "Core/IPC_HLE/WII_IPC_HLE.h"
 #include "Core/IPC_HLE/WII_IPC_HLE_Device.h"
-#include "Core/IPC_HLE/WII_IPC_HLE_WiiMote.h"
+
+class CWII_IPC_HLE_WiiMote;
 
 struct SQueuedEvent
 {

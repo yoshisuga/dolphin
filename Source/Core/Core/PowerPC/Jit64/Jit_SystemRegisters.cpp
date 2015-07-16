@@ -1,5 +1,5 @@
-// Copyright 2013 Dolphin Emulator Project
-// Licensed under GPLv2
+// Copyright 2008 Dolphin Emulator Project
+// Licensed under GPLv2+
 // Refer to the license.txt file included.
 
 #include "Common/CommonTypes.h"
@@ -431,7 +431,7 @@ void Jit64::mtcrf(UGeckoInstruction inst)
 			{
 				if ((crm & (0x80 >> i)) != 0)
 				{
-					u8 newcr = (gpr.R(inst.RS).offset >> (28 - (i * 4))) & 0xF;
+					u8 newcr = (gpr.R(inst.RS).Imm32() >> (28 - (i * 4))) & 0xF;
 					u64 newcrval = PPCCRToInternal(newcr);
 					if ((s64)newcrval == (s32)newcrval)
 					{

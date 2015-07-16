@@ -1,5 +1,5 @@
-// Copyright 2013 Dolphin Emulator Project
-// Licensed under GPLv2
+// Copyright 2010 Dolphin Emulator Project
+// Licensed under GPLv2+
 // Refer to the license.txt file included.
 
 #include "Core/HW/Memmap.h"
@@ -75,6 +75,13 @@ bool TextureCache::TCacheEntry::Save(const std::string& filename, unsigned int l
 	}
 
 	return saved_png;
+}
+
+void TextureCache::TCacheEntry::DoPartialTextureUpdate(TCacheEntryBase* entry_, u32 x, u32 y)
+{
+	TCacheEntry* entry = (TCacheEntry*)entry_;
+
+	D3D::context->CopySubresourceRegion(texture->GetTex(), 0, x , y , 0, entry->texture->GetTex(), 0, NULL);
 }
 
 void TextureCache::TCacheEntry::Load(unsigned int width, unsigned int height,

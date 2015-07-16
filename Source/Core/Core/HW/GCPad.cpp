@@ -1,5 +1,5 @@
-// Copyright 2013 Dolphin Emulator Project
-// Licensed under GPLv2
+// Copyright 2010 Dolphin Emulator Project
+// Licensed under GPLv2+
 // Refer to the license.txt file included.
 
 #include "Common/CommonTypes.h"
@@ -57,8 +57,13 @@ void GetStatus(u8 _numPAD, GCPadStatus* _pPADStatus)
 	memset(_pPADStatus, 0, sizeof(*_pPADStatus));
 	_pPADStatus->err = PAD_ERR_NONE;
 
-	std::unique_lock<std::recursive_mutex> lk(s_config.controls_lock, std::try_to_lock);
-
+	// if we are on the next input cycle, update output and input
+	static int _last_numPAD = 4;
+	if (_numPAD <= _last_numPAD)
+	{
+		g_controller_interface.UpdateInput();
+	}
+	_last_numPAD = _numPAD;
 
 	// get input
 	((GCPad*)s_config.controllers[_numPAD])->GetInput(_pPADStatus);
@@ -66,17 +71,11 @@ void GetStatus(u8 _numPAD, GCPadStatus* _pPADStatus)
 
 void Rumble(u8 _numPAD, const ControlState strength)
 {
-	std::unique_lock<std::recursive_mutex> lk(s_config.controls_lock, std::try_to_lock);
-
 	((GCPad*)s_config.controllers[ _numPAD ])->SetOutput(strength);
 }
 
 bool GetMicButton(u8 pad)
 {
-
-	std::unique_lock<std::recursive_mutex> lk(s_config.controls_lock, std::try_to_lock);
-
-
 	return ((GCPad*)s_config.controllers[pad])->GetMicButton();
 }
 

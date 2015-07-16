@@ -1,5 +1,5 @@
-// Copyright 2013 Dolphin Emulator Project
-// Licensed under GPLv2
+// Copyright 2008 Dolphin Emulator Project
+// Licensed under GPLv2+
 // Refer to the license.txt file included.
 
 #include <algorithm>
@@ -221,7 +221,7 @@ static bool CanSwapAdjacentOps(const CodeOp &a, const CodeOp &b)
 	int b_flags = b_info->flags;
 
 	// can't reorder around breakpoints
-	if (SConfig::GetInstance().m_LocalCoreStartupParameter.bEnableDebugging &&
+	if (SConfig::GetInstance().bEnableDebugging &&
 	    (PowerPC::breakpoints.IsAddressBreakPoint(a.address) || PowerPC::breakpoints.IsAddressBreakPoint(b.address)))
 		return false;
 	if (b_flags & (FL_SET_CRx | FL_ENDBLOCK | FL_TIMER | FL_EVIL | FL_SET_OE))

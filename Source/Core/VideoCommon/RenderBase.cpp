@@ -1,5 +1,5 @@
-// Copyright 2013 Dolphin Emulator Project
-// Licensed under GPLv2
+// Copyright 2010 Dolphin Emulator Project
+// Licensed under GPLv2+
 // Refer to the license.txt file included.
 
 // ---------------------------------------------------------------------------------------------
@@ -17,6 +17,7 @@
 #include <string>
 
 #include "Common/Atomic.h"
+#include "Common/Event.h"
 #include "Common/Profiler.h"
 #include "Common/StringUtil.h"
 #include "Common/Timer.h"
@@ -52,6 +53,8 @@ Renderer *g_renderer = nullptr;
 
 std::mutex Renderer::s_criticalScreenshot;
 std::string Renderer::s_sScreenshotName;
+
+Common::Event Renderer::s_screenshotCompleted;
 
 volatile bool Renderer::s_bScreenshot;
 
@@ -211,8 +214,6 @@ bool Renderer::CalculateTargetSize(unsigned int framebuffer_width, unsigned int 
 			efb_scale_denominatorX = efb_scale_denominatorY = 2;
 			break;
 
-		case SCALE_3X:
-		case SCALE_4X:
 		default:
 			efb_scale_numeratorX = efb_scale_numeratorY = s_last_efb_scale - 3;
 			efb_scale_denominatorX = efb_scale_denominatorY = 1;
@@ -290,7 +291,6 @@ void Renderer::DrawDebugText()
 
 	if (g_ActiveConfig.bShowFPS || SConfig::GetInstance().m_ShowFrameCount)
 	{
-		std::string fps = "";
 		if (g_ActiveConfig.bShowFPS)
 			final_cyan += StringFromFormat("FPS: %d", g_renderer->m_fps_counter.m_fps);
 
@@ -328,7 +328,7 @@ void Renderer::DrawDebugText()
 
 	if ((u32)OSDTime > Common::Timer::GetTimeMs())
 	{
-		const char* res_text = "";
+		std::string res_text;
 		switch (g_ActiveConfig.iEFBScale)
 		{
 		case SCALE_AUTO:
@@ -349,14 +349,10 @@ void Renderer::DrawDebugText()
 		case SCALE_2_5X:
 			res_text = "2.5x";
 			break;
-		case SCALE_3X:
-			res_text = "3x";
-			break;
-		case SCALE_4X:
-			res_text = "4x";
+		default:
+			res_text = StringFromFormat("%dx", g_ActiveConfig.iEFBScale - 3);
 			break;
 		}
-
 		const char* ar_text = "";
 		switch (g_ActiveConfig.iAspectRatio)
 		{
@@ -598,4 +594,12 @@ void Renderer::Swap(u32 xfbAddr, u32 fbWidth, u32 fbStride, u32 fbHeight, const 
 
 	Core::Callback_VideoCopiedToXFB(XFBWrited || (g_ActiveConfig.bUseXFB && g_ActiveConfig.bUseRealXFB));
 	XFBWrited = false;
+}
+
+void Renderer::PokeEFB(EFBAccessType type, const std::vector<EfbPokeData>& data)
+{
+	for (EfbPokeData poke : data)
+	{
+		AccessEFB(type, poke.x, poke.y, poke.data);
+	}
 }

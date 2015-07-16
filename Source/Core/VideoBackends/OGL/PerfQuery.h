@@ -1,3 +1,7 @@
+// Copyright 2012 Dolphin Emulator Project
+// Licensed under GPLv2+
+// Refer to the license.txt file included.
+
 #pragma once
 
 #include <array>
@@ -36,10 +40,6 @@ protected:
 	// This contains gl query objects with unretrieved results.
 	std::array<ActiveQuery, PERF_QUERY_BUFFER_SIZE> m_query_buffer;
 	u32 m_query_read_pos;
-
-	// TODO: sloppy
-	volatile u32 m_query_count;
-	volatile u32 m_results[PQG_NUM_MEMBERS];
 
 private:
 	// Implementation

@@ -1,13 +1,17 @@
-// Copyright 2013 Dolphin Emulator Project
-// Licensed under GPLv2
+// Copyright 2015 Dolphin Emulator Project
+// Licensed under GPLv2+
 // Refer to the license.txt file included.
 
 #pragma once
 
 #include <deque>
 #include <queue>
+#include <string>
+#include <vector>
 
 #include "Core/HW/EXI_Device.h"
+
+class PointerWrap;
 
 class CEXIAgp
 	: public IEXIDevice
@@ -15,7 +19,7 @@ class CEXIAgp
 public:
 	CEXIAgp(const int index);
 	virtual ~CEXIAgp() override;
-	bool IsPresent() override { return true; }
+	bool IsPresent() const override { return true; }
 	void ImmWrite(u32 _uData, u32 _uSize) override;
 	u32  ImmRead(u32 _uSize) override;
 	void DoState(PointerWrap &p) override;

@@ -1,5 +1,5 @@
-// Copyright 2013 Dolphin Emulator Project
-// Licensed under GPLv2
+// Copyright 2009 Dolphin Emulator Project
+// Licensed under GPLv2+
 // Refer to the license.txt file included.
 
 #pragma once
@@ -32,7 +32,7 @@ public:
 
 	void Log(LogTypes::LOG_LEVELS, const char *msg) override;
 
-	bool IsValid() { return !m_logfile.fail(); }
+	bool IsValid() const { return m_logfile.good(); }
 	bool IsEnabled() const { return m_enable; }
 	void SetEnable(bool enable) { m_enable = enable; }
 

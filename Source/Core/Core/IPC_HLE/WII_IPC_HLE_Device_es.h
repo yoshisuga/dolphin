@@ -1,14 +1,22 @@
-// Copyright 2013 Dolphin Emulator Project
-// Licensed under GPLv2
+// Copyright 2008 Dolphin Emulator Project
+// Licensed under GPLv2+
 // Refer to the license.txt file included.
 
 #pragma once
 
 #include <map>
 #include <memory>
+#include <string>
+#include <vector>
 
 #include "Core/IPC_HLE/WII_IPC_HLE_Device.h"
-#include "DiscIO/NANDContentLoader.h"
+
+class PointerWrap;
+namespace DiscIO
+{
+	class INANDContentLoader;
+	struct SNANDContent;
+}
 
 class CWII_IPC_HLE_Device_es : public IWII_IPC_HLE_Device
 {

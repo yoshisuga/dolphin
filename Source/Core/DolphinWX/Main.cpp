@@ -1,5 +1,5 @@
-// Copyright 2013 Dolphin Emulator Project
-// Licensed under GPLv2
+// Copyright 2008 Dolphin Emulator Project
+// Licensed under GPLv2+
 // Refer to the license.txt file included.
 
 #include <cstdio>
@@ -9,21 +9,14 @@
 #include <utility>
 #include <wx/app.h>
 #include <wx/buffer.h>
-#include <wx/chartype.h>
 #include <wx/cmdline.h>
-#include <wx/defs.h>
-#include <wx/event.h>
-#include <wx/gdicmn.h>
 #include <wx/image.h>
 #include <wx/imagpng.h>
 #include <wx/intl.h>
 #include <wx/language.h>
 #include <wx/msgdlg.h>
-#include <wx/setup.h>
-#include <wx/string.h>
 #include <wx/thread.h>
 #include <wx/timer.h>
-#include <wx/translation.h>
 #include <wx/utils.h>
 #include <wx/window.h>
 
@@ -37,7 +30,6 @@
 
 #include "Core/ConfigManager.h"
 #include "Core/Core.h"
-#include "Core/CoreParameter.h"
 #include "Core/Host.h"
 #include "Core/Movie.h"
 #include "Core/HW/Wiimote.h"
@@ -60,7 +52,6 @@
 #endif
 
 #ifdef _WIN32
-#include <shellapi.h>
 
 #ifndef SM_XVIRTUALSCREEN
 #define SM_XVIRTUALSCREEN 76
@@ -218,31 +209,31 @@ bool DolphinApp::OnInit()
 
 	if (selectPerfDir)
 	{
-		SConfig::GetInstance().m_LocalCoreStartupParameter.m_perfDir =
+		SConfig::GetInstance().m_perfDir =
 			WxStrToStr(perfDir);
 	}
 
 	if (selectVideoBackend && videoBackendName != wxEmptyString)
-		SConfig::GetInstance().m_LocalCoreStartupParameter.m_strVideoBackend =
+		SConfig::GetInstance().m_strVideoBackend =
 			WxStrToStr(videoBackendName);
 
 	if (selectAudioEmulation)
 	{
 		if (audioEmulationName == "HLE")
-			SConfig::GetInstance().m_LocalCoreStartupParameter.bDSPHLE = true;
+			SConfig::GetInstance().bDSPHLE = true;
 		else if (audioEmulationName == "LLE")
-			SConfig::GetInstance().m_LocalCoreStartupParameter.bDSPHLE = false;
+			SConfig::GetInstance().bDSPHLE = false;
 	}
 
-	VideoBackend::ActivateBackend(SConfig::GetInstance().m_LocalCoreStartupParameter.m_strVideoBackend);
+	VideoBackend::ActivateBackend(SConfig::GetInstance().m_strVideoBackend);
 
 	// Enable the PNG image handler for screenshots
 	wxImage::AddHandler(new wxPNGHandler);
 
-	int x = SConfig::GetInstance().m_LocalCoreStartupParameter.iPosX;
-	int y = SConfig::GetInstance().m_LocalCoreStartupParameter.iPosY;
-	int w = SConfig::GetInstance().m_LocalCoreStartupParameter.iWidth;
-	int h = SConfig::GetInstance().m_LocalCoreStartupParameter.iHeight;
+	int x = SConfig::GetInstance().iPosX;
+	int y = SConfig::GetInstance().iPosY;
+	int w = SConfig::GetInstance().iWidth;
+	int h = SConfig::GetInstance().iHeight;
 
 	if (File::Exists("www.dolphin-emulator.com.txt"))
 	{
@@ -285,12 +276,14 @@ bool DolphinApp::OnInit()
 	return true;
 }
 
+#ifdef __APPLE__
 void DolphinApp::MacOpenFile(const wxString &fileName)
 {
 	FileToLoad = fileName;
 	LoadFile = true;
 	main_frame->BootGame(WxStrToStr(FileToLoad));
 }
+#endif
 
 void DolphinApp::AfterInit()
 {
@@ -341,8 +334,13 @@ void DolphinApp::InitLanguageSupport()
 	{
 		m_locale = new wxLocale(language);
 
+		// Specify where dolphins *.gmo files are located on each operating system
 #ifdef _WIN32
 		m_locale->AddCatalogLookupPathPrefix(StrToWxStr(File::GetExeDirectory() + DIR_SEP "Languages"));
+#elif defined(__LINUX__)
+		m_locale->AddCatalogLookupPathPrefix(StrToWxStr(DATA_DIR "../locale"));
+#elif defined(__APPLE__)
+		m_locale->AddCatalogLookupPathPrefix(StrToWxStr(File::GetBundleDirectory() + "Contents/Resources"));
 #endif
 
 		m_locale->AddCatalog("dolphin-emu");
@@ -372,7 +370,6 @@ void DolphinApp::OnEndSession(wxCloseEvent& event)
 
 int DolphinApp::OnExit()
 {
-	Core::Shutdown();
 	UICommon::Shutdown();
 
 	delete m_locale;
@@ -488,7 +485,7 @@ void Host_RequestFullscreen(bool enable_fullscreen)
 
 void Host_SetStartupDebuggingParameters()
 {
-	SCoreStartupParameter& StartUp = SConfig::GetInstance().m_LocalCoreStartupParameter;
+	SConfig& StartUp = SConfig::GetInstance();
 	if (main_frame->g_pCodeWindow)
 	{
 		StartUp.bBootToPause = main_frame->g_pCodeWindow->BootToPause();

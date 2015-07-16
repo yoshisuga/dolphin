@@ -1,5 +1,5 @@
-// Copyright 2013 Dolphin Emulator Project
-// Licensed under GPLv2
+// Copyright 2012 Dolphin Emulator Project
+// Licensed under GPLv2+
 // Refer to the license.txt file included.
 
 #include "VideoBackends/OGL/GLInterfaceBase.h"
@@ -22,7 +22,6 @@ PerfQueryBase* GetPerfQuery()
 
 PerfQuery::PerfQuery()
 	: m_query_read_pos()
-	, m_query_count()
 {
 	ResetQuery();
 }

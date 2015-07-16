@@ -1,5 +1,5 @@
-// Copyright 2013 Dolphin Emulator Project
-// Licensed under GPLv2
+// Copyright 2008 Dolphin Emulator Project
+// Licensed under GPLv2+
 // Refer to the license.txt file included.
 
 #include <cmath>
@@ -18,6 +18,7 @@
 #include "VideoBackends/OGL/GLInterfaceBase.h"
 #include "VideoBackends/OGL/ProgramShaderCache.h"
 #include "VideoBackends/OGL/Render.h"
+#include "VideoBackends/OGL/SamplerCache.h"
 #include "VideoBackends/OGL/StreamBuffer.h"
 #include "VideoBackends/OGL/TextureCache.h"
 #include "VideoBackends/OGL/TextureConverter.h"
@@ -58,10 +59,9 @@ bool SaveTexture(const std::string& filename, u32 textarget, u32 tex, int virtua
 	int width = std::max(virtual_width >> level, 1);
 	int height = std::max(virtual_height >> level, 1);
 	std::vector<u8> data(width * height * 4);
-	glActiveTexture(GL_TEXTURE0+9);
+	glActiveTexture(GL_TEXTURE9);
 	glBindTexture(textarget, tex);
 	glGetTexImage(textarget, level, GL_RGBA, GL_UNSIGNED_BYTE, data.data());
-	glBindTexture(textarget, 0);
 	TextureCache::SetStage();
 
 	return TextureToPng(data.data(), width * 4, filename, width, height, true);
@@ -117,7 +117,7 @@ TextureCache::TCacheEntryBase* TextureCache::CreateTexture(const TCacheEntryConf
 {
 	TCacheEntry* entry = new TCacheEntry(config);
 
-	glActiveTexture(GL_TEXTURE0+9);
+	glActiveTexture(GL_TEXTURE9);
 	glBindTexture(GL_TEXTURE_2D_ARRAY, entry->texture);
 
 	glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_MAX_LEVEL, config.levels - 1);
@@ -137,6 +137,14 @@ TextureCache::TCacheEntryBase* TextureCache::CreateTexture(const TCacheEntryConf
 	return entry;
 }
 
+void TextureCache::TCacheEntry::DoPartialTextureUpdate(TCacheEntryBase* entry_, u32 x, u32 y)
+{
+
+	TCacheEntry* entry = (TCacheEntry*)entry_;
+
+	glCopyImageSubData(entry->texture, GL_TEXTURE_2D_ARRAY, 0, 0, 0, 0, texture, GL_TEXTURE_2D_ARRAY, 0, x, y, 0, entry->native_width, entry->native_height, 1);
+}
+
 void TextureCache::TCacheEntry::Load(unsigned int width, unsigned int height,
 	unsigned int expanded_width, unsigned int level)
 {
@@ -146,7 +154,7 @@ void TextureCache::TCacheEntry::Load(unsigned int width, unsigned int height,
 		PanicAlert("size of level %d must be %dx%d, but %dx%d requested",
 		           level, std::max(1u, config.width >> level), std::max(1u, config.height >> level), width, height);
 
-	glActiveTexture(GL_TEXTURE0+9);
+	glActiveTexture(GL_TEXTURE9);
 	glBindTexture(GL_TEXTURE_2D_ARRAY, texture);
 
 	if (expanded_width != width)
@@ -176,8 +184,12 @@ void TextureCache::TCacheEntry::FromRenderTarget(u32 dstAddr, unsigned int dstFo
 
 	OpenGL_BindAttributelessVAO();
 
-	glActiveTexture(GL_TEXTURE0+9);
+	glActiveTexture(GL_TEXTURE9);
 	glBindTexture(GL_TEXTURE_2D_ARRAY, read_texture);
+	if (scaleByHalf)
+		g_sampler_cache->BindLinearSampler(9);
+	else
+		g_sampler_cache->BindNearestSampler(9);
 
 	glViewport(0, 0, config.width, config.height);
 
@@ -227,13 +239,6 @@ void TextureCache::TCacheEntry::FromRenderTarget(u32 dstAddr, unsigned int dstFo
 	}
 
 	FramebufferManager::SetFramebuffer(0);
-
-	if (g_ActiveConfig.bDumpEFBTarget)
-	{
-		static int count = 0;
-		SaveTexture(StringFromFormat("%sefb_frame_%i.png", File::GetUserPath(D_DUMPTEXTURES_IDX).c_str(),
-			count++), GL_TEXTURE_2D_ARRAY, texture, config.width, config.height, 0);
-	}
 
 	g_renderer->RestoreAPIState();
 }
@@ -301,27 +306,19 @@ void TextureCache::CompileShaders()
 		"\n"
 		"void main(){\n"
 		"	vec4 texcol = texture(samp9, vec3(f_uv0.xy, %s));\n"
+		"	int depth = clamp(int(texcol.x * 16777216.0), 0, 0xFFFFFF);\n"
 
-		// 255.99998474121 = 16777215/16777216*256
-		"	float workspace = texcol.x * 255.99998474121;\n"
+		// Convert to Z24 format
+		"	ivec4 workspace;\n"
+		"	workspace.r = (depth >> 16) & 255;\n"
+		"	workspace.g = (depth >> 8) & 255;\n"
+		"	workspace.b = depth & 255;\n"
 
-		"	texcol.x = floor(workspace);\n"         // x component
+		// Convert to Z4 format
+		"	workspace.a = (depth >> 16) & 0xF0;\n"
 
-		"	workspace = workspace - texcol.x;\n"    // subtract x component out
-		"	workspace = workspace * 256.0;\n"       // shift left 8 bits
-		"	texcol.y = floor(workspace);\n"         // y component
-
-		"	workspace = workspace - texcol.y;\n"    // subtract y component out
-		"	workspace = workspace * 256.0;\n"       // shift left 8 bits
-		"	texcol.z = floor(workspace);\n"         // z component
-
-		"	texcol.w = texcol.x;\n"                 // duplicate x into w
-
-		"	texcol = texcol / 255.0;\n"             // normalize components to [0.0..1.0]
-
-		"	texcol.w = texcol.w * 15.0;\n"
-		"	texcol.w = floor(texcol.w);\n"
-		"	texcol.w = texcol.w / 15.0;\n"          // w component
+		// Normalize components to [0.0..1.0]
+		"	texcol = vec4(workspace) / 255.0;\n"
 
 		"	ocol0 = texcol * mat4(colmat[0], colmat[1], colmat[2], colmat[3]) + colmat[4];\n"
 		"}\n";
@@ -502,8 +499,9 @@ void TextureCache::ConvertTexture(TCacheEntryBase* _entry, TCacheEntryBase* _unc
 	TCacheEntry* entry = (TCacheEntry*) _entry;
 	TCacheEntry* unconverted = (TCacheEntry*) _unconverted;
 
-	glActiveTexture(GL_TEXTURE0 + 9);
+	glActiveTexture(GL_TEXTURE9);
 	glBindTexture(GL_TEXTURE_2D_ARRAY, unconverted->texture);
+	g_sampler_cache->BindNearestSampler(9);
 
 	FramebufferManager::SetFramebuffer(entry->framebuffer);
 	glViewport(0, 0, entry->config.width, entry->config.height);
@@ -517,8 +515,9 @@ void TextureCache::ConvertTexture(TCacheEntryBase* _entry, TCacheEntryBase* _unc
 	glUniform1f(s_palette_multiplier_uniform[format], unconverted->format == 0 ? 15.0f : 255.0f);
 	glUniform4f(s_palette_copy_position_uniform[format], 0.0f, 0.0f, (float)unconverted->config.width, (float)unconverted->config.height);
 
-	glActiveTexture(GL_TEXTURE0 + 10);
+	glActiveTexture(GL_TEXTURE10);
 	glBindTexture(GL_TEXTURE_BUFFER, s_palette_resolv_texture);
+	g_sampler_cache->BindNearestSampler(10);
 
 	OpenGL_BindAttributelessVAO();
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);

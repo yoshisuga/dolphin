@@ -65,7 +65,7 @@ You can now install a new copy of the app via Xcode.
 
 Dolphin is an emulator for running GameCube, Wii, and Triforce games on
 Windows, Linux, OS X, and recent Android devices. It's licensed under
-the terms of the GNU General Public License, version 2 (GPLv2).
+the terms of the GNU General Public License, version 2 or later (GPLv2+).
 
 Please read the [FAQ](https://dolphin-emu.org/docs/faq/) before using Dolphin.
 
@@ -110,11 +110,36 @@ On OS X, an application bundle will be created in `./Binaries`.
 
 On Linux, it's strongly recommended to perform a global installation via `sudo make install`.
 
+## Installation on Android
+Dolphin requires [Android Studio](http://developer.android.com/tools/studio/index.html) to build
+the Android UI. Import the Gradle project located in `./Source/Android`, and then execute the
+Gradle task `assembleDebug` to build, or `installDebug` to install the UI onto a connected device.
+
+In order to launch the app, you must build and include the native Dolphin libraries into the UI project.
+(Building native code requires the [Android NDK](https://developer.android.com/tools/sdk/ndk/index.html).)
+Android Studio will do this for you if you create `Source/Android/build.properties`, and place the
+following inside:
+
+```
+makeArgs=<make-args>
+```
+
+Replace `<make-args>` with any arguments you want to pass to `make`. If you need to use a specific
+version of git, cmake, or the NDK, you can also add `gitPath=<path>`, `cmakePath=<path>` or
+`ndkPath=<path>`, replacing `<path>` with the actual paths. Otherwise, these will be found
+automatically. Then execute the `assembleDebug` or `installDebug` task corresponding to the
+hardware platform you are targeting. For example, to deploy to a Nexus 9, which runs the AArch64
+architecture, execute `installArm_64Debug`. A list of available tasks can be found in Android
+Studio in the Gradle tray, located at the top-right corner of the IDE by default.
+
+The native libraries will be compiled, and copied into `./Source/Android/app/libs`. Android Studio
+and Gradle will include any libraries in that folder into the APK at build time.
+
 ## Uninstalling
 When Dolphin has been installed with the NSIS installer, you can uninstall
 Dolphin like any other Windows application.
 
-Linux users can run `cat install_manifest | xargs -d '\n' rm` from the build directory
+Linux users can run `cat install_manifest.txt | xargs -d '\n' rm` as root from the build directory
 to uninstall Dolphin from their system.
 
 OS X users can simply delete Dolphin.app to uninstall it.
@@ -148,12 +173,17 @@ is intended for debugging purposes only.
 * `GC/font_sjis.bin`: font dumps
 * `GC/dsp_coef.bin`: DSP dumps
 * `GC/dsp_rom.bin`: DSP dumps
+* `Wii/clientca.pem`: Wii network certificate
+* `Wii/clientcacakey.pem`: Wii network certificate
+* `Wii/rootca.pem`: Wii network certificate
 
 The DSP dumps included with Dolphin have been written from scratch and do not
 contain any copyrighted material. They should work for most purposes, however
 some games implement copy protection by checksumming the dumps. You will need
 to dump the DSP files from a console and replace the default dumps if you want
 to fix those issues.
+
+Wii network certificates must be extracted from a Wii IOS. A guide for that can be found [here](https://wiki.dolphin-emu.org/index.php?title=Wii_Network_Guide).
 
 ## Folder Structure
 These folders are installed read-only and should not be changed:

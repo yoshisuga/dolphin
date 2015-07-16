@@ -1,8 +1,9 @@
-// Copyright 2013 Dolphin Emulator Project
-// Licensed under GPLv2
+// Copyright 2008 Dolphin Emulator Project
+// Licensed under GPLv2+
 // Refer to the license.txt file included.
 
 #include <cinttypes>
+#include <mutex>
 #include <string>
 #include <vector>
 
@@ -127,7 +128,7 @@ int RegisterEvent(const std::string& name, TimedCallback callback)
 void UnregisterAllEvents()
 {
 	if (first)
-		PanicAlertT("Cannot unregister events with events pending");
+		PanicAlert("Cannot unregister events with events pending");
 	event_types.clear();
 }
 
@@ -224,8 +225,13 @@ u64 GetIdleTicks()
 // schedule things to be executed on the main thread.
 void ScheduleEvent_Threadsafe(int cyclesIntoFuture, int event_type, u64 userdata)
 {
-	// TODO: Fix UI thread safety problems, and enable this assertion
-	// _assert_msg_(POWERPC, !Core::IsCPUThread(), "ScheduleEvent_Threadsafe from wrong thread");
+	_assert_msg_(POWERPC, !Core::IsCPUThread(), "ScheduleEvent_Threadsafe from wrong thread");
+	if (Core::g_want_determinism)
+	{
+		ERROR_LOG(POWERPC, "Someone scheduled an off-thread \"%s\" event while netplay or movie play/record "
+		                   "was active.  This is likely to cause a desync.",
+		                   event_types[event_type].name.c_str());
+	}
 	std::lock_guard<std::mutex> lk(tsWriteLock);
 	Event ne;
 	ne.time = globalTimer + cyclesIntoFuture;
@@ -237,6 +243,7 @@ void ScheduleEvent_Threadsafe(int cyclesIntoFuture, int event_type, u64 userdata
 // Executes an event immediately, then returns.
 void ScheduleEvent_Immediate(int event_type, u64 userdata)
 {
+	_assert_msg_(POWERPC, Core::IsCPUThread(), "ScheduleEvent_Immediate from wrong thread");
 	event_types[event_type].callback(userdata, 0);
 }
 
@@ -287,8 +294,8 @@ static void AddEventToQueue(Event* ne)
 // than Advance
 void ScheduleEvent(int cyclesIntoFuture, int event_type, u64 userdata)
 {
-	// TODO: Fix UI thread safety problems, and enable this assertion
-	//_assert_msg_(POWERPC, Core::IsCPUThread(), "ScheduleEvent from wrong thread");
+	_assert_msg_(POWERPC, Core::IsCPUThread() || Core::GetState() == Core::CORE_PAUSE,
+				 "ScheduleEvent from wrong thread");
 	Event *ne = GetNewEvent();
 	ne->userdata = userdata;
 	ne->type = event_type;
@@ -475,16 +482,13 @@ void Idle()
 {
 	//DEBUG_LOG(POWERPC, "Idle");
 
-	if (SConfig::GetInstance().m_LocalCoreStartupParameter.bSyncGPUOnSkipIdleHack)
+	if (SConfig::GetInstance().bSyncGPUOnSkipIdleHack)
 	{
 		//When the FIFO is processing data we must not advance because in this way
 		//the VI will be desynchronized. So, We are waiting until the FIFO finish and
 		//while we process only the events required by the FIFO.
-		while (g_video_backend->Video_IsPossibleWaitingSetDrawDone())
-		{
-			ProcessFifoWaitEvents();
-			Common::YieldCPU();
-		}
+		ProcessFifoWaitEvents();
+		g_video_backend->Video_Sync(0);
 	}
 
 	idledCycles += DowncountToCycles(PowerPC::ppcState.downcount);
