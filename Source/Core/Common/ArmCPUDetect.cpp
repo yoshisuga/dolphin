@@ -47,67 +47,7 @@ CPUInfo::CPUInfo()
 // Detects the various CPU features
 void CPUInfo::Detect()
 {
-	// Set some defaults here
-	// When ARMv8 CPUs come out, these need to be updated.
-	HTT = false;
-	OS64bit = true;
-	CPU64bit = true;
-	Mode64bit = true;
-	vendor = VENDOR_ARM;
-
-	// Get the information about the CPU
-	num_cores = GetCoreCount();
-#if defined(__SYMBIAN32__) || defined(BLACKBERRY) || defined(IOS)
-	bool isVFP3 = false;
-	bool isVFP4 = false;
-#ifdef IOS
-    // We only build for arm64, so VFP3 and VFP4 definitely exist
-	isVFP3 = true;
-    isVFP4 = true;
-#elif defined(BLACKBERRY)
-	isVFP3 = true;
-	const char cpuInfoPath[] = "/pps/services/hw_info/inventory";
-	const std::string marker = "Processor_Name::";
-	const std::string qcCPU = "MSM";
-
-	std::string line;
-	std::ifstream file(cpuInfoPath);
-
-	if (file)
-	{
-		while (std::getline(file, line))
-		{
-			if (line.find(marker) != std::string::npos)
-			{
-				std::string first_three_chars = line.substr(marker.length(), qcCPU.length());
-
-				if (first_three_chars == qcCPU)
-				{
-					isVFP4 = true;
-				}
-
-				break;
-			}
-		}
-	}
-#endif
-    // Hardcode this for now
-	bSwp = true;
-	bHalf = true;
-	bThumb = false;
-	bFastMult = true;
-	bVFP = true;
-	bEDSP = true;
-	bThumbEE = isVFP3;
-	bNEON = isVFP3;
-	bVFPv3 = isVFP3;
-	bTLS = true;
-	bVFPv4 = isVFP4;
-	bIDIVa = isVFP4;
-	bIDIVt = isVFP4;
-	bFP = false;
-	bASIMD = false;
-#else
+#ifndef IOS
 	strncpy(cpu_string, GetCPUString().c_str(), sizeof(cpu_string));
 
 	unsigned long hwcaps = getauxval(AT_HWCAP);
@@ -117,6 +57,14 @@ void CPUInfo::Detect()
 	bCRC32 = hwcaps & HWCAP_CRC32;
 	bSHA1 = hwcaps & HWCAP_SHA1;
 	bSHA2 = hwcaps & HWCAP_SHA2;
+#else
+    bFP = true;
+    bASIMD = true;
+    bAES = true;
+    bCRC32 = true;
+    bSHA1 = true;
+    bSHA2 = true;
+#endif
 }
 
 // Turn the CPU info into a string we can show
