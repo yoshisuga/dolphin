@@ -146,13 +146,14 @@ endif()
 # we have to set it before anything uses it.
 if (IOS)
 	message("Building for iOS, setting CMAKE_SYSTEM_PROCESSOR and adding defs")
-	set(CMAKE_SYSTEM_PROCESSOR "aarch64”)
+	#set(CMAKE_SYSTEM_PROCESSOR "aarch64”)
 	set(CMAKE_LIBRARY_OUTPUT_DIRECTORY $CMAKE_BINARY_DIR/lib)
 	add_definitions("-D_ARCH_64")
+    add_definitions(-D_ARCH_64=1)
 	add_definitions("-DTARGET_OS_IPHONE")
 	add_definitions("-DIOS")
 	#add_definitions("-D_STRUCT_SIGALTSTACK")
-endif()
+else()
 
 # Architecture detection and arch specific settings
 message(${CMAKE_SYSTEM_PROCESSOR})
@@ -170,11 +171,12 @@ else()
 	add_definitions(-D_ARCH_32=1)
 	message(arch32)
 endif()
+endif() # IOS
 
 if(NOT ENABLE_GENERIC)
 	if(${CMAKE_SYSTEM_PROCESSOR} MATCHES "^x86" OR
 	   ${CMAKE_SYSTEM_PROCESSOR} MATCHES "i.86" OR
-	   ${CMAKE_SYSTEM_PROCESSOR} MATCHES "amd64”)
+	   ${CMAKE_SYSTEM_PROCESSOR} MATCHES "amd64")
 		if(_ARCH_64)
 			set(_M_X86 1)
 			set(_M_X86_64 1)
@@ -934,9 +936,6 @@ add_definitions(-std=gnu++0x)
 # but some dependencies require them (LLVM, libav).
 add_definitions(-D__STDC_LIMIT_MACROS -D__STDC_CONSTANT_MACROS)
 
-<<<<<<< HEAD
-#if (NOT IOS)
-=======
 # Do this at the last minute because try_compile ignores linker flags.  Yay...
 if(APPLE)
 	# Some of our code contains Objective C constructs.
@@ -946,7 +945,6 @@ if(APPLE)
 	set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -x none")
 endif()
 
->>>>>>> origin/master
 add_subdirectory(Source)
 #else()
 #SET_TARGET_PROPERTIES(dolphin PROPERTIES LINKER_LANGUAGE CXX)
