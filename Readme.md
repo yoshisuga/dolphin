@@ -6,12 +6,19 @@
 ## An iOS version
 I am 100% sure this doesn't work at the moment. It simply crashes when you try to run the emulator. The code formatting and style guidelines have probably gone out the window for now, and there's also a bunch of random and unused Xcode stuff lying around.
 
-If you still want to try to build, here's how I've done it:
+If you still want to try to build, here's what you'll need:
+
 <ul>
-<li>Install Xcode from the Mac App Store.</li>
+<li>A Mac with Xcode installed (yes, it can be a Hackintosh)</li>
+<li>A Jailbroken iOS device runnning iOS 8.0 and above</li>
+<li>(Optional) A Code Signing Identity from the Apple Developer Program</li>
+</ul>
+
+Once you have everything, you can now build by doing the following:
+<ul>
 <li>Install brew.</li>
 <li>Install cmake with brew.</li>
-<li>Run the following in the dolphin directory:</li>
+<li>Run the following in the directory where you cloned this repository:</li>
 </ul>
 ```
 mkdir Build
@@ -27,15 +34,16 @@ make
 ### To install the application: 
 
 <ul>
-<li>If you don't have a signing identity, make sure that you've modified SDKSettings.plist and that you have AppSync Unified and sudo installed (see Google for more information). If you do, make sure that you set your Code Signing Settings to 'iOS Developer' and not 'Ad Hoc Code Sign'.</li>
-<li>Plug in your 64-Bit iOS device and make sure your destination is set to that device.</li>
+<li>If you don't have them already, install the "AppSync Unified" (on Karen/angelxwind's repo), "sudo", and "OpenSSH" packages in Cydia.</li>
+<li>If you don't have a signing identity, make sure that you've modified SDKSettings.plist (see Google for more information) and set Code Signing Settings to 'Ad Hoc Code Sign'. If you do, make sure that you set your Code Signing Settings to 'iOS Developer'.</li>
+<li>Plug in your 64-bit iOS device and make sure the destination (upper left) is set to that device.</li>
 <li>Click the run (play) button in the upper left to install the application.</li>
-<li>Quit the application when it runs.</li>
-<li>SSH into your device and run:</li>
+<li>Exit the application, then kill it in the App Switcher (Multitasking).</li>
+<li>SSH into your device and run: (replace "(UUID)" with the long string of characters, numbers, and dashes from the result of the first command)</li>
 </ul>
 ```
 find ~/Containers/Bundle/Application -name 'DolphiniOS'
-sudo cp -R ~/Containers/Bundle/Application/(long uuid here)/DolphiniOS.app /Applications/
+sudo cp -R ~/Containers/Bundle/Application/(UUID)/DolphiniOS.app /Applications/
 ```
 <ul>
 <li>Delete the application from your home screen.</li>
@@ -51,7 +59,7 @@ uicache
 ### To replace the application with a new copy:
 
 <ul>
-<li>Kill any existing instances of the application in the App Switcher (Multitasking).</li>
+<li>Kill any existing instances of the application in the App Switcher.</li>
 <li>Run:</li>
 </ul>
 ```
