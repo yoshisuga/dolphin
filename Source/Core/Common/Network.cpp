@@ -19,10 +19,10 @@ void GenerateMacAddress(const MACConsumer type, u8* mac)
 
 	switch (type)
 	{
-	case BBA:
+	case CONSUMER_BBA:
 		memcpy(mac, oui_bba, 3);
 		break;
-	case IOS:
+	case CONSUMER_IOS:
 		memcpy(mac, oui_ios, 3);
 		break;
 	}

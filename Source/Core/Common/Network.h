@@ -10,8 +10,8 @@
 
 enum MACConsumer
 {
-	BBA = 0,
-	IOS = 1
+	CONSUMER_BBA = 0,
+	CONSUMER_IOS = 1
 };
 
 enum
