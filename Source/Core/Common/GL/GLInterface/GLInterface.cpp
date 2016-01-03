@@ -8,6 +8,8 @@
 
 #ifdef ANDROID
 #include "Common/GL/GLInterface/EGLAndroid.h"
+#elif defined(IOS)
+#include "Common/GL/GLInterface/EAGL.h"
 #elif defined(__APPLE__)
 #include "Common/GL/GLInterface/AGL.h"
 #elif defined(_WIN32)
@@ -26,6 +28,8 @@ std::unique_ptr<cInterfaceBase> HostGL_CreateGLInterface()
 {
 	#ifdef ANDROID
 		return std::make_unique<cInterfaceEGLAndroid>();
+	#elif defined(IOS)
+		return std::make_unique<cInterfaceEAGL>();
 	#elif defined(__APPLE__)
 		return std::make_unique<cInterfaceAGL>();
 	#elif defined(_WIN32)
