@@ -79,7 +79,7 @@ endif()
 set(ANDROID_SRCS Android/ButtonManager.cpp
 	 MainAndroid.cpp)
 
-if(APPLE)
+if(APPLE AND NOT IOS)
 	if(wxWidgets_FOUND)
 		list(APPEND WXLIBS
 			${APPSERV_LIBRARY}
@@ -136,6 +136,17 @@ if(ANDROID)
 	)
 
 	set(CPACK_PACKAGE_EXECUTABLES ${CPACK_PACKAGE_EXECUTABLES} ${DOLPHIN_EXE})
+elseif(IOS)
+	set(DOLPHIN_EXE main)
+	add_library(${DOLPHIN_EXE} SHARED ${SRCS})
+	target_link_libraries(${DOLPHIN_EXE}
+	log
+	"-Wl,--no-warn-mismatch"
+	"-Wl,--whole-archive"
+	${LIBS}
+	"-Wl,--no-whole-archive"
+	)
+
 elseif(wxWidgets_FOUND)
 	add_executable(${DOLPHIN_EXE} ${SRCS} ${GUI_SRCS})
 	target_link_libraries(${DOLPHIN_EXE} ${LIBS} ${WXLIBS})
