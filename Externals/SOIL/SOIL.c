@@ -26,8 +26,8 @@
 	/*	I can't test this Apple stuff!	*/
 	#if 0
 		#include <OpenGL/gl.h>
+		#include <Carbon/Carbon.h>
 	#endif
-	#include <Carbon/Carbon.h>
 	#define APIENTRY
 #else
 	#if 0
