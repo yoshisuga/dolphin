@@ -4,14 +4,14 @@
 
 #pragma once
 
-#include "VideoBackends/OGL/GLInterfaceBase.h"
+#include "Common/GL/GLInterfaceBase.h"
 
 class cInterfaceEAGL : public cInterfaceBase
 {
 private:
 public:
 	void Swap();
-	bool Create(void *window_handle);
+	bool Create(void *window_handle, bool core = true);
 	bool MakeCurrent();
 	bool ClearCurrent();
 	void Shutdown();

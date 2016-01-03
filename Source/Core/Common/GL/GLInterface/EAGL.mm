@@ -2,11 +2,7 @@
 // Licensed under GPLv2+
 // Refer to the license.txt file included.
 
-#include "VideoBackends/OGL/GLInterface/EAGL.h"
-
-#include "VideoCommon/RenderBase.h"
-#include "VideoCommon/VertexShaderManager.h"
-#include "VideoCommon/VideoConfig.h"
+#include "Common/GL/GLInterface/EAGL.h"
 
 void cInterfaceEAGL::Swap()
 {
@@ -15,7 +11,7 @@ void cInterfaceEAGL::Swap()
 
 // Create rendering window.
 // Call browser: Core.cpp:EmuThread() > main.cpp:Video_Initialize()
-bool cInterfaceEAGL::Create(void *window_handle)
+bool cInterfaceEAGL::Create(void *window_handle, bool core)
 {
 	/*
 	
@@ -43,11 +39,13 @@ bool cInterfaceEAGL::Create(void *window_handle)
 bool cInterfaceEAGL::MakeCurrent()
 {
 	// [EAGLContext setCurrentContext:eaglContext];
+	return true;
 }
 
 bool cInterfaceEAGL::ClearCurrent()
 {
 	// [EAGLContext setCurrentContext:nil];
+	return true;
 }
 
 // Close backend
