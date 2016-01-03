@@ -15,8 +15,8 @@ option(ENABLE_PCH "Use PCH to speed up compilation" ON)
 option(ENABLE_LTO "Enables Link Time Optimization" OFF)
 option(ENABLE_GENERIC "Enables generic build that should run on any little-endian host" OFF)
 
-# Enable SDL for default on operating systems that aren't OSX, Android, Linux or Windows.
-if(NOT APPLE AND NOT ANDROID AND NOT ${CMAKE_SYSTEM_NAME} STREQUAL "Linux" AND NOT MSVC)
+# Enable SDL for default on operating systems that aren't OSX, Android, iOS, Linux or Windows.
+if(NOT APPLE AND NOT ANDROID AND NOT IOS AND NOT ${CMAKE_SYSTEM_NAME} STREQUAL "Linux" AND NOT MSVC)
 	option(ENABLE_SDL "Enables SDL as a generic controller backend" ON)
 else()
 	option(ENABLE_SDL "Enables SDL as a generic controller backend" OFF)
@@ -141,6 +141,11 @@ else()
 	set(DOLPHIN_VERSION_PATCH ${DOLPHIN_WC_REVISION})
 endif()
 
+# We might be cross compiling for some other architecture during a iOS build.
+if(IOS)
+	set(CMAKE_SYSTEM_PROCESSOR ${IOS_ARCH})
+endif()
+
 # Architecture detection and arch specific settings
 message(${CMAKE_SYSTEM_PROCESSOR})
 
@@ -148,7 +153,7 @@ message(${CMAKE_SYSTEM_PROCESSOR})
 # CMake doesn't provide a simple way to determine 32bit or 64bit
 # If we ever support a architecture that is 64bit with 32bit pointers then this'll break
 # Of course the chances of that are slim(x32?) so who cares
-if(CMAKE_SIZEOF_VOID_P EQUAL 8)
+if(CMAKE_SIZEOF_VOID_P EQUAL 8 OR IOS)
 	set(_ARCH_64 1)
 	add_definitions(-D_ARCH_64=1)
 else()
@@ -170,7 +175,8 @@ if(NOT ENABLE_GENERIC)
 		endif()
 	elseif(${CMAKE_SYSTEM_PROCESSOR} MATCHES "^arm")
 		message(FATAL_ERROR "ARMv7 is an unsupported platform. Enable generic build if you really want a JIT-less binary.")
-	elseif(${CMAKE_SYSTEM_PROCESSOR} STREQUAL "aarch64")
+	elseif(${CMAKE_SYSTEM_PROCESSOR} STREQUAL "aarch64" OR
+		   ${CMAKE_SYSTEM_PROCESSOR} STREQUAL "arm64")
 		# This option only applies to 64bit ARM
 		set(_M_ARM 1)
 		set(_M_ARM_64 1)
@@ -234,7 +240,7 @@ if(ENABLE_LTO)
 	endif()
 endif()
 
-if(APPLE)
+if(APPLE AND NOT IOS)
 	if(NOT OSX_USE_DEFAULT_SEARCH_PATH)
 		# Hack up the path to prioritize the path to built-in OS libraries to
 		# increase the chance of not depending on a bunch of copies of them
@@ -303,6 +309,20 @@ if(APPLE)
 	find_library(WEBKIT_LIBRARY WebKit)
 	find_library(FORCEFEEDBACK ForceFeedback)
 	find_library(OPENGL_LIBRARY OpenGL)
+elseif(IOS)
+	set(IOS_MIN_VERSION "8.4")
+	set(TARGET_FLAGS "-arch ${IOS_ARCH} -miphoneos-version-min=@{IOS_MIN_VERSION} -isysroot ${CMAKE_IOS_SDK_ROOT}")
+	set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-syslibroot,${CMAKE_IOS_SDK_ROOT} -Wl,-no_arch_warnings")
+	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${TARGET_FLAGS}")
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${TARGET_FLAGS}")
+
+	find_library(APPKIT_LIBRARY UIKit)
+	find_library(AU_LIBRARY AudioUnit)
+	find_library(COREAUDIO_LIBRARY CoreAudio)
+	find_library(COREFUND_LIBRARY CoreFoundation)
+	find_library(CORESERV_LIBRARY CoreServices)
+	find_library(FOUNDATION_LIBRARY Foundation)
+	find_library(IOK_LIBRARY IOKit)
 endif()
 
 if(WIN32)
@@ -381,6 +401,14 @@ if(ANDROID)
 	set(USE_EGL 1)
 endif()
 
+if(IOS)
+	message("Building for iOS")
+	add_definitions(-DIOS)
+	set(USE_X11 0)
+	set(USE_UPNP 0)
+	set(USE_EGL 1)
+endif()
+
 include_directories(Externals/GL)
 
 add_definitions(-D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE)
@@ -394,7 +422,7 @@ add_definitions(-D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE)
 include(CheckLib)
 include(CheckCXXSourceRuns)
 
-if(NOT ANDROID)
+if(NOT ANDROID AND NOT IOS)
 
 	include(FindOpenGL)
 	include_directories(${OPENGL_INCLUDE_DIR})
@@ -759,7 +787,7 @@ if(ENABLE_QT OR ENABLE_QT2)
 	message("Found Qt version ${Qt5Core_VERSION}, enabling the Qt backend")
 endif()
 
-if(NOT DISABLE_WX AND NOT ANDROID)
+if(NOT DISABLE_WX AND NOT ANDROID AND NOT IOS)
 	include(FindwxWidgets OPTIONAL)
 	FIND_PACKAGE(wxWidgets COMPONENTS core aui adv)
 
