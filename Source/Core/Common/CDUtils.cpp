@@ -16,14 +16,14 @@
 
 #ifdef _WIN32
 #include <windows.h>
-#elif __APPLE__
+#elif __APPLE__ && !IOS
 #include <CoreFoundation/CoreFoundation.h>
 #include <IOKit/IOBSD.h>
 #include <IOKit/IOKitLib.h>
 #include <IOKit/storage/IOCDMedia.h>
 #include <IOKit/storage/IOMedia.h>
 #include <paths.h>
-#else
+#elif !IOS
 #include <fcntl.h>
 #include <sys/stat.h>
 #include <sys/ioctl.h>
@@ -64,6 +64,12 @@ std::vector<std::string> cdio_get_devices()
 			while (*drive++) {}
 		}
 	}
+	return drives;
+}
+#elif IOS
+// Returns a vector with no drives, since there are no DVD drives on devices running iOS
+std::vector<std::string> cdio_get_devices() {
+	std::vector<std::string> drives;
 	return drives;
 }
 #elif defined __APPLE__
