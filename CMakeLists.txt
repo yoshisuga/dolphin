@@ -311,7 +311,7 @@ if(APPLE AND NOT IOS)
 	find_library(OPENGL_LIBRARY OpenGL)
 elseif(IOS)
 	set(IOS_MIN_VERSION "8.4")
-	set(TARGET_FLAGS "-arch ${IOS_ARCH} -miphoneos-version-min=@{IOS_MIN_VERSION} -isysroot ${CMAKE_IOS_SDK_ROOT}")
+	set(TARGET_FLAGS "-arch ${IOS_ARCH} -miphoneos-version-min=${IOS_MIN_VERSION} -isysroot ${CMAKE_IOS_SDK_ROOT}")
 	set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-syslibroot,${CMAKE_IOS_SDK_ROOT} -Wl,-no_arch_warnings")
 	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${TARGET_FLAGS}")
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${TARGET_FLAGS}")
@@ -861,13 +861,13 @@ if(NOT DISABLE_WX AND NOT ANDROID AND NOT IOS)
 		set(wxWidgets_LIBRARIES "wx")
 	endif(wxWidgets_FOUND)
 	add_definitions(-DHAVE_WX=1)
-endif(NOT DISABLE_WX AND NOT ANDROID)
+endif(NOT DISABLE_WX AND NOT ANDROID AND NOT IOS)
 
 if(${CMAKE_SYSTEM_NAME} MATCHES "FreeBSD|NetBSD")
 	set(LIBS ${LIBS} usbhid)
 endif()
 
-if(APPLE)
+if(APPLE AND NOT IOS)
 	# Link against OS X system frameworks.
 	list(APPEND LIBS
 		${APPKIT_LIBRARY}
@@ -878,6 +878,15 @@ if(APPLE)
 		${IOK_LIBRARY}
 		${FORCEFEEDBACK}
 		)
+elseif(IOS)
+	list(APPEND LIBS
+		${APPKIT_LIBRARY}
+		${AU_LIBRARY}
+		${COREAUDIO_LIBRARY}
+		${COREFUND_LIBRARY}
+		${CORESERV_LIBRARY}
+		${IOK_LIBRARY}
+)
 endif()
 
 ########################################
