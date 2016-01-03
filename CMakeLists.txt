@@ -406,7 +406,7 @@ if(IOS)
 	add_definitions(-DIOS)
 	set(USE_X11 0)
 	set(USE_UPNP 0)
-	set(USE_EGL 1)
+	set(USE_EGL 0)
 endif()
 
 include_directories(Externals/GL)
