@@ -51,7 +51,7 @@ bool Host_RendererIsFullscreen()
 	return false;
 }
 
-// Should return a instance of CAEAGLLayer.
+// Should return a instance of UIView.
 void* Host_GetRenderHandle()
 {
 	UIWindow *window = [[UIApplication sharedApplication] keyWindow];
