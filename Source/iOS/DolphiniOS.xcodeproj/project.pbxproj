@@ -7,6 +7,28 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0449EBAE1C39F1E5007DFCB8 /* libaudiocommon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0449EB981C39F1E4007DFCB8 /* libaudiocommon.a */; };
+		0449EBAF1C39F1E5007DFCB8 /* libbdisasm.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0449EB991C39F1E4007DFCB8 /* libbdisasm.a */; };
+		0449EBB01C39F1E5007DFCB8 /* libcommon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0449EB9A1C39F1E4007DFCB8 /* libcommon.a */; };
+		0449EBB11C39F1E5007DFCB8 /* libcore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0449EB9B1C39F1E4007DFCB8 /* libcore.a */; };
+		0449EBB21C39F1E5007DFCB8 /* libdiscio.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0449EB9C1C39F1E4007DFCB8 /* libdiscio.a */; };
+		0449EBB31C39F1E5007DFCB8 /* libenet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0449EB9D1C39F1E4007DFCB8 /* libenet.a */; };
+		0449EBB41C39F1E5007DFCB8 /* libinputcommon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0449EB9E1C39F1E4007DFCB8 /* libinputcommon.a */; };
+		0449EBB51C39F1E5007DFCB8 /* liblzo2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0449EB9F1C39F1E4007DFCB8 /* liblzo2.a */; };
+		0449EBB61C39F1E5007DFCB8 /* libmain.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0449EBA01C39F1E4007DFCB8 /* libmain.a */; };
+		0449EBB71C39F1E5007DFCB8 /* libmbedcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0449EBA11C39F1E5007DFCB8 /* libmbedcrypto.a */; };
+		0449EBB81C39F1E5007DFCB8 /* libmbedtls.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0449EBA21C39F1E5007DFCB8 /* libmbedtls.a */; };
+		0449EBB91C39F1E5007DFCB8 /* libmbedx509.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0449EBA31C39F1E5007DFCB8 /* libmbedx509.a */; };
+		0449EBBA1C39F1E5007DFCB8 /* libpch.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0449EBA41C39F1E5007DFCB8 /* libpch.a */; };
+		0449EBBB1C39F1E5007DFCB8 /* libpng.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0449EBA51C39F1E5007DFCB8 /* libpng.a */; };
+		0449EBBC1C39F1E5007DFCB8 /* libsfml-network.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0449EBA61C39F1E5007DFCB8 /* libsfml-network.a */; };
+		0449EBBD1C39F1E5007DFCB8 /* libsfml-system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0449EBA71C39F1E5007DFCB8 /* libsfml-system.a */; };
+		0449EBBE1C39F1E5007DFCB8 /* libSOIL.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0449EBA81C39F1E5007DFCB8 /* libSOIL.a */; };
+		0449EBBF1C39F1E5007DFCB8 /* libuicommon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0449EBA91C39F1E5007DFCB8 /* libuicommon.a */; };
+		0449EBC01C39F1E5007DFCB8 /* libvideocommon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0449EBAA1C39F1E5007DFCB8 /* libvideocommon.a */; };
+		0449EBC11C39F1E5007DFCB8 /* libvideoogl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0449EBAB1C39F1E5007DFCB8 /* libvideoogl.a */; };
+		0449EBC21C39F1E5007DFCB8 /* libvideosoftware.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0449EBAC1C39F1E5007DFCB8 /* libvideosoftware.a */; };
+		0449EBC31C39F1E5007DFCB8 /* libxxhash.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0449EBAD1C39F1E5007DFCB8 /* libxxhash.a */; };
 		049B00411C38D4FB001D7A21 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 049B00401C38D4FB001D7A21 /* main.m */; };
 		049B00441C38D4FB001D7A21 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 049B00431C38D4FB001D7A21 /* AppDelegate.m */; };
 		049B00471C38D4FB001D7A21 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 049B00461C38D4FB001D7A21 /* ViewController.m */; };
@@ -17,6 +39,28 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0449EB981C39F1E4007DFCB8 /* libaudiocommon.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libaudiocommon.a; path = libs/libaudiocommon.a; sourceTree = "<group>"; };
+		0449EB991C39F1E4007DFCB8 /* libbdisasm.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libbdisasm.a; path = libs/libbdisasm.a; sourceTree = "<group>"; };
+		0449EB9A1C39F1E4007DFCB8 /* libcommon.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcommon.a; path = libs/libcommon.a; sourceTree = "<group>"; };
+		0449EB9B1C39F1E4007DFCB8 /* libcore.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcore.a; path = libs/libcore.a; sourceTree = "<group>"; };
+		0449EB9C1C39F1E4007DFCB8 /* libdiscio.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libdiscio.a; path = libs/libdiscio.a; sourceTree = "<group>"; };
+		0449EB9D1C39F1E4007DFCB8 /* libenet.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libenet.a; path = libs/libenet.a; sourceTree = "<group>"; };
+		0449EB9E1C39F1E4007DFCB8 /* libinputcommon.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libinputcommon.a; path = libs/libinputcommon.a; sourceTree = "<group>"; };
+		0449EB9F1C39F1E4007DFCB8 /* liblzo2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = liblzo2.a; path = libs/liblzo2.a; sourceTree = "<group>"; };
+		0449EBA01C39F1E4007DFCB8 /* libmain.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libmain.a; path = libs/libmain.a; sourceTree = "<group>"; };
+		0449EBA11C39F1E5007DFCB8 /* libmbedcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libmbedcrypto.a; path = libs/libmbedcrypto.a; sourceTree = "<group>"; };
+		0449EBA21C39F1E5007DFCB8 /* libmbedtls.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libmbedtls.a; path = libs/libmbedtls.a; sourceTree = "<group>"; };
+		0449EBA31C39F1E5007DFCB8 /* libmbedx509.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libmbedx509.a; path = libs/libmbedx509.a; sourceTree = "<group>"; };
+		0449EBA41C39F1E5007DFCB8 /* libpch.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libpch.a; path = libs/libpch.a; sourceTree = "<group>"; };
+		0449EBA51C39F1E5007DFCB8 /* libpng.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libpng.a; path = libs/libpng.a; sourceTree = "<group>"; };
+		0449EBA61C39F1E5007DFCB8 /* libsfml-network.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libsfml-network.a"; path = "libs/libsfml-network.a"; sourceTree = "<group>"; };
+		0449EBA71C39F1E5007DFCB8 /* libsfml-system.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libsfml-system.a"; path = "libs/libsfml-system.a"; sourceTree = "<group>"; };
+		0449EBA81C39F1E5007DFCB8 /* libSOIL.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSOIL.a; path = libs/libSOIL.a; sourceTree = "<group>"; };
+		0449EBA91C39F1E5007DFCB8 /* libuicommon.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libuicommon.a; path = libs/libuicommon.a; sourceTree = "<group>"; };
+		0449EBAA1C39F1E5007DFCB8 /* libvideocommon.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libvideocommon.a; path = libs/libvideocommon.a; sourceTree = "<group>"; };
+		0449EBAB1C39F1E5007DFCB8 /* libvideoogl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libvideoogl.a; path = libs/libvideoogl.a; sourceTree = "<group>"; };
+		0449EBAC1C39F1E5007DFCB8 /* libvideosoftware.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libvideosoftware.a; path = libs/libvideosoftware.a; sourceTree = "<group>"; };
+		0449EBAD1C39F1E5007DFCB8 /* libxxhash.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libxxhash.a; path = libs/libxxhash.a; sourceTree = "<group>"; };
 		049B003C1C38D4FB001D7A21 /* DolphiniOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DolphiniOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		049B00401C38D4FB001D7A21 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		049B00421C38D4FB001D7A21 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -36,19 +80,72 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0449EBAE1C39F1E5007DFCB8 /* libaudiocommon.a in Frameworks */,
+				0449EBAF1C39F1E5007DFCB8 /* libbdisasm.a in Frameworks */,
+				0449EBB01C39F1E5007DFCB8 /* libcommon.a in Frameworks */,
+				0449EBB11C39F1E5007DFCB8 /* libcore.a in Frameworks */,
+				0449EBB21C39F1E5007DFCB8 /* libdiscio.a in Frameworks */,
+				0449EBB31C39F1E5007DFCB8 /* libenet.a in Frameworks */,
+				0449EBB41C39F1E5007DFCB8 /* libinputcommon.a in Frameworks */,
+				0449EBB51C39F1E5007DFCB8 /* liblzo2.a in Frameworks */,
+				0449EBB61C39F1E5007DFCB8 /* libmain.a in Frameworks */,
+				0449EBB71C39F1E5007DFCB8 /* libmbedcrypto.a in Frameworks */,
+				0449EBB81C39F1E5007DFCB8 /* libmbedtls.a in Frameworks */,
+				0449EBB91C39F1E5007DFCB8 /* libmbedx509.a in Frameworks */,
+				0449EBBA1C39F1E5007DFCB8 /* libpch.a in Frameworks */,
+				0449EBBB1C39F1E5007DFCB8 /* libpng.a in Frameworks */,
+				0449EBBC1C39F1E5007DFCB8 /* libsfml-network.a in Frameworks */,
+				0449EBBD1C39F1E5007DFCB8 /* libsfml-system.a in Frameworks */,
+				0449EBBE1C39F1E5007DFCB8 /* libSOIL.a in Frameworks */,
+				0449EBBF1C39F1E5007DFCB8 /* libuicommon.a in Frameworks */,
+				0449EBC01C39F1E5007DFCB8 /* libvideocommon.a in Frameworks */,
+				0449EBC11C39F1E5007DFCB8 /* libvideoogl.a in Frameworks */,
+				0449EBC21C39F1E5007DFCB8 /* libvideosoftware.a in Frameworks */,
+				0449EBC31C39F1E5007DFCB8 /* libxxhash.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0449EBC51C39F214007DFCB8 /* Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				0449EB981C39F1E4007DFCB8 /* libaudiocommon.a */,
+				0449EB991C39F1E4007DFCB8 /* libbdisasm.a */,
+				0449EB9A1C39F1E4007DFCB8 /* libcommon.a */,
+				0449EB9B1C39F1E4007DFCB8 /* libcore.a */,
+				0449EB9C1C39F1E4007DFCB8 /* libdiscio.a */,
+				0449EB9D1C39F1E4007DFCB8 /* libenet.a */,
+				0449EB9E1C39F1E4007DFCB8 /* libinputcommon.a */,
+				0449EB9F1C39F1E4007DFCB8 /* liblzo2.a */,
+				0449EBA01C39F1E4007DFCB8 /* libmain.a */,
+				0449EBA11C39F1E5007DFCB8 /* libmbedcrypto.a */,
+				0449EBA21C39F1E5007DFCB8 /* libmbedtls.a */,
+				0449EBA31C39F1E5007DFCB8 /* libmbedx509.a */,
+				0449EBA41C39F1E5007DFCB8 /* libpch.a */,
+				0449EBA51C39F1E5007DFCB8 /* libpng.a */,
+				0449EBA61C39F1E5007DFCB8 /* libsfml-network.a */,
+				0449EBA71C39F1E5007DFCB8 /* libsfml-system.a */,
+				0449EBA81C39F1E5007DFCB8 /* libSOIL.a */,
+				0449EBA91C39F1E5007DFCB8 /* libuicommon.a */,
+				0449EBAA1C39F1E5007DFCB8 /* libvideocommon.a */,
+				0449EBAB1C39F1E5007DFCB8 /* libvideoogl.a */,
+				0449EBAC1C39F1E5007DFCB8 /* libvideosoftware.a */,
+				0449EBAD1C39F1E5007DFCB8 /* libxxhash.a */,
+			);
+			name = Libraries;
+			sourceTree = "<group>";
+		};
 		049B00331C38D4FB001D7A21 = {
 			isa = PBXGroup;
 			children = (
 				049B003E1C38D4FB001D7A21 /* DolphiniOS */,
 				049B003D1C38D4FB001D7A21 /* Products */,
+				0449EBC51C39F214007DFCB8 /* Libraries */,
 			);
 			sourceTree = "<group>";
+			usesTabs = 1;
 		};
 		049B003D1C38D4FB001D7A21 /* Products */ = {
 			isa = PBXGroup;
@@ -91,8 +188,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 049B00531C38D4FB001D7A21 /* Build configuration list for PBXNativeTarget "DolphiniOS" */;
 			buildPhases = (
-				049B00381C38D4FB001D7A21 /* Sources */,
+				0449EB951C39A822007DFCB8 /* ShellScript */,
 				049B00391C38D4FB001D7A21 /* Frameworks */,
+				049B00381C38D4FB001D7A21 /* Sources */,
 				049B003A1C38D4FB001D7A21 /* Resources */,
 			);
 			buildRules = (
@@ -149,6 +247,22 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		0449EB951C39A822007DFCB8 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Determine what platform to pass to the CMake toolchain\nPLATFORM=\"\"\nif [ \"$arch\" == \"arm64\" ]\nthen\n    PLATFORM=\"OS\"\nelif [ \"$arch\" == \"x86_64\" ]\nthen\n    PLATFORM=\"SIMULATOR64\"\nelse\n    echo \"This architecture is unsupported.\"\n    exit 1\nfi\n\n# Create our build directory and cd into it.\n# $SOURCE_ROOT = dolphin_root/Source/iOS/\nif [ ! -d \"$SOURCE_ROOT/../../Build\" ]\nthen\n    mkdir $SOURCE_ROOT/../../Build\nfi\ncd $SOURCE_ROOT/../../Build\n\n# Build Dolphin.\ncmake .. -DCMAKE_TOOLCHAIN_FILE=$SOURCE_ROOT/ios.toolchain.cmake -DIOS_PLATFORM=$PLATFORM\nmake\n\nif [ $? -eq 0 ]\nthen\n    if [ ! -d \"$SOURCE_ROOT/libs\" ]\n    then\n        mkdir $SOURCE_ROOT/libs\n    fi\n\n    # Copy the *.a files into $SOURCE_ROOT/libs/\n    find . -name \"*.a\" -type f -exec cp {} $SOURCE_ROOT/libs/ \\;\n    exit 0\nelse\n    echo \"Build failure.\"\n    exit 1\nfi";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		049B00381C38D4FB001D7A21 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -187,6 +301,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = arm64;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -224,6 +339,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = arm64;
 			};
 			name = Debug;
 		};
@@ -231,6 +347,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = arm64;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -262,30 +379,47 @@
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
+				VALID_ARCHS = arm64;
 			};
 			name = Release;
 		};
 		049B00541C38D4FB001D7A21 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = arm64;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = DolphiniOS/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/libs",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.dolphin-emu.DolphiniOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = $SOURCE_ROOT/../../Source/Core;
+				VALID_ARCHS = arm64;
 			};
 			name = Debug;
 		};
 		049B00551C38D4FB001D7A21 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = arm64;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = DolphiniOS/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/libs",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.dolphin-emu.DolphiniOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = $SOURCE_ROOT/../../Source/Core;
+				VALID_ARCHS = arm64;
 			};
 			name = Release;
 		};
