@@ -32,7 +32,7 @@ CEXIETHERNET::CEXIETHERNET()
 
 	if (!StringToMacAddress(mac_addr_setting, mac_addr))
 	{
-		GenerateMacAddress(BBA, mac_addr);
+		GenerateMacAddress(CONSUMER_BBA, mac_addr);
 		mac_addr_setting = MacAddressToString(mac_addr);
 		SConfig::GetInstance().SaveSettings();
 	}
