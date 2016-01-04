@@ -26,7 +26,7 @@
 		#define CIFACE_USE_X11_XINPUT2
 	#endif
 #endif
-#if defined(__APPLE__)
+#if defined(__APPLE__) && !defined(IOS)
 	#define CIFACE_USE_OSX
 #endif
 #ifdef ANDROID
