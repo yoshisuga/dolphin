@@ -19,7 +19,6 @@
 		0449EBB71C39F1E5007DFCB8 /* libmbedcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0449EBA11C39F1E5007DFCB8 /* libmbedcrypto.a */; };
 		0449EBB81C39F1E5007DFCB8 /* libmbedtls.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0449EBA21C39F1E5007DFCB8 /* libmbedtls.a */; };
 		0449EBB91C39F1E5007DFCB8 /* libmbedx509.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0449EBA31C39F1E5007DFCB8 /* libmbedx509.a */; };
-		0449EBBA1C39F1E5007DFCB8 /* libpch.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0449EBA41C39F1E5007DFCB8 /* libpch.a */; };
 		0449EBBB1C39F1E5007DFCB8 /* libpng.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0449EBA51C39F1E5007DFCB8 /* libpng.a */; };
 		0449EBBC1C39F1E5007DFCB8 /* libsfml-network.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0449EBA61C39F1E5007DFCB8 /* libsfml-network.a */; };
 		0449EBBD1C39F1E5007DFCB8 /* libsfml-system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0449EBA71C39F1E5007DFCB8 /* libsfml-system.a */; };
@@ -29,6 +28,12 @@
 		0449EBC11C39F1E5007DFCB8 /* libvideoogl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0449EBAB1C39F1E5007DFCB8 /* libvideoogl.a */; };
 		0449EBC21C39F1E5007DFCB8 /* libvideosoftware.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0449EBAC1C39F1E5007DFCB8 /* libvideosoftware.a */; };
 		0449EBC31C39F1E5007DFCB8 /* libxxhash.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0449EBAD1C39F1E5007DFCB8 /* libxxhash.a */; };
+		0449EBC71C39F4E6007DFCB8 /* starfield.dol in Resources */ = {isa = PBXBuildFile; fileRef = 0449EBC61C39F4E6007DFCB8 /* starfield.dol */; };
+		0449EBCB1C39FB5C007DFCB8 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0449EBCA1C39FB5C007DFCB8 /* AudioToolbox.framework */; };
+		0449EBCD1C39FCB9007DFCB8 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0449EBCC1C39FCB9007DFCB8 /* libc++.tbd */; };
+		0449EBCF1C39FCFB007DFCB8 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0449EBCE1C39FCFB007DFCB8 /* libz.tbd */; };
+		0449EBD11C39FD17007DFCB8 /* libiconv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0449EBD01C39FD17007DFCB8 /* libiconv.tbd */; };
+		0449EBD31C3A0E75007DFCB8 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0449EBD21C3A0E75007DFCB8 /* OpenGLES.framework */; };
 		049B00411C38D4FB001D7A21 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 049B00401C38D4FB001D7A21 /* main.m */; };
 		049B00441C38D4FB001D7A21 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 049B00431C38D4FB001D7A21 /* AppDelegate.m */; };
 		049B00471C38D4FB001D7A21 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 049B00461C38D4FB001D7A21 /* ViewController.m */; };
@@ -61,6 +66,13 @@
 		0449EBAB1C39F1E5007DFCB8 /* libvideoogl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libvideoogl.a; path = libs/libvideoogl.a; sourceTree = "<group>"; };
 		0449EBAC1C39F1E5007DFCB8 /* libvideosoftware.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libvideosoftware.a; path = libs/libvideosoftware.a; sourceTree = "<group>"; };
 		0449EBAD1C39F1E5007DFCB8 /* libxxhash.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libxxhash.a; path = libs/libxxhash.a; sourceTree = "<group>"; };
+		0449EBC61C39F4E6007DFCB8 /* starfield.dol */ = {isa = PBXFileReference; lastKnownFileType = file; path = starfield.dol; sourceTree = "<group>"; };
+		0449EBC81C39FB20007DFCB8 /* AudioUnit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioUnit.framework; path = System/Library/Frameworks/AudioUnit.framework; sourceTree = SDKROOT; };
+		0449EBCA1C39FB5C007DFCB8 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		0449EBCC1C39FCB9007DFCB8 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
+		0449EBCE1C39FCFB007DFCB8 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		0449EBD01C39FD17007DFCB8 /* libiconv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libiconv.tbd; path = usr/lib/libiconv.tbd; sourceTree = SDKROOT; };
+		0449EBD21C3A0E75007DFCB8 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		049B003C1C38D4FB001D7A21 /* DolphiniOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DolphiniOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		049B00401C38D4FB001D7A21 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		049B00421C38D4FB001D7A21 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -80,28 +92,32 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0449EBAE1C39F1E5007DFCB8 /* libaudiocommon.a in Frameworks */,
-				0449EBAF1C39F1E5007DFCB8 /* libbdisasm.a in Frameworks */,
-				0449EBB01C39F1E5007DFCB8 /* libcommon.a in Frameworks */,
-				0449EBB11C39F1E5007DFCB8 /* libcore.a in Frameworks */,
-				0449EBB21C39F1E5007DFCB8 /* libdiscio.a in Frameworks */,
-				0449EBB31C39F1E5007DFCB8 /* libenet.a in Frameworks */,
-				0449EBB41C39F1E5007DFCB8 /* libinputcommon.a in Frameworks */,
-				0449EBB51C39F1E5007DFCB8 /* liblzo2.a in Frameworks */,
-				0449EBB61C39F1E5007DFCB8 /* libmain.a in Frameworks */,
-				0449EBB71C39F1E5007DFCB8 /* libmbedcrypto.a in Frameworks */,
-				0449EBB81C39F1E5007DFCB8 /* libmbedtls.a in Frameworks */,
-				0449EBB91C39F1E5007DFCB8 /* libmbedx509.a in Frameworks */,
-				0449EBBA1C39F1E5007DFCB8 /* libpch.a in Frameworks */,
+				0449EBCD1C39FCB9007DFCB8 /* libc++.tbd in Frameworks */,
+				0449EBCF1C39FCFB007DFCB8 /* libz.tbd in Frameworks */,
+				0449EBD11C39FD17007DFCB8 /* libiconv.tbd in Frameworks */,
+				0449EBCB1C39FB5C007DFCB8 /* AudioToolbox.framework in Frameworks */,
+				0449EBD31C3A0E75007DFCB8 /* OpenGLES.framework in Frameworks */,
 				0449EBBB1C39F1E5007DFCB8 /* libpng.a in Frameworks */,
+				0449EBB31C39F1E5007DFCB8 /* libenet.a in Frameworks */,
+				0449EBB51C39F1E5007DFCB8 /* liblzo2.a in Frameworks */,
+				0449EBB81C39F1E5007DFCB8 /* libmbedtls.a in Frameworks */,
+				0449EBAF1C39F1E5007DFCB8 /* libbdisasm.a in Frameworks */,
+				0449EBB71C39F1E5007DFCB8 /* libmbedcrypto.a in Frameworks */,
+				0449EBB91C39F1E5007DFCB8 /* libmbedx509.a in Frameworks */,
+				0449EBBE1C39F1E5007DFCB8 /* libSOIL.a in Frameworks */,
 				0449EBBC1C39F1E5007DFCB8 /* libsfml-network.a in Frameworks */,
 				0449EBBD1C39F1E5007DFCB8 /* libsfml-system.a in Frameworks */,
-				0449EBBE1C39F1E5007DFCB8 /* libSOIL.a in Frameworks */,
-				0449EBBF1C39F1E5007DFCB8 /* libuicommon.a in Frameworks */,
-				0449EBC01C39F1E5007DFCB8 /* libvideocommon.a in Frameworks */,
-				0449EBC11C39F1E5007DFCB8 /* libvideoogl.a in Frameworks */,
-				0449EBC21C39F1E5007DFCB8 /* libvideosoftware.a in Frameworks */,
 				0449EBC31C39F1E5007DFCB8 /* libxxhash.a in Frameworks */,
+				0449EBB01C39F1E5007DFCB8 /* libcommon.a in Frameworks */,
+				0449EBB11C39F1E5007DFCB8 /* libcore.a in Frameworks */,
+				0449EBAE1C39F1E5007DFCB8 /* libaudiocommon.a in Frameworks */,
+				0449EBC01C39F1E5007DFCB8 /* libvideocommon.a in Frameworks */,
+				0449EBBF1C39F1E5007DFCB8 /* libuicommon.a in Frameworks */,
+				0449EBB41C39F1E5007DFCB8 /* libinputcommon.a in Frameworks */,
+				0449EBB21C39F1E5007DFCB8 /* libdiscio.a in Frameworks */,
+				0449EBC21C39F1E5007DFCB8 /* libvideosoftware.a in Frameworks */,
+				0449EBC11C39F1E5007DFCB8 /* libvideoogl.a in Frameworks */,
+				0449EBB61C39F1E5007DFCB8 /* libmain.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -111,6 +127,12 @@
 		0449EBC51C39F214007DFCB8 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				0449EBD21C3A0E75007DFCB8 /* OpenGLES.framework */,
+				0449EBD01C39FD17007DFCB8 /* libiconv.tbd */,
+				0449EBCE1C39FCFB007DFCB8 /* libz.tbd */,
+				0449EBCC1C39FCB9007DFCB8 /* libc++.tbd */,
+				0449EBCA1C39FB5C007DFCB8 /* AudioToolbox.framework */,
+				0449EBC81C39FB20007DFCB8 /* AudioUnit.framework */,
 				0449EB981C39F1E4007DFCB8 /* libaudiocommon.a */,
 				0449EB991C39F1E4007DFCB8 /* libbdisasm.a */,
 				0449EB9A1C39F1E4007DFCB8 /* libcommon.a */,
@@ -140,6 +162,7 @@
 		049B00331C38D4FB001D7A21 = {
 			isa = PBXGroup;
 			children = (
+				0449EBC61C39F4E6007DFCB8 /* starfield.dol */,
 				049B003E1C38D4FB001D7A21 /* DolphiniOS */,
 				049B003D1C38D4FB001D7A21 /* Products */,
 				0449EBC51C39F214007DFCB8 /* Libraries */,
@@ -189,8 +212,8 @@
 			buildConfigurationList = 049B00531C38D4FB001D7A21 /* Build configuration list for PBXNativeTarget "DolphiniOS" */;
 			buildPhases = (
 				0449EB951C39A822007DFCB8 /* ShellScript */,
-				049B00391C38D4FB001D7A21 /* Frameworks */,
 				049B00381C38D4FB001D7A21 /* Sources */,
+				049B00391C38D4FB001D7A21 /* Frameworks */,
 				049B003A1C38D4FB001D7A21 /* Resources */,
 			);
 			buildRules = (
@@ -239,6 +262,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0449EBC71C39F4E6007DFCB8 /* starfield.dol in Resources */,
 				049B004F1C38D4FB001D7A21 /* LaunchScreen.storyboard in Resources */,
 				049B004C1C38D4FB001D7A21 /* Assets.xcassets in Resources */,
 				049B004A1C38D4FB001D7A21 /* Main.storyboard in Resources */,
@@ -388,6 +412,8 @@
 			buildSettings = {
 				ARCHS = arm64;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++14";
+				CLANG_CXX_LIBRARY = "libc++";
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = DolphiniOS/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
@@ -408,6 +434,8 @@
 			buildSettings = {
 				ARCHS = arm64;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++14";
+				CLANG_CXX_LIBRARY = "libc++";
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = DolphiniOS/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
