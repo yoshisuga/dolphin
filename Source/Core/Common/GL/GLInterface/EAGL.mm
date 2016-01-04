@@ -2,49 +2,87 @@
 // Licensed under GPLv2+
 // Refer to the license.txt file included.
 
+#include <dlfcn.h>
+
+#include <UIKit/UIKit.h>
+
 #include "Common/GL/GLInterface/EAGL.h"
+
+#define GL_FRAMEBUFFER 0x8D40
+#define GL_RENDERBUFFER 0x8D41
+#define GL_COLOR_ATTACHMENT0 0x8CE0
+
+typedef void (*PFNGLGENFRAMEBUFFERSPROC) (GLsizei n, GLuint *framebuffers);
+typedef void (*PFNGLDELETEFRAMEBUFFERSPROC) (GLsizei n, const GLuint *framebuffers);
+typedef void (*PFNGLBINDFRAMEBUFFERPROC) (GLenum target, GLuint framebuffer);
+typedef void (*PFNGLGENRENDERBUFFERSPROC) (GLsizei n, GLuint *renderbuffers);
+typedef void (*PFNGLDELETERENDERBUFFERSPROC) (GLsizei n, const GLuint *renderbuffers);
+typedef void (*PFNGLBINDRENDERBUFFERPROC) (GLenum target, GLuint renderbuffer);
+typedef void (*PFNGLFRAMEBUFFERRENDERBUFFERPROC) (GLenum target, GLenum attachment, GLenum renderbuffertarget, GLuint renderbuffer);
+
+static PFNGLGENFRAMEBUFFERSPROC glGenFramebuffers = nullptr;
+static PFNGLDELETEFRAMEBUFFERSPROC glDeleteFramebuffers = nullptr;
+static PFNGLBINDFRAMEBUFFERPROC glBindFramebuffer = nullptr;
+static PFNGLGENRENDERBUFFERSPROC glGenRenderbuffers = nullptr;
+static PFNGLDELETERENDERBUFFERSPROC glDeleteRenderbuffers = nullptr;
+static PFNGLBINDRENDERBUFFERPROC glBindRenderbuffer = nullptr;
+static PFNGLFRAMEBUFFERRENDERBUFFERPROC glFramebufferRenderbuffer = nullptr;
 
 void cInterfaceEAGL::Swap()
 {
-	// [eaglContext presentRenderbuffer:GL_RENDERBUFFER];
+	[eaglContext presentRenderbuffer:GL_RENDERBUFFER];
 }
 
-// Create rendering window.
-// Call browser: Core.cpp:EmuThread() > main.cpp:Video_Initialize()
+void* cInterfaceEAGL::GetFuncAddress(const std::string& name)
+{
+	return dlsym(RTLD_DEFAULT, name.c_str());
+}
+
 bool cInterfaceEAGL::Create(void *window_handle, bool core)
 {
-	/*
+	// We're using OpenGLES 3
+	if (s_opengl_mode == MODE_DETECT)
+		s_opengl_mode = GLInterfaceMode::MODE_OPENGLES3;
 	
-	// Get our UIView
-	PanicAlert("EAGL: reinterpreting cast");
-	currentView = reinterpret_cast<UIView*>(window_handle);
-	
-	// Get the CAEAGLLayer instance
-	PanicAlert("EAGL: getting layer");
+	// Get our CAEAGLLayer instance
+	UIView* currentView = reinterpret_cast<UIView*>(window_handle);
 	CAEAGLLayer *eaglLayer = (CAEAGLLayer*) [currentView layer];
-	eaglLayer.opaque = YES;
 	
-	// Create a EAGLContext for OpenGLES 3
-	PanicAlert("EAGL: creating EAGLContext");
+	// Create an EAGLContext for OpenGLES 3
 	eaglContext = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES3];
-	 
-	// TODO: Setup framebuffer.
+	MakeCurrent();
 	
-	// TODO: Setup renderbuffer.
+	// Load all our needed functions.
+	glGenFramebuffers = (PFNGLGENRENDERBUFFERSPROC) GetFuncAddress("glGenFramebuffers");
+	glDeleteFramebuffers = (PFNGLDELETEFRAMEBUFFERSPROC) GetFuncAddress("glDeleteFramebuffers");
+	glBindFramebuffer = (PFNGLBINDFRAMEBUFFERPROC) GetFuncAddress("glBindFramebuffer");
+	glGenRenderbuffers = (PFNGLGENRENDERBUFFERSPROC) GetFuncAddress("glGenRenderbuffers");
+	glDeleteRenderbuffers = (PFNGLDELETERENDERBUFFERSPROC) GetFuncAddress("glDeleteRenderbuffers");
+	glBindRenderbuffer = (PFNGLBINDRENDERBUFFERPROC) GetFuncAddress("glBindRenderbuffer");
+	glFramebufferRenderbuffer = (PFNGLFRAMEBUFFERRENDERBUFFERPROC) GetFuncAddress("glFramebufferRenderbuffer");
 	
-	*/
+	// Create our framebuffer and renderbuffer
+	glGenFramebuffers(1, &framebuffer);
+	glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
+	
+	glGenRenderbuffers(1, &renderbuffer);
+	glBindRenderbuffer(GL_RENDERBUFFER, renderbuffer);
+	[eaglContext renderbufferStorage:GL_RENDERBUFFER fromDrawable:eaglLayer];
+	
+	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, renderbuffer);
+	
 	return true;
 }
 
 bool cInterfaceEAGL::MakeCurrent()
 {
-	// [EAGLContext setCurrentContext:eaglContext];
+	[EAGLContext setCurrentContext:eaglContext];
 	return true;
 }
 
 bool cInterfaceEAGL::ClearCurrent()
 {
-	// [EAGLContext setCurrentContext:nil];
+	[EAGLContext setCurrentContext:nil];
 	return true;
 }
 
@@ -53,8 +91,8 @@ void cInterfaceEAGL::Shutdown()
 {
 	// TODO: Check if ARC is enabled, if so we don't need to explicitly call release
 	
-	// [eaglContext release];
-	// eaglContext = nil;
+	[eaglContext release];
+	eaglContext = nil;
 }
 
 void cInterfaceEAGL::Update()
