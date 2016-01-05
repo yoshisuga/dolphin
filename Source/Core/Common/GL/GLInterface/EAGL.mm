@@ -30,6 +30,7 @@ static PFNGLFRAMEBUFFERRENDERBUFFERPROC glFramebufferRenderbuffer = nullptr;
 
 void cInterfaceEAGL::Swap()
 {
+	glBindRenderbuffer(GL_RENDERBUFFER, renderbuffer);
 	[eaglContext presentRenderbuffer:GL_RENDERBUFFER];
 }
 
