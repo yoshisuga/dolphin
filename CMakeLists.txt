@@ -322,22 +322,10 @@ elseif(IOS)
 	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${TARGET_FLAGS}")
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${TARGET_FLAGS}")
 
-	find_library(APPKIT_LIBRARY UIKit)
-	find_library(APPSERV_LIBRARY ApplicationServices)
-	find_library(ATB_LIBRARY AudioToolbox)
 	find_library(AU_LIBRARY AudioUnit)
-	find_library(CARBON_LIBRARY Carbon)
-	find_library(COCOA_LIBRARY Cocoa)
 	find_library(COREAUDIO_LIBRARY CoreAudio)
 	find_library(COREFUND_LIBRARY CoreFoundation)
-	find_library(CORESERV_LIBRARY CoreServices)
 	find_library(FOUNDATION_LIBRARY Foundation)
-	find_library(IOB_LIBRARY CoreBluetooth)
-	find_library(IOK_LIBRARY IOKit)
-	find_library(QUICKTIME_LIBRARY QuickTime)
-	find_library(WEBKIT_LIBRARY WebKit)
-	# find_library(FORCEFEEDBACK ForceFeedback)
-	find_library(OPENGL_LIBRARY OpenGL)
 endif()
 
 if(WIN32)
@@ -895,12 +883,9 @@ if(APPLE AND NOT IOS)
 		)
 elseif(IOS)
 	list(APPEND LIBS
-		${APPKIT_LIBRARY}
 		${AU_LIBRARY}
 		${COREAUDIO_LIBRARY}
 		${COREFUND_LIBRARY}
-		${CORESERV_LIBRARY}
-		${IOK_LIBRARY}
 )
 endif()
 
