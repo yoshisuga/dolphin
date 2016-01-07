@@ -6,6 +6,10 @@
 #include <cstring>
 #include <vector>
 
+#ifdef IOS
+#include <libkern/OSCacheControl.h>
+#endif
+
 #include "Common/Arm64Emitter.h"
 #include "Common/Assert.h"
 #include "Common/CommonTypes.h"
