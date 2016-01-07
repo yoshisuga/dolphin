@@ -2,16 +2,21 @@
 // Licensed under GPLv2+
 // Refer to the license.txt file included.
 
+#include <string>
+
+#ifdef ANDROID
 #include <fstream>
 #include <sstream>
-#include <string>
 #include <unistd.h>
 #include <asm/hwcap.h>
 #include <sys/auxv.h>
+#endif
 
 #include "Common/CommonTypes.h"
 #include "Common/CPUDetect.h"
 #include "Common/StringUtil.h"
+
+#ifdef ANDROID
 
 const char procfile[] = "/proc/cpuinfo";
 
@@ -38,6 +43,8 @@ static std::string GetCPUString()
 	return cpu_string;
 }
 
+#endif
+
 CPUInfo cpu_info;
 
 CPUInfo::CPUInfo()
@@ -56,6 +63,7 @@ void CPUInfo::Detect()
 	Mode64bit = true;
 	vendor = VENDOR_ARM;
 
+#ifdef ANDROID
 	// Get the information about the CPU
 	num_cores = sysconf(_SC_NPROCESSORS_CONF);
 	strncpy(cpu_string, GetCPUString().c_str(), sizeof(cpu_string));
@@ -67,6 +75,15 @@ void CPUInfo::Detect()
 	bCRC32 = hwcaps & HWCAP_CRC32;
 	bSHA1 = hwcaps & HWCAP_SHA1;
 	bSHA2 = hwcaps & HWCAP_SHA2;
+#elif defined(IOS)
+	// There is no dynamic way to fetch this information, so we have to hardcode it
+	bFP = true;
+	bASIMD = true;
+	bAES = true;
+	bCRC32 = true;
+	bSHA1 = true;
+	bSHA2 = true;
+#endif
 }
 
 // Turn the CPU info into a string we can show
