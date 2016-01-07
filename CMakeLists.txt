@@ -143,7 +143,11 @@ endif()
 
 # We might be cross compiling for some other architecture during a iOS build.
 if(IOS)
-	set(CMAKE_SYSTEM_PROCESSOR ${IOS_ARCH})
+	if(${IOS_ARCH} MATCHES "x86_64")
+		set(CMAKE_SYSTEM_PROCESSOR "x86_64")
+	else()
+		set(CMAKE_SYSTEM_PROCESSOR "aarch64")
+	endif()
 endif()
 
 # Architecture detection and arch specific settings
@@ -165,7 +169,7 @@ if(NOT ENABLE_GENERIC)
 	if(${CMAKE_SYSTEM_PROCESSOR} MATCHES "^x86" OR
 	   ${CMAKE_SYSTEM_PROCESSOR} MATCHES "i.86" OR
 	   ${CMAKE_SYSTEM_PROCESSOR} MATCHES "amd64" OR
-	   APPLE)
+	   (APPLE AND NOT IOS))
 		if(_ARCH_64)
 			set(_M_X86 1)
 			set(_M_X86_64 1)
@@ -181,7 +185,9 @@ if(NOT ENABLE_GENERIC)
 		set(_M_ARM 1)
 		set(_M_ARM_64 1)
 		add_definitions(-D_M_ARM=1 -D_M_ARM_64=1)
-		add_definitions(-march=armv8-a+crc)
+		if(ANDROID)
+			add_definitions(-march=armv8-a+crc)
+		endif()
 	else()
 		set(ENABLE_GENERIC 1)
 	endif()
