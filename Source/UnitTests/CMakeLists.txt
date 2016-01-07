@@ -1,6 +1,6 @@
 set(LIBS core gtest)
 if(APPLE)
-	list(APPEND LIBS ${FOUNDATION_LIBRARY} ${CORESERV_LIBRARY})
+	list(APPEND LIBS ${FOUNDATION_LIBRARY})
 endif()
 if(ANDROID)
 	set(LIBS ${LIBS} android log)
