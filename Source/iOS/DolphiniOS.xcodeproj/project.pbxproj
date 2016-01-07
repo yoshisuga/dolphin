@@ -6,6 +6,33 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		04C31D651C3C296B009C86A6 /* Build for Jailbroken Devices */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 04C31D661C3C296B009C86A6 /* Build configuration list for PBXAggregateTarget "Build for Jailbroken Devices" */;
+			buildPhases = (
+				04C31D6B1C3C2974009C86A6 /* Run Script */,
+			);
+			dependencies = (
+				04C31D6A1C3C2970009C86A6 /* PBXTargetDependency */,
+			);
+			name = "Build for Jailbroken Devices";
+			productName = "Install to Jailbroken Device";
+		};
+		04C31D6C1C3C7737009C86A6 /* Install to Jailbroken Device */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 04C31D6D1C3C7737009C86A6 /* Build configuration list for PBXAggregateTarget "Install to Jailbroken Device" */;
+			buildPhases = (
+				04C31D721C3C774C009C86A6 /* ShellScript */,
+			);
+			dependencies = (
+				04C31D711C3C773D009C86A6 /* PBXTargetDependency */,
+			);
+			name = "Install to Jailbroken Device";
+			productName = "Install to Jailbroken Device";
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		0449EBAE1C39F1E5007DFCB8 /* libaudiocommon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0449EB981C39F1E4007DFCB8 /* libaudiocommon.a */; };
 		0449EBAF1C39F1E5007DFCB8 /* libbdisasm.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0449EB991C39F1E4007DFCB8 /* libbdisasm.a */; };
@@ -42,6 +69,23 @@
 		049B004F1C38D4FB001D7A21 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 049B004D1C38D4FB001D7A21 /* LaunchScreen.storyboard */; };
 		049B00581C38D8B1001D7A21 /* GLView.m in Sources */ = {isa = PBXBuildFile; fileRef = 049B00571C38D8B1001D7A21 /* GLView.m */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		04C31D691C3C2970009C86A6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 049B00341C38D4FB001D7A21 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 049B003B1C38D4FB001D7A21;
+			remoteInfo = DolphiniOS;
+		};
+		04C31D701C3C773D009C86A6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 049B00341C38D4FB001D7A21 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 04C31D651C3C296B009C86A6;
+			remoteInfo = "Build for Jailbroken Devices";
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		0449EB981C39F1E4007DFCB8 /* libaudiocommon.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libaudiocommon.a; path = libs/libaudiocommon.a; sourceTree = "<group>"; };
@@ -237,6 +281,12 @@
 					049B003B1C38D4FB001D7A21 = {
 						CreatedOnToolsVersion = 7.1.1;
 					};
+					04C31D651C3C296B009C86A6 = {
+						CreatedOnToolsVersion = 7.1.1;
+					};
+					04C31D6C1C3C7737009C86A6 = {
+						CreatedOnToolsVersion = 7.1.1;
+					};
 				};
 			};
 			buildConfigurationList = 049B00371C38D4FB001D7A21 /* Build configuration list for PBXProject "DolphiniOS" */;
@@ -253,6 +303,8 @@
 			projectRoot = "";
 			targets = (
 				049B003B1C38D4FB001D7A21 /* DolphiniOS */,
+				04C31D651C3C296B009C86A6 /* Build for Jailbroken Devices */,
+				04C31D6C1C3C7737009C86A6 /* Install to Jailbroken Device */,
 			);
 		};
 /* End PBXProject section */
@@ -283,7 +335,34 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Determine what platform to pass to the CMake toolchain\nPLATFORM=\"\"\nif [ \"$arch\" == \"arm64\" ]\nthen\n    PLATFORM=\"OS\"\nelif [ \"$arch\" == \"x86_64\" ]\nthen\n    PLATFORM=\"SIMULATOR64\"\nelse\n    echo \"This architecture is unsupported.\"\n    exit 1\nfi\n\n# Create our build directory and cd into it.\n# $SOURCE_ROOT = dolphin_root/Source/iOS/\nif [ ! -d \"$SOURCE_ROOT/../../Build\" ]\nthen\n    mkdir $SOURCE_ROOT/../../Build\nfi\ncd $SOURCE_ROOT/../../Build\n\n# Build Dolphin.\ncmake .. -DCMAKE_TOOLCHAIN_FILE=$SOURCE_ROOT/ios.toolchain.cmake -DIOS_PLATFORM=$PLATFORM\nmake\n\nif [ $? -eq 0 ]\nthen\n    if [ ! -d \"$SOURCE_ROOT/libs\" ]\n    then\n        mkdir $SOURCE_ROOT/libs\n    fi\n\n    # Copy the *.a files into $SOURCE_ROOT/libs/\n    find . -name \"*.a\" -type f -exec cp {} $SOURCE_ROOT/libs/ \\;\n    cd $SOURCE_ROOT/libs\n\n    # Remove libpch.a, it's an empty archive\n    rm -f libpch.a\n\n    # Run ranlib on all the libraries\n    ranlib *.a\n\n    exit 0\nelse\n    echo \"Build failure.\"\n    exit 1\nfi";
+			shellScript = "# Determine what platform to pass to the CMake toolchain\nPLATFORM=\"\"\nif [ \"$arch\" == \"arm64\" ]\nthen\n    PLATFORM=\"OS\"\nelif [ \"$arch\" == \"x86_64\" ]\nthen\n    PLATFORM=\"SIMULATOR64\"\nelse\n    echo \"This architecture is unsupported.\"\n    exit 1\nfi\n\n# Create our build directory and cd into it.\n# $SOURCE_ROOT = dolphin_root/Source/iOS/\nif [ ! -d \"$SOURCE_ROOT/../../Build\" ]\nthen\n    mkdir $SOURCE_ROOT/../../Build\nfi\ncd $SOURCE_ROOT/../../Build\n\n# Build Dolphin.\ncmake .. -DCMAKE_TOOLCHAIN_FILE=$SOURCE_ROOT/ios.toolchain.cmake -DIOS_PLATFORM=$PLATFORM -DCMAKE_IOS_SDK_ROOT=$SDKROOT\nmake\n\nif [ $? -eq 0 ]\nthen\n    if [ ! -d \"$SOURCE_ROOT/libs\" ]\n    then\n        mkdir $SOURCE_ROOT/libs\n    fi\n\n    # Copy the *.a files into $SOURCE_ROOT/libs/\n    find . -name \"*.a\" -type f -exec cp {} $SOURCE_ROOT/libs/ \\;\n    cd $SOURCE_ROOT/libs\n\n    # Remove libpch.a, it's an empty archive\n    rm -f libpch.a\n\n    # Run ranlib on all the libraries\n    ranlib *.a\n\n    exit 0\nelse\n    echo \"Build failure.\"\n    exit 1\nfi";
+		};
+		04C31D6B1C3C2974009C86A6 /* Run Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Run Script";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Verify that we're building for an actual device\nif [ \"$arch\" != \"arm64\" ]\nthen\n    echo \"Cannot build a .deb file for this architecture ($arch).\"\n    exit 1\nfi\n\n# Do some clean up.\nif [ -d \"$TEMP_DIR/deb\" ]\nthen\n    rm -rf $TEMP_DIR/deb\nfi\n\nif [ -d \"$BUILT_PRODUCTS_DIR/DolphiniOS.deb\" ]\nthen\n    rm -rf $BUILT_PRODUCTS_DIR/DolphiniOS.deb\nfi\n\n# Set up the deb's directory structure.\nmkdir $TEMP_DIR/deb\nmkdir $TEMP_DIR/deb/DEBIAN\nmkdir $TEMP_DIR/deb/Applications\n\n# Add all of the files.\ncp $SOURCE_DIR/DEB\\ Package\\ Files/* $TEMP_DIR/deb/DEBIAN/\ncp -R $BUILT_PRODUCTS_DIR/DolphiniOS.app $TEMP_DIR/deb/Applications/\n\n# Build the .deb file.\ndpkg-deb -Zgzip -b $TEMP_DIR/deb $BUILT_PRODUCTS_DIR/DolphiniOS.deb\n\nexit 0";
+		};
+		04C31D721C3C774C009C86A6 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# This script is run on the device to install the application\nINSTALL_SCRIPT=\"dpkg -i /tmp/DolphiniOS.deb;rm -rf /tmp/DolphiniOS.deb\"\n\n# Fetch the IP for the device to SSH to\nDEVICE_IP=`tr -d '\\n' < $SOURCE_ROOT/device_ip`\n\nif [ \"$DEVICE_IP\" == \"\" ]\nthen\n    echo \"An error occurred. Does the device_ip file exist?\"\n    exit 1\nfi\n\n# Use SCP to send the package to the device\nscp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null$BUILT_PRODUCTS_DIR/DolphiniOS.deb root@$DEVICE_IP:/tmp/\n\n# Run the install script over SSH.\nssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null root@$DEVICE_IP < \"$INSTALL_SCRIPT\"\n\nexit 0";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -300,6 +379,19 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		04C31D6A1C3C2970009C86A6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 049B003B1C38D4FB001D7A21 /* DolphiniOS */;
+			targetProxy = 04C31D691C3C2970009C86A6 /* PBXContainerItemProxy */;
+		};
+		04C31D711C3C773D009C86A6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 04C31D651C3C296B009C86A6 /* Build for Jailbroken Devices */;
+			targetProxy = 04C31D701C3C773D009C86A6 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		049B00481C38D4FB001D7A21 /* Main.storyboard */ = {
@@ -451,6 +543,34 @@
 			};
 			name = Release;
 		};
+		04C31D671C3C296B009C86A6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		04C31D681C3C296B009C86A6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		04C31D6E1C3C7737009C86A6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		04C31D6F1C3C7737009C86A6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -468,6 +588,24 @@
 			buildConfigurations = (
 				049B00541C38D4FB001D7A21 /* Debug */,
 				049B00551C38D4FB001D7A21 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		04C31D661C3C296B009C86A6 /* Build configuration list for PBXAggregateTarget "Build for Jailbroken Devices" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				04C31D671C3C296B009C86A6 /* Debug */,
+				04C31D681C3C296B009C86A6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		04C31D6D1C3C7737009C86A6 /* Build configuration list for PBXAggregateTarget "Install to Jailbroken Device" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				04C31D6E1C3C7737009C86A6 /* Debug */,
+				04C31D6F1C3C7737009C86A6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

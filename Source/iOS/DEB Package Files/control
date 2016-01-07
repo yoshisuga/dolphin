@@ -1,0 +1,7 @@
+Package: org.dolphin-emu.DolphiniOS
+Name: DolphiniOS
+Version: 4.0-not-available
+Architecture: iphoneos-arm
+Description: An emulator for the GameCube and the Wii.
+Homepage: https://dolphin-emu.org
+Section: Games

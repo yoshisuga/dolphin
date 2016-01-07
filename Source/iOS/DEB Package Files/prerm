@@ -1,0 +1,4 @@
+#!/bin/sh
+echo "Killing any instance of DolphiniOS..."
+killall DolphiniOS
+exit 0
