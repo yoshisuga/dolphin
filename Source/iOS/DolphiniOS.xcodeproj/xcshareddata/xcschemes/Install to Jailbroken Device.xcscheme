@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "04C31D651C3C296B009C86A6"
-               BuildableName = "Build for Jailbroken Devices"
-               BlueprintName = "Build for Jailbroken Devices"
+               BlueprintIdentifier = "04C31D6C1C3C7737009C86A6"
+               BuildableName = "Install to Jailbroken Device"
+               BlueprintName = "Install to Jailbroken Device"
                ReferencedContainer = "container:DolphiniOS.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -29,6 +29,15 @@
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
       </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "04C31D651C3C296B009C86A6"
+            BuildableName = "Build for Jailbroken Devices"
+            BlueprintName = "Build for Jailbroken Devices"
+            ReferencedContainer = "container:DolphiniOS.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>
@@ -42,15 +51,6 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "04C31D651C3C296B009C86A6"
-            BuildableName = "Build for Jailbroken Devices"
-            BlueprintName = "Build for Jailbroken Devices"
-            ReferencedContainer = "container:DolphiniOS.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
@@ -60,15 +60,6 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "04C31D651C3C296B009C86A6"
-            BuildableName = "Build for Jailbroken Devices"
-            BlueprintName = "Build for Jailbroken Devices"
-            ReferencedContainer = "container:DolphiniOS.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">
