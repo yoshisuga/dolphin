@@ -86,16 +86,17 @@ void Host_ShowVideoConfig(void* parent, const std::string& backend_name,
 static bool MsgAlert(const char* caption, const char* text, bool yes_no, int /*Style*/)
 {
 	// TODO: Check if ARC is enabled
+	NSString* foundationCaption = [NSString stringWithUTF8String:caption];
+	NSString* foundationText = [NSString stringWithUTF8String:text];
 	
 	// This needs to be called on the UI thread
 	dispatch_async(dispatch_get_main_queue(), ^{
-		// TODO: This shows some garbage text, while the NSLog statement below shows the correct text. Fix this.
-		NSString* message = [NSString stringWithFormat:@"Caption: %s\n\nText: %s", caption, text];
+		NSString* message = [NSString stringWithFormat:@"Caption: %@\n\nText: %@", foundationCaption, foundationText];
 		UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Alert" message:message delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
 		[alert show];
 	});
 	
-	NSLog(@"Alert!\nCaption: %s\nText: %s\nyes_no: %i", caption, text, yes_no);
+	NSLog(@"Alert!\nCaption: %@\nText: %@\nyes_no: %i", foundationCaption, foundationText, yes_no);
 	
 	return false;
 }
