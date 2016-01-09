@@ -773,7 +773,7 @@ else()
 	include_directories(Externals/SOIL)
 endif()
 
-if (ANDROID)
+if (ANDROID OR IOS)
 	message("Using static iconv from Externals")
 	include_directories(Externals/libiconv-1.14/include)
 	add_subdirectory(Externals/libiconv-1.14)

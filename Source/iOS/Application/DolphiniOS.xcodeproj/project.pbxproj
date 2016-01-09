@@ -46,9 +46,9 @@
 		0449EBC71C39F4E6007DFCB8 /* starfield.dol in Resources */ = {isa = PBXBuildFile; fileRef = 0449EBC61C39F4E6007DFCB8 /* starfield.dol */; };
 		0449EBCB1C39FB5C007DFCB8 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0449EBCA1C39FB5C007DFCB8 /* AudioToolbox.framework */; };
 		0449EBCD1C39FCB9007DFCB8 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0449EBCC1C39FCB9007DFCB8 /* libc++.tbd */; };
-		0449EBCF1C39FCFB007DFCB8 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0449EBCE1C39FCFB007DFCB8 /* libz.tbd */; };
-		0449EBD11C39FD17007DFCB8 /* libiconv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0449EBD01C39FD17007DFCB8 /* libiconv.tbd */; };
 		0449EBD31C3A0E75007DFCB8 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0449EBD21C3A0E75007DFCB8 /* OpenGLES.framework */; };
+		0468AEE61C41CB99004A03C2 /* libiconv.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0468AEE41C41CB99004A03C2 /* libiconv.a */; };
+		0468AEE71C41CB99004A03C2 /* libz.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0468AEE51C41CB99004A03C2 /* libz.a */; };
 		049B00411C38D4FB001D7A21 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 049B00401C38D4FB001D7A21 /* main.m */; };
 		049B00441C38D4FB001D7A21 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 049B00431C38D4FB001D7A21 /* AppDelegate.m */; };
 		049B00471C38D4FB001D7A21 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 049B00461C38D4FB001D7A21 /* ViewController.m */; };
@@ -95,9 +95,9 @@
 		0449EBC81C39FB20007DFCB8 /* AudioUnit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioUnit.framework; path = System/Library/Frameworks/AudioUnit.framework; sourceTree = SDKROOT; };
 		0449EBCA1C39FB5C007DFCB8 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		0449EBCC1C39FCB9007DFCB8 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
-		0449EBCE1C39FCFB007DFCB8 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
-		0449EBD01C39FD17007DFCB8 /* libiconv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libiconv.tbd; path = usr/lib/libiconv.tbd; sourceTree = SDKROOT; };
 		0449EBD21C3A0E75007DFCB8 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
+		0468AEE41C41CB99004A03C2 /* libiconv.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libiconv.a; path = libs/libiconv.a; sourceTree = "<group>"; };
+		0468AEE51C41CB99004A03C2 /* libz.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libz.a; path = libs/libz.a; sourceTree = "<group>"; };
 		049B003C1C38D4FB001D7A21 /* DolphiniOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DolphiniOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		049B00401C38D4FB001D7A21 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		049B00421C38D4FB001D7A21 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -118,10 +118,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				0449EBCD1C39FCB9007DFCB8 /* libc++.tbd in Frameworks */,
-				0449EBCF1C39FCFB007DFCB8 /* libz.tbd in Frameworks */,
-				0449EBD11C39FD17007DFCB8 /* libiconv.tbd in Frameworks */,
 				0449EBCB1C39FB5C007DFCB8 /* AudioToolbox.framework in Frameworks */,
 				0449EBD31C3A0E75007DFCB8 /* OpenGLES.framework in Frameworks */,
+				0468AEE61C41CB99004A03C2 /* libiconv.a in Frameworks */,
+				0468AEE71C41CB99004A03C2 /* libz.a in Frameworks */,
 				0449EBBB1C39F1E5007DFCB8 /* libpng.a in Frameworks */,
 				0449EBB31C39F1E5007DFCB8 /* libenet.a in Frameworks */,
 				0449EBB51C39F1E5007DFCB8 /* liblzo2.a in Frameworks */,
@@ -153,8 +153,6 @@
 			isa = PBXGroup;
 			children = (
 				0449EBD21C3A0E75007DFCB8 /* OpenGLES.framework */,
-				0449EBD01C39FD17007DFCB8 /* libiconv.tbd */,
-				0449EBCE1C39FCFB007DFCB8 /* libz.tbd */,
 				0449EBCC1C39FCB9007DFCB8 /* libc++.tbd */,
 				0449EBCA1C39FB5C007DFCB8 /* AudioToolbox.framework */,
 				0449EBC81C39FB20007DFCB8 /* AudioUnit.framework */,
@@ -180,6 +178,8 @@
 				0449EBAB1C39F1E5007DFCB8 /* libvideoogl.a */,
 				0449EBAC1C39F1E5007DFCB8 /* libvideosoftware.a */,
 				0449EBAD1C39F1E5007DFCB8 /* libxxhash.a */,
+				0468AEE41C41CB99004A03C2 /* libiconv.a */,
+				0468AEE51C41CB99004A03C2 /* libz.a */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
