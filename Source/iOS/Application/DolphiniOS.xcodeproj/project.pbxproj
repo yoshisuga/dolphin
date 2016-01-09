@@ -314,7 +314,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Determine what platform to pass to the CMake toolchain\nPLATFORM=\"\"\nif [ \"$arch\" == \"arm64\" ]\nthen\n    PLATFORM=\"OS\"\nelif [ \"$arch\" == \"x86_64\" ]\nthen\n    PLATFORM=\"SIMULATOR64\"\nelse\n    echo \"This architecture is unsupported.\"\n    exit 1\nfi\n\n# Do some clean up.\nfunction removeIfExists {\n    if [ -d \"$1\" ]\n    then\n        rm -rf \"$1\"\n    fi\n}\n\nremoveIfExists \"$SOURCE_ROOT/../../Build-$arch/Binaries/DolphiniOS.app\"\nremoveIfExists \"$SOURCE_ROOT/../../Build-$arch/Binaries/DolphiniOS.deb\"\nremoveIfExists \"$BUILT_PRODUCTS_DIR/DolphiniOS.deb\"\nremoveIfExists \"$TEMP_DIR/deb\"\n\n# Create our build directory and cd into it.\n# $SOURCE_ROOT = dolphin_root/Source/iOS/\nif [ ! -d \"$SOURCE_ROOT/../../Build-$arch\" ]\nthen\n    mkdir \"$SOURCE_ROOT/../../Build-$arch\"\nfi\ncd \"$SOURCE_ROOT/../../Build-$arch\"\n\n# Build Dolphin.\ncmake .. -DCMAKE_TOOLCHAIN_FILE=\"$SOURCE_ROOT/ios.toolchain.cmake\" -DIOS_PLATFORM=$PLATFORM -DCMAKE_IOS_SDK_ROOT=\"$SDKROOT\"\nmake\n\nif [ ! $? -eq 0 ]\nthen\n    echo \"Build failure.\"\n    exit 1\nfi\n\n# Copy the *.a files into $SOURCE_ROOT/libs/\nif [ ! -d \"$SOURCE_ROOT/libs\" ]\nthen\n    mkdir \"$SOURCE_ROOT/libs\"\nfi\n\nfind . -name \"*.a\" -type f -exec cp {} \"$SOURCE_ROOT/libs/\" \\;\ncd \"$SOURCE_ROOT/libs\"\n\n# Remove libpch.a, it's an empty archive\nrm -f libpch.a\n\n# Run ranlib on all the libraries\nranlib *.a\n";
+			shellScript = "# Determine what platform to pass to the CMake toolchain\nPLATFORM=\"\"\nif [ \"$arch\" == \"arm64\" ]\nthen\n    PLATFORM=\"OS\"\nelif [ \"$arch\" == \"x86_64\" ]\nthen\n    PLATFORM=\"SIMULATOR64\"\nelse\n    echo \"This architecture is unsupported.\"\n    exit 1\nfi\n\n# Do some clean up.\nfunction removeIfExists {\n    if [ -d \"$1\" ]\n    then\n        rm -rf \"$1\"\n    fi\n}\n\nremoveIfExists \"$SOURCE_ROOT/../../../Build-$arch/Binaries/DolphiniOS.app\"\nremoveIfExists \"$SOURCE_ROOT/../../../Build-$arch/Binaries/DolphiniOS.deb\"\nremoveIfExists \"$BUILT_PRODUCTS_DIR/DolphiniOS.deb\"\nremoveIfExists \"$TEMP_DIR/deb\"\n\n# Create our build directory and cd into it.\n# $SOURCE_ROOT = dolphin_root/Source/iOS/Application/\nif [ ! -d \"$SOURCE_ROOT/../../../Build-$arch\" ]\nthen\n    mkdir \"$SOURCE_ROOT/../../../Build-$arch\"\nfi\ncd \"$SOURCE_ROOT/../../../Build-$arch\"\n\n# Build Dolphin.\ncmake .. -DCMAKE_TOOLCHAIN_FILE=\"$SOURCE_ROOT/../ios.toolchain.cmake\" -DIOS_PLATFORM=$PLATFORM -DCMAKE_IOS_SDK_ROOT=\"$SDKROOT\"\nmake\n\nif [ ! $? -eq 0 ]\nthen\n    echo \"Build failure.\"\n    exit 1\nfi\n\n# Copy the *.a files into $SOURCE_ROOT/libs/\nif [ ! -d \"$SOURCE_ROOT/libs\" ]\nthen\n    mkdir \"$SOURCE_ROOT/libs\"\nfi\n\nfind . -name \"*.a\" -type f -exec cp {} \"$SOURCE_ROOT/libs/\" \\;\ncd \"$SOURCE_ROOT/libs\"\n\n# Remove libpch.a, it's an empty archive\nrm -f libpch.a\n\n# Run ranlib on all the libraries\nranlib *.a\n";
 		};
 		046EF9FA1C41A00100633D15 /* Copy Outputs */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -328,7 +328,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ \"$arch\" == \"arm64\" ]\nthen\n    # Set up the deb's directory structure.\n    mkdir \"$TEMP_DIR/deb\"\n    mkdir \"$TEMP_DIR/deb/DEBIAN\"\n    mkdir \"$TEMP_DIR/deb/Applications\"\n\n    # Add all of the files.\n    cp \"$SOURCE_ROOT/DEB Package Files\"/* \"$TEMP_DIR/deb/DEBIAN/\"\n    cp -R \"$BUILT_PRODUCTS_DIR/DolphiniOS.app\" \"$TEMP_DIR/deb/Applications/\"\n                                    \n    # Build the .deb file.\n    dpkg-deb -Zgzip -b \"$TEMP_DIR/deb\" \"$BUILT_PRODUCTS_DIR/DolphiniOS.deb\"\n                                    \n    # Copy the .deb to the Binaries directory.\n    cp \"$BUILT_PRODUCTS_DIR/DolphiniOS.deb\" ./Binaries/\nfi\n\n# Copy the .app to the Binaries directory.\ncp -R \"$BUILT_PRODUCTS_DIR/DolphiniOS.deb\" ./Binaries/";
+			shellScript = "if [ \"$arch\" == \"arm64\" ]\nthen\n    # Set up the deb's directory structure.\n    mkdir \"$TEMP_DIR/deb\"\n    mkdir \"$TEMP_DIR/deb/DEBIAN\"\n    mkdir \"$TEMP_DIR/deb/Applications\"\n\n    # Add all of the files.\n    cp \"$SOURCE_ROOT/../DEB Package Files\"/* \"$TEMP_DIR/deb/DEBIAN/\"\n    cp -R \"$BUILT_PRODUCTS_DIR/DolphiniOS.app\" \"$TEMP_DIR/deb/Applications/\"\n                                    \n    # Build the .deb file.\n    dpkg-deb -Zgzip -b \"$TEMP_DIR/deb\" \"$BUILT_PRODUCTS_DIR/DolphiniOS.deb\"\n                                    \n    # Copy the .deb to the Binaries directory.\n    cp \"$BUILT_PRODUCTS_DIR/DolphiniOS.deb\" $SOURCE_ROOT/../../../Build-$arch/Binaries/\nfi\n\n# Copy the .app to the Binaries directory.\ncp -R \"$BUILT_PRODUCTS_DIR/DolphiniOS.app\" $SOURCE_ROOT/../../../Build-$arch/Binaries/";
 		};
 		04C31D721C3C774C009C86A6 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -491,7 +491,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.dolphin-emu.DolphiniOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				USER_HEADER_SEARCH_PATHS = $SOURCE_ROOT/../../Source/Core;
+				USER_HEADER_SEARCH_PATHS = $SOURCE_ROOT/../../../Source/Core;
 				VALID_ARCHS = arm64;
 			};
 			name = Debug;
@@ -514,7 +514,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.dolphin-emu.DolphiniOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				USER_HEADER_SEARCH_PATHS = $SOURCE_ROOT/../../Source/Core;
+				USER_HEADER_SEARCH_PATHS = $SOURCE_ROOT/../../../Source/Core;
 				VALID_ARCHS = arm64;
 			};
 			name = Release;
