@@ -92,7 +92,6 @@
 		0449EBAC1C39F1E5007DFCB8 /* libvideosoftware.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libvideosoftware.a; path = libs/libvideosoftware.a; sourceTree = "<group>"; };
 		0449EBAD1C39F1E5007DFCB8 /* libxxhash.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libxxhash.a; path = libs/libxxhash.a; sourceTree = "<group>"; };
 		0449EBC61C39F4E6007DFCB8 /* starfield.dol */ = {isa = PBXFileReference; lastKnownFileType = file; path = starfield.dol; sourceTree = "<group>"; };
-		0449EBC81C39FB20007DFCB8 /* AudioUnit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioUnit.framework; path = System/Library/Frameworks/AudioUnit.framework; sourceTree = SDKROOT; };
 		0449EBCA1C39FB5C007DFCB8 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		0449EBCC1C39FCB9007DFCB8 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		0449EBD21C3A0E75007DFCB8 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -152,16 +151,16 @@
 		0449EBC51C39F214007DFCB8 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				0449EBD21C3A0E75007DFCB8 /* OpenGLES.framework */,
 				0449EBCC1C39FCB9007DFCB8 /* libc++.tbd */,
 				0449EBCA1C39FB5C007DFCB8 /* AudioToolbox.framework */,
-				0449EBC81C39FB20007DFCB8 /* AudioUnit.framework */,
+				0449EBD21C3A0E75007DFCB8 /* OpenGLES.framework */,
 				0449EB981C39F1E4007DFCB8 /* libaudiocommon.a */,
 				0449EB991C39F1E4007DFCB8 /* libbdisasm.a */,
 				0449EB9A1C39F1E4007DFCB8 /* libcommon.a */,
 				0449EB9B1C39F1E4007DFCB8 /* libcore.a */,
 				0449EB9C1C39F1E4007DFCB8 /* libdiscio.a */,
 				0449EB9D1C39F1E4007DFCB8 /* libenet.a */,
+				0468AEE41C41CB99004A03C2 /* libiconv.a */,
 				0449EB9E1C39F1E4007DFCB8 /* libinputcommon.a */,
 				0449EB9F1C39F1E4007DFCB8 /* liblzo2.a */,
 				0449EBA01C39F1E4007DFCB8 /* libmain.a */,
@@ -178,7 +177,6 @@
 				0449EBAB1C39F1E5007DFCB8 /* libvideoogl.a */,
 				0449EBAC1C39F1E5007DFCB8 /* libvideosoftware.a */,
 				0449EBAD1C39F1E5007DFCB8 /* libxxhash.a */,
-				0468AEE41C41CB99004A03C2 /* libiconv.a */,
 				0468AEE51C41CB99004A03C2 /* libz.a */,
 			);
 			name = Libraries;
