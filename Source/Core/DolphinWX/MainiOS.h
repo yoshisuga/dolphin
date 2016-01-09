@@ -6,6 +6,10 @@
 
 @interface MainiOS : NSObject
 
-+ (void) StartEmulationWithFile:(NSString*) file userDirectory:(NSString*) userDirectory;
++ (void) SetUserDirectory:(NSString*) userDirectory;
+
++ (void) SaveDefaultPreferences;
+
++ (void) StartEmulationWithFile:(NSString*) file;
 
 @end

@@ -105,11 +105,24 @@ static bool MsgAlert(const char* caption, const char* text, bool yes_no, int /*S
 
 @implementation MainiOS
 
-+ (void) StartEmulationWithFile:(NSString*) file userDirectory:(NSString*) userDirectory
++ (void) SetUserDirectory:(NSString*) userDirectory {
+	UICommon::SetUserDirectory(std::string([userDirectory UTF8String]));
+}
+
++ (void) SaveDefaultPreferences {
+	File::CreateFullPath(File::GetUserPath(D_CONFIG_IDX));
+	
+	IniFile dolphinConfig;
+	dolphinConfig.Load(File::GetUserPath(F_DOLPHINCONFIG_IDX));
+	dolphinConfig.GetOrCreateSection("Core")->Set("CPUCore", PowerPC::CORE_CACHEDINTERPRETER);
+	dolphinConfig.GetOrCreateSection("Core")->Set("GFXBackend", "OGL");
+	dolphinConfig.Save(File::GetUserPath(F_DOLPHINCONFIG_IDX));
+}
+
++ (void) StartEmulationWithFile:(NSString*) file
 {
 	RegisterMsgAlertHandler(&MsgAlert);
 	
-	UICommon::SetUserDirectory(std::string([userDirectory UTF8String]));
 	UICommon::Init();
 	
 	// No use running the loop when booting fails
