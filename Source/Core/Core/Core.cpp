@@ -48,9 +48,6 @@
 #include "Core/HW/HW.h"
 #include "Core/HW/Memmap.h"
 #include "Core/HW/ProcessorInterface.h"
-#if defined(__LIBUSB__) || defined(_WIN32)
-#include "Core/HW/SI_GCAdapter.h"
-#endif
 #include "Core/HW/SystemTimers.h"
 #include "Core/HW/VideoInterface.h"
 #include "Core/HW/Wiimote.h"
@@ -65,6 +62,7 @@
 #endif
 
 #include "DiscIO/FileMonitor.h"
+#include "InputCommon/GCAdapter.h"
 #include "InputCommon/ControllerInterface/ControllerInterface.h"
 #include "VideoCommon/OnScreenDisplay.h"
 #include "VideoCommon/VideoBackendBase.h"
@@ -110,7 +108,7 @@ static StoppedCallbackFunc s_on_stopped_callback = nullptr;
 static std::thread s_cpu_thread;
 static bool s_request_refresh_info = false;
 static int s_pause_and_lock_depth = 0;
-static bool s_is_framelimiter_temp_disabled = false;
+static bool s_is_throttler_temp_disabled = false;
 
 #ifdef USE_MEMORYWATCHER
 static std::unique_ptr<MemoryWatcher> s_memory_watcher;
@@ -127,14 +125,14 @@ static void InitIsCPUKey()
 }
 #endif
 
-bool GetIsFramelimiterTempDisabled()
+bool GetIsThrottlerTempDisabled()
 {
-	return s_is_framelimiter_temp_disabled;
+	return s_is_throttler_temp_disabled;
 }
 
-void SetIsFramelimiterTempDisabled(bool disable)
+void SetIsThrottlerTempDisabled(bool disable)
 {
-	s_is_framelimiter_temp_disabled = disable;
+	s_is_throttler_temp_disabled = disable;
 }
 
 std::string GetStateFileName() { return s_state_filename; }
@@ -285,7 +283,7 @@ void Stop()  // - Hammertime!
 		g_video_backend->Video_ExitLoop();
 	}
 #if defined(__LIBUSB__) || defined(_WIN32)
-	SI_GCAdapter::ResetRumble();
+	GCAdapter::ResetRumble();
 #endif
 
 #ifdef USE_MEMORYWATCHER
@@ -630,7 +628,7 @@ void SetState(EState _State)
 		CPU::EnableStepping(true);  // Break
 		Wiimote::Pause();
 #if defined(__LIBUSB__) || defined(_WIN32)
-		SI_GCAdapter::ResetRumble();
+		GCAdapter::ResetRumble();
 #endif
 		break;
 	case CORE_RUN:
@@ -741,12 +739,12 @@ bool PauseAndLock(bool doLock, bool unpauseOnUnlock)
 	g_video_backend->PauseAndLock(doLock, unpauseOnUnlock);
 
 #if defined(__LIBUSB__) || defined(_WIN32)
-	SI_GCAdapter::ResetRumble();
+	GCAdapter::ResetRumble();
 #endif
 	return wasUnpaused;
 }
 
-// Apply Frame Limit and Display FPS info
+// Display FPS info
 // This should only be called from VI
 void VideoThrottle()
 {
@@ -767,12 +765,12 @@ void VideoThrottle()
 
 // Executed from GPU thread
 // reports if a frame should be skipped or not
-// depending on the framelimit set
+// depending on the emulation speed set
 bool ShouldSkipFrame(int skipped)
 {
-	const u32 TargetFPS = (SConfig::GetInstance().m_Framelimit > 1)
-		? (SConfig::GetInstance().m_Framelimit - 1) * 5
-		: VideoInterface::TargetRefreshRate;
+	u32 TargetFPS = VideoInterface::TargetRefreshRate;
+	if (SConfig::GetInstance().m_EmulationSpeed > 0.0f)
+		TargetFPS = u32(TargetFPS * SConfig::GetInstance().m_EmulationSpeed);
 	const u32 frames = s_drawn_frame.load();
 	const bool fps_slow = !(s_timer.GetTimeDifference() < (frames + skipped) * 1000 / TargetFPS);
 

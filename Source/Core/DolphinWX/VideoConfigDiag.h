@@ -65,8 +65,6 @@ private:
 	T& m_setting;
 };
 
-typedef IntegerSetting<u32> U32Setting;
-
 class SettingChoice : public wxChoice
 {
 public:
@@ -283,7 +281,6 @@ protected:
 	std::map<wxWindow*, wxStaticText*> desc_texts; // maps dialog tabs (which are the parents of the setting controls) to their description text objects
 
 	VideoConfig &vconfig;
-	std::string ininame;
 
 	size_t m_msaa_modes;
 };

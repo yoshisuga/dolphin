@@ -58,12 +58,6 @@
 #include "VideoCommon/VertexShaderManager.h"
 #include "VideoCommon/VideoConfig.h"
 
-// Resources
-
-extern "C" {
-#include "DolphinWX/resources/Dolphin.c" // NOLINT: Dolphin icon
-};
-
 int g_saveSlot = 1;
 
 #if defined(HAVE_X11) && HAVE_X11
@@ -89,7 +83,7 @@ CRenderFrame::CRenderFrame(wxFrame* parent, wxWindowID id, const wxString& title
 {
 	// Give it an icon
 	wxIcon IconTemp;
-	IconTemp.CopyFromBitmap(wxGetBitmapFromMemory(Dolphin_png));
+	IconTemp.CopyFromBitmap(WxUtils::LoadResourceBitmap("Dolphin"));
 	SetIcon(IconTemp);
 
 	DragAcceptFiles(true);
@@ -468,6 +462,9 @@ CFrame::CFrame(wxFrame* parent,
 		if (SConfig::GetInstance().m_InterfaceLogConfigWindow)
 			ToggleLogConfigWindow(true);
 	}
+
+	// Set the size of the window after the UI has been built, but before we show it
+	SetSize(size);
 
 	// Show window
 	Show();
@@ -876,25 +873,7 @@ void CFrame::OnGameListCtrlItemActivated(wxListEvent& WXUNUSED(event))
 	// 1. Boot the selected iso
 	// 2. Boot the default or last loaded iso.
 	// 3. Call BrowseForDirectory if the gamelist is empty
-	if (!m_GameListCtrl->GetISO(0) &&
-		!((SConfig::GetInstance().m_ListGC &&
-		SConfig::GetInstance().m_ListWii &&
-		SConfig::GetInstance().m_ListWad &&
-		SConfig::GetInstance().m_ListElfDol) &&
-		(SConfig::GetInstance().m_ListJap &&
-		SConfig::GetInstance().m_ListUsa  &&
-		SConfig::GetInstance().m_ListPal  &&
-		SConfig::GetInstance().m_ListAustralia &&
-		SConfig::GetInstance().m_ListFrance &&
-		SConfig::GetInstance().m_ListGermany &&
-		SConfig::GetInstance().m_ListItaly &&
-		SConfig::GetInstance().m_ListKorea &&
-		SConfig::GetInstance().m_ListNetherlands &&
-		SConfig::GetInstance().m_ListRussia &&
-		SConfig::GetInstance().m_ListSpain &&
-		SConfig::GetInstance().m_ListTaiwan &&
-		SConfig::GetInstance().m_ListWorld &&
-		SConfig::GetInstance().m_ListUnknown)))
+	if (!m_GameListCtrl->GetISO(0) && CGameListCtrl::IsHidingItems())
 	{
 		SConfig::GetInstance().m_ListGC =
 		SConfig::GetInstance().m_ListWii =
@@ -1383,6 +1362,10 @@ void CFrame::ParseHotkeys()
 		if (--g_Config.iEFBScale < SCALE_AUTO)
 			g_Config.iEFBScale = SCALE_AUTO;
 	}
+	if (IsHotkey(HK_TOGGLE_CROP))
+	{
+		g_Config.bCrop = !g_Config.bCrop;
+	}
 	if (IsHotkey(HK_TOGGLE_AR))
 	{
 		OSDChoice = 2;
@@ -1400,16 +1383,30 @@ void CFrame::ParseHotkeys()
 		OSDChoice = 4;
 		g_Config.bDisableFog = !g_Config.bDisableFog;
 	}
-	Core::SetIsFramelimiterTempDisabled(IsHotkey(HK_TOGGLE_THROTTLE, true));
-	if (IsHotkey(HK_DECREASE_FRAME_LIMIT))
+	Core::SetIsThrottlerTempDisabled(IsHotkey(HK_TOGGLE_THROTTLE, true));
+	if (IsHotkey(HK_DECREASE_EMULATION_SPEED))
 	{
-		if (--SConfig::GetInstance().m_Framelimit > 0x19)
-			SConfig::GetInstance().m_Framelimit = 0x19;
+		OSDChoice = 5;
+
+		if (SConfig::GetInstance().m_EmulationSpeed <= 0.0f)
+			SConfig::GetInstance().m_EmulationSpeed = 1.0f;
+		else if (SConfig::GetInstance().m_EmulationSpeed >= 0.2f)
+			SConfig::GetInstance().m_EmulationSpeed -= 0.1f;
+		else
+			SConfig::GetInstance().m_EmulationSpeed = 0.1f;
+
+		if (SConfig::GetInstance().m_EmulationSpeed >= 0.95f && SConfig::GetInstance().m_EmulationSpeed <= 1.05f)
+			SConfig::GetInstance().m_EmulationSpeed = 1.0f;
 	}
-	if (IsHotkey(HK_INCREASE_FRAME_LIMIT))
+	if (IsHotkey(HK_INCREASE_EMULATION_SPEED))
 	{
-		if (++SConfig::GetInstance().m_Framelimit > 0x19)
-			SConfig::GetInstance().m_Framelimit = 0;
+		OSDChoice = 5;
+
+		if (SConfig::GetInstance().m_EmulationSpeed > 0.0f)
+			SConfig::GetInstance().m_EmulationSpeed += 0.1f;
+
+		if (SConfig::GetInstance().m_EmulationSpeed >= 0.95f && SConfig::GetInstance().m_EmulationSpeed <= 1.05f)
+			SConfig::GetInstance().m_EmulationSpeed = 1.0f;
 	}
 	if (IsHotkey(HK_SAVE_STATE_SLOT_SELECTED))
 	{

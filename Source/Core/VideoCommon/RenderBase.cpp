@@ -80,6 +80,7 @@ unsigned int Renderer::efb_scale_numeratorY = 1;
 unsigned int Renderer::efb_scale_denominatorX = 1;
 unsigned int Renderer::efb_scale_denominatorY = 1;
 
+static float AspectToWidescreen(float aspect) { return aspect * ((16.0f / 9.0f) / (4.0f / 3.0f)); }
 
 Renderer::Renderer()
 	: frame_data()
@@ -102,13 +103,9 @@ Renderer::~Renderer()
 	prev_efb_format = PEControl::INVALID_FMT;
 
 	efb_scale_numeratorX = efb_scale_numeratorY = efb_scale_denominatorX = efb_scale_denominatorY = 1;
-
 #if defined _WIN32 || defined HAVE_LIBAV
 	if (SConfig::GetInstance().m_DumpFrames && bLastFrameDumped && bAVIDumping)
 		AVIDump::Stop();
-#else
-	if (pFrameDump.IsOpen())
-		pFrameDump.Close();
 #endif
 }
 
@@ -379,6 +376,8 @@ void Renderer::DrawDebugText()
 			std::string("Aspect Ratio: ") + ar_text + (g_ActiveConfig.bCrop ? " (crop)" : ""),
 			std::string("Copy EFB: ") + efbcopy_text,
 			std::string("Fog: ") + (g_ActiveConfig.bDisableFog ? "Disabled" : "Enabled"),
+			SConfig::GetInstance().m_EmulationSpeed <= 0 ? "Speed Limit: Unlimited" :
+			StringFromFormat("Speed Limit: %li%%", std::lround(SConfig::GetInstance().m_EmulationSpeed * 100.f)),
 		};
 
 		enum { lines_count = sizeof(lines) / sizeof(*lines) };
@@ -429,7 +428,9 @@ void Renderer::UpdateDrawRectangle(int backbuffer_width, int backbuffer_height)
 	// Don't know if there is a better place for this code so there isn't a 1 frame delay
 	if (g_ActiveConfig.bWidescreenHack)
 	{
-		float source_aspect = VideoInterface::GetAspectRatio(Core::g_aspect_wide);
+		float source_aspect = VideoInterface::GetAspectRatio();
+		if (Core::g_aspect_wide)
+			source_aspect = AspectToWidescreen(source_aspect);
 		float target_aspect;
 
 		switch (g_ActiveConfig.iAspectRatio)
@@ -438,10 +439,10 @@ void Renderer::UpdateDrawRectangle(int backbuffer_width, int backbuffer_height)
 			target_aspect = WinWidth / WinHeight;
 			break;
 		case ASPECT_ANALOG:
-			target_aspect = VideoInterface::GetAspectRatio(false);
+			target_aspect = VideoInterface::GetAspectRatio();
 			break;
 		case ASPECT_ANALOG_WIDE:
-			target_aspect = VideoInterface::GetAspectRatio(true);
+			target_aspect = AspectToWidescreen(VideoInterface::GetAspectRatio());
 			break;
 		default:
 			// ASPECT_AUTO
@@ -474,17 +475,13 @@ void Renderer::UpdateDrawRectangle(int backbuffer_width, int backbuffer_height)
 
 	// The rendering window aspect ratio as a proportion of the 4:3 or 16:9 ratio
 	float Ratio;
-	switch (g_ActiveConfig.iAspectRatio)
+	if (g_ActiveConfig.iAspectRatio == ASPECT_ANALOG_WIDE || (g_ActiveConfig.iAspectRatio != ASPECT_ANALOG && Core::g_aspect_wide))
 	{
-		case ASPECT_ANALOG_WIDE:
-			Ratio = (WinWidth / WinHeight) / VideoInterface::GetAspectRatio(true);
-			break;
-		case ASPECT_ANALOG:
-			Ratio = (WinWidth / WinHeight) / VideoInterface::GetAspectRatio(false);
-			break;
-		default:
-			Ratio = (WinWidth / WinHeight) / VideoInterface::GetAspectRatio(Core::g_aspect_wide);
-			break;
+		Ratio = (WinWidth / WinHeight) / AspectToWidescreen(VideoInterface::GetAspectRatio());
+	}
+	else
+	{
+		Ratio = (WinWidth / WinHeight) / VideoInterface::GetAspectRatio();
 	}
 
 	if (g_ActiveConfig.iAspectRatio != ASPECT_STRETCH)
@@ -510,18 +507,7 @@ void Renderer::UpdateDrawRectangle(int backbuffer_width, int backbuffer_height)
 	// ------------------
 	if (g_ActiveConfig.iAspectRatio != ASPECT_STRETCH && g_ActiveConfig.bCrop)
 	{
-		switch (g_ActiveConfig.iAspectRatio)
-		{
-		case ASPECT_ANALOG_WIDE:
-			Ratio = (16.0f / 9.0f) / VideoInterface::GetAspectRatio(true);
-			break;
-		case ASPECT_ANALOG:
-			Ratio = (4.0f / 3.0f) / VideoInterface::GetAspectRatio(false);
-			break;
-		default:
-			Ratio = (!Core::g_aspect_wide ? (4.0f / 3.0f) : (16.0f / 9.0f)) / VideoInterface::GetAspectRatio(Core::g_aspect_wide);
-			break;
-		}
+		Ratio = (4.0f / 3.0f) / VideoInterface::GetAspectRatio();
 		if (Ratio <= 1.0f)
 		{
 			Ratio = 1.0f / Ratio;
@@ -613,5 +599,17 @@ void Renderer::Swap(u32 xfbAddr, u32 fbWidth, u32 fbStride, u32 fbHeight, const 
 
 	Core::Callback_VideoCopiedToXFB(XFBWrited || (g_ActiveConfig.bUseXFB && g_ActiveConfig.bUseRealXFB));
 	XFBWrited = false;
+}
+
+void Renderer::FlipImageData(u8* data, int w, int h, int pixel_width)
+{
+	for (int y = 0; y < h / 2; ++y)
+	{
+		for (int x = 0; x < w; ++x)
+		{
+			for (int delta = 0; delta < pixel_width; ++delta)
+				std::swap(data[(y * w + x) * pixel_width + delta], data[((h - 1 - y) * w + x) * pixel_width + delta]);
+		}
+	}
 }
 

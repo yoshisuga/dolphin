@@ -32,6 +32,9 @@
 #include "VideoBackends/OGL/TextureCache.h"
 #include "VideoBackends/OGL/VertexManager.h"
 
+#if defined(HAVE_LIBAV) || defined (_WIN32)
+#include "VideoCommon/AVIDump.h"
+#endif
 #include "VideoCommon/BPFunctions.h"
 #include "VideoCommon/DriverDetails.h"
 #include "VideoCommon/Fifo.h"
@@ -41,10 +44,6 @@
 #include "VideoCommon/PixelShaderManager.h"
 #include "VideoCommon/VertexShaderManager.h"
 #include "VideoCommon/VideoConfig.h"
-
-#if defined _WIN32 || defined HAVE_LIBAV
-#include "VideoCommon/AVIDump.h"
-#endif
 
 
 void VideoConfig::UpdateProjectionHack()
@@ -81,7 +80,7 @@ static bool s_efbCacheValid[2][EFB_CACHE_WIDTH * EFB_CACHE_HEIGHT];
 static bool s_efbCacheIsCleared = false;
 static std::vector<u32> s_efbCache[2][EFB_CACHE_WIDTH * EFB_CACHE_HEIGHT]; // 2 for PEEK_Z and PEEK_COLOR
 
-static void GLAPIENTRY ErrorCallback( GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const char* message, const void* userParam)
+static void APIENTRY ErrorCallback( GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const char* message, const void* userParam)
 {
 	const char *s_source;
 	const char *s_type;
@@ -117,11 +116,11 @@ static void GLAPIENTRY ErrorCallback( GLenum source, GLenum type, GLuint id, GLe
 }
 
 // Two small Fallbacks to avoid GL_ARB_ES2_compatibility
-static void GLAPIENTRY DepthRangef(GLfloat neardepth, GLfloat fardepth)
+static void APIENTRY DepthRangef(GLfloat neardepth, GLfloat fardepth)
 {
 	glDepthRange(neardepth, fardepth);
 }
-static void GLAPIENTRY ClearDepthf(GLfloat depthval)
+static void APIENTRY ClearDepthf(GLfloat depthval)
 {
 	glClearDepth(depthval);
 }
@@ -386,7 +385,7 @@ Renderer::Renderer()
 	g_Config.backend_info.bSupportsBBox = GLExtensions::Supports("GL_ARB_shader_storage_buffer_object");
 	g_Config.backend_info.bSupportsGSInstancing = GLExtensions::Supports("GL_ARB_gpu_shader5");
 	g_Config.backend_info.bSupportsSSAA = GLExtensions::Supports("GL_ARB_gpu_shader5") && GLExtensions::Supports("GL_ARB_sample_shading");
-	g_Config.backend_info.bSupportsGeometryShaders = GLExtensions::Version() >= 320;
+	g_Config.backend_info.bSupportsGeometryShaders = GLExtensions::Version() >= 320 && !DriverDetails::HasBug(DriverDetails::BUG_BROKENGEOMETRYSHADERS);
 	g_Config.backend_info.bSupportsPaletteConversion = GLExtensions::Supports("GL_ARB_texture_buffer_object") ||
 	                                                   GLExtensions::Supports("GL_OES_texture_buffer") ||
 	                                                   GLExtensions::Supports("GL_EXT_texture_buffer");
@@ -848,7 +847,7 @@ u32 Renderer::AccessEFB(EFBAccessType type, u32 x, u32 y, u32 poke_data)
 					g_renderer->RestoreAPIState();
 				}
 
-				std::unique_ptr<float> depthMap(new float[targetPixelRcWidth * targetPixelRcHeight]);
+				std::unique_ptr<float[]> depthMap(new float[targetPixelRcWidth * targetPixelRcHeight]);
 
 				glReadPixels(targetPixelRc.left, targetPixelRc.bottom, targetPixelRcWidth, targetPixelRcHeight,
 				             GL_DEPTH_COMPONENT, GL_FLOAT, depthMap.get());
@@ -887,7 +886,7 @@ u32 Renderer::AccessEFB(EFBAccessType type, u32 x, u32 y, u32 poke_data)
 					g_renderer->RestoreAPIState();
 				}
 
-				std::unique_ptr<u32> colorMap(new u32[targetPixelRcWidth * targetPixelRcHeight]);
+				std::unique_ptr<u32[]> colorMap(new u32[targetPixelRcWidth * targetPixelRcHeight]);
 
 				if (GLInterface->GetMode() == GLInterfaceMode::MODE_OPENGLES3)
 				// XXX: Swap colours
@@ -1216,7 +1215,7 @@ void Renderer::SetBlendMode(bool forceUpdate)
 
 static void DumpFrame(const std::vector<u8>& data, int w, int h)
 {
-#if defined(HAVE_LIBAV) || defined(_WIN32)
+#if defined(HAVE_LIBAV) || defined (_WIN32)
 	if (SConfig::GetInstance().m_DumpFrames && !data.empty())
 	{
 		AVIDump::AddFrame(&data[0], w, h);
@@ -1340,7 +1339,7 @@ void Renderer::SwapImpl(u32 xfbAddr, u32 fbWidth, u32 fbStride, u32 fbHeight, co
 	// Frame dumping disabled entirely on GLES3
 	if (GLInterface->GetMode() == GLInterfaceMode::MODE_OPENGL)
 	{
-#if defined _WIN32 || defined HAVE_LIBAV
+#if defined(HAVE_LIBAV) || defined (_WIN32)
 		if (SConfig::GetInstance().m_DumpFrames)
 		{
 			std::lock_guard<std::mutex> lk(s_criticalScreenshot);
@@ -1357,11 +1356,7 @@ void Renderer::SwapImpl(u32 xfbAddr, u32 fbWidth, u32 fbStride, u32 fbHeight, co
 			{
 				if (!bLastFrameDumped)
 				{
-					#ifdef _WIN32
-						bAVIDumping = AVIDump::Start(nullptr, w, h);
-					#else
-						bAVIDumping = AVIDump::Start(w, h);
-					#endif
+					bAVIDumping = AVIDump::Start(w, h);
 					if (!bAVIDumping)
 					{
 						OSD::AddMessage("AVIDump Start failed", 2000);
@@ -1375,11 +1370,8 @@ void Renderer::SwapImpl(u32 xfbAddr, u32 fbWidth, u32 fbStride, u32 fbHeight, co
 				}
 				if (bAVIDumping)
 				{
-					#ifndef _WIN32
-						FlipImageData(&frame_data[0], w, h);
-					#endif
-
-						AVIDump::AddFrame(&frame_data[0], w, h);
+					FlipImageData(&frame_data[0], w, h);
+					AVIDump::AddFrame(&frame_data[0], w, h);
 				}
 
 				bLastFrameDumped = true;
@@ -1399,45 +1391,6 @@ void Renderer::SwapImpl(u32 xfbAddr, u32 fbWidth, u32 fbStride, u32 fbHeight, co
 				bAVIDumping = false;
 				OSD::AddMessage("Stop dumping frames", 2000);
 			}
-			bLastFrameDumped = false;
-		}
-#else
-		if (SConfig::GetInstance().m_DumpFrames)
-		{
-			std::lock_guard<std::mutex> lk(s_criticalScreenshot);
-			std::string movie_file_name;
-			w = GetTargetRectangle().GetWidth();
-			h = GetTargetRectangle().GetHeight();
-			frame_data.resize(3 * w * h);
-			glPixelStorei(GL_PACK_ALIGNMENT, 1);
-			glReadPixels(GetTargetRectangle().left, GetTargetRectangle().bottom, w, h, GL_BGR, GL_UNSIGNED_BYTE, &frame_data[0]);
-
-			if (!bLastFrameDumped)
-			{
-				movie_file_name = File::GetUserPath(D_DUMPFRAMES_IDX) + "framedump.raw";
-				File::CreateFullPath(movie_file_name);
-				pFrameDump.Open(movie_file_name, "wb");
-				if (!pFrameDump)
-				{
-					OSD::AddMessage("Error opening framedump.raw for writing.", 2000);
-				}
-				else
-				{
-					OSD::AddMessage(StringFromFormat("Dumping Frames to \"%s\" (%dx%d RGB24)", movie_file_name.c_str(), w, h), 2000);
-				}
-			}
-			if (pFrameDump)
-			{
-				FlipImageData(&frame_data[0], w, h);
-				pFrameDump.WriteBytes(&frame_data[0], w * 3 * h);
-				pFrameDump.Flush();
-			}
-			bLastFrameDumped = true;
-		}
-		else
-		{
-			if (bLastFrameDumped)
-				pFrameDump.Close();
 			bLastFrameDumped = false;
 		}
 #endif
@@ -1511,7 +1464,7 @@ void Renderer::SwapImpl(u32 xfbAddr, u32 fbWidth, u32 fbStride, u32 fbHeight, co
 	DrawDebugText();
 
 	// Do our OSD callbacks
-	OSD::DoCallbacks(OSD::OSD_ONFRAME);
+	OSD::DoCallbacks(OSD::CallbackType::OnFrame);
 	OSD::DrawMessages();
 
 	// Copy the rendered frame to the real window
@@ -1685,19 +1638,6 @@ void Renderer::SetSamplerState(int stage, int texindex, bool custom_tex)
 void Renderer::SetInterlacingMode()
 {
 	// TODO
-}
-
-void Renderer::FlipImageData(u8 *data, int w, int h, int pixel_width)
-{
-	// Flip image upside down. Damn OpenGL.
-	for (int y = 0; y < h / 2; ++y)
-	{
-		for (int x = 0; x < w; ++x)
-		{
-			for (int delta = 0; delta < pixel_width; ++delta)
-				std::swap(data[(y * w + x) * pixel_width + delta], data[((h - 1 - y) * w + x) * pixel_width + delta]);
-		}
-	}
 }
 
 }

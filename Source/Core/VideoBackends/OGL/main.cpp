@@ -145,7 +145,10 @@ bool VideoBackend::Initialize(void* window_handle)
 
 	frameCount = 0;
 
-	g_Config.Load(File::GetUserPath(D_CONFIG_IDX) + "gfx_opengl.ini");
+	if (File::Exists(File::GetUserPath(D_CONFIG_IDX) + "GFX.ini"))
+		g_Config.Load(File::GetUserPath(D_CONFIG_IDX) + "GFX.ini");
+	else
+		g_Config.Load(File::GetUserPath(D_CONFIG_IDX) + "gfx_opengl.ini");
 	g_Config.GameIniLoad();
 	g_Config.UpdateProjectionHack();
 	g_Config.VerifyValidity();
@@ -157,7 +160,7 @@ bool VideoBackend::Initialize(void* window_handle)
 		return false;
 
 	// Do our OSD callbacks
-	OSD::DoCallbacks(OSD::OSD_INIT);
+	OSD::DoCallbacks(OSD::CallbackType::Initialization);
 
 	m_initialized = true;
 
@@ -201,7 +204,7 @@ void VideoBackend::Shutdown()
 	m_initialized = false;
 
 	// Do our OSD callbacks
-	OSD::DoCallbacks(OSD::OSD_SHUTDOWN);
+	OSD::DoCallbacks(OSD::CallbackType::Shutdown);
 
 	GLInterface->Shutdown();
 	GLInterface.reset();
