@@ -6,7 +6,7 @@
 //  Copyright © 2016 Dolphin Emulator Project. All rights reserved.
 //
 
-#import "DolphinWX/MainiOS.h"
+#import "MainiOS.h"
 
 #import "ViewController.h"
 

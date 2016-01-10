@@ -593,6 +593,9 @@ include_directories(Source/Core)
 if(ANDROID)
 	include_directories(Source/Android)
 endif()
+if(IOS)
+	include_directories(Source/iOS)
+endif()
 
 ########################################
 # Process externals and setup their include directories

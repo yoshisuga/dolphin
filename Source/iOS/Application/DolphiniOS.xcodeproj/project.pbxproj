@@ -489,7 +489,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.dolphin-emu.DolphiniOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				USER_HEADER_SEARCH_PATHS = $SOURCE_ROOT/../../../Source/Core;
+				USER_HEADER_SEARCH_PATHS = "$SOURCE_ROOT/../ $SOURCE_ROOT/../../../Source/Core";
 				VALID_ARCHS = arm64;
 			};
 			name = Debug;
@@ -512,7 +512,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.dolphin-emu.DolphiniOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				USER_HEADER_SEARCH_PATHS = $SOURCE_ROOT/../../../Source/Core;
+				USER_HEADER_SEARCH_PATHS = "$SOURCE_ROOT/../ $SOURCE_ROOT/../../../Source/Core";
 				VALID_ARCHS = arm64;
 			};
 			name = Release;
