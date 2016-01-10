@@ -2,10 +2,11 @@
 
 echo "Checking if this device is supported..."
 UNAME_OUTPUT=`uname -a`
-if [ "$UNAME_OUTPUT" != *"arm64"* ]
+if [[ "$UNAME_OUTPUT" == *"arm64"* ]]
 then
-	echo -e "\nThis device is not supported, sorry... Dolphin requires an iOS device with a 64-bit processor."
-	exit 1
+	echo "This device is supported."
+	exit 0
 fi
 
-exit 0
+echo -e "\nThis device is not supported, sorry... Dolphin requires an iOS device with a 64-bit processor."
+exit 1
