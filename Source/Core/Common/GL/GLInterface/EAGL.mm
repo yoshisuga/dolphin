@@ -42,7 +42,7 @@ void* cInterfaceEAGL::GetFuncAddress(const std::string& name)
 bool cInterfaceEAGL::Create(void *window_handle, bool core)
 {
 	// We're using OpenGLES 3
-	if (s_opengl_mode == MODE_DETECT)
+	if (s_opengl_mode == GLInterfaceMode::MODE_DETECT)
 		s_opengl_mode = GLInterfaceMode::MODE_OPENGLES3;
 	
 	// Get our CAEAGLLayer instance
