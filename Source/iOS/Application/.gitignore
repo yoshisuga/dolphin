@@ -1,0 +1,20 @@
+# Compiled files
+libs/
+
+# File containing an IP address for the "Install to Jailbroken Device" target
+device_ip
+
+# Ignore Xcode files/dirs
+*~.nib
+DerivedData/
+*.pbxuser
+*.mode1v3
+*.mode2v3
+*.perspectivev3
+!default.pbxuser # Defaults are whitelisted.
+!default.mode1v3
+!default.mode2v3
+!default.perspectivev3
+*.xccheckout
+xcuserdata/
+*.moved-aside
