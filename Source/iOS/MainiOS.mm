@@ -28,7 +28,7 @@
 #include "DiscIO/Volume.h"
 #include "DiscIO/VolumeCreator.h"
 
-#include "DolphinWX/MainiOS.h"
+#include "MainiOS.h"
 
 #include "UICommon/UICommon.h"
 
@@ -114,8 +114,8 @@ static bool MsgAlert(const char* caption, const char* text, bool yes_no, int /*S
 	
 	IniFile dolphinConfig;
 	dolphinConfig.Load(File::GetUserPath(F_DOLPHINCONFIG_IDX));
-	dolphinConfig.GetOrCreateSection("Core")->Set("CPUCore", PowerPC::CORE_CACHEDINTERPRETER);
-	dolphinConfig.GetOrCreateSection("Core")->Set("GFXBackend", "OGL");
+	dolphinConfig.GetOrCreateSection("Core")->Set("CPUCore", PowerPC::CORE_JIT64);
+	dolphinConfig.GetOrCreateSection("Core")->Set("GFXBackend", "Software Renderer");
 	dolphinConfig.Save(File::GetUserPath(F_DOLPHINCONFIG_IDX));
 }
 

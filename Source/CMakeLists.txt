@@ -48,6 +48,7 @@ endmacro(add_dolphin_library)
 
 add_subdirectory(Core)
 add_subdirectory(Android/jni)
+add_subdirectory(iOS)
 add_subdirectory(UnitTests)
 
 if (DSPTOOL)
