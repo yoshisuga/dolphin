@@ -8,12 +8,12 @@ This document contains information on how to use the iOS Development Environment
 * An iOS device with a 64-bit processor
 * Xcode 7.1.1+
 
-The following needs to be installed using [Homebrew](http://brew.sh/):
+The following need to be installed using [Homebrew](http://brew.sh/):
 
 * cmake
 * dpkg
 
-Once all of the prerequisites have been met, you can browse to `Source/iOS` and open the `DolphiniOS.xcodeproj` project file.
+Once all of the prerequisites have been met, you can browse to `Source/iOS/Application` and open the `DolphiniOS.xcodeproj` project file.
 
 ## Schemes
 
@@ -21,15 +21,13 @@ Each scheme allows you to build Dolphin for iOS in different ways.
 
 *  "DolphiniOS"
 
-This scheme builds the application. It should be used for running Dolphin in the iOS Simulator. However, it can also be used to install Dolphin on a non-jailbroken device. However, please note that Dolphin will not function correctly in the application sandbox due to restrictions placed by Apple.
-
-*  "Build for Jailbroken Devices"
-
-This scheme builds the application and packages it into a .deb package file.
+This scheme builds the application. You can use this scheme to run the application in the iOS Simulator, install it to a non-jailbroken device, or just build a binary and .deb package of the emulator.
 
 *  "Install to Jailbroken Device"
 
-This scheme builds the application, packages it into a .deb package file, copies it to the device, and installs it. To use this scheme, you need to go through a few setup steps first (see below).
+This scheme builds the application, copies it to a jailbroken device, and installs it. To use this scheme, you need to go through a few setup steps first (see below). The difference between running Dolphin on a physical device with the main "DolphiniOS" target and this target is that the "DolphiniOS" target installs the application into the normal sandbox environment. With this special target, we can install it directly to ```/Applications/``` (all applications stored there have no sandbox restrictions).
+
+To run this target, select the destination as "Generic iOS Device" and go to Product -> Build (alternatively, press Command + B).
 
 ## Setting up the "Install to Jailbroken Device" scheme
 
@@ -51,6 +49,6 @@ This scheme builds the application, packages it into a .deb package file, copies
 
 9. Disconnect from your device and connect again. If you have done this correctly, you should not be prompted for a password when reconnecting.
 
-10. In ```Source/iOS```, create a file named ```device_ip``` containing a single line with your device's IP address.
+10. In ```Source/iOS/Application```, create a file named ```device_ip``` containing a single line with your device's IP address.
 
 Once you have followed all of the steps, the scheme should function properly!
