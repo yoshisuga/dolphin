@@ -489,6 +489,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/libs",
 				);
+				OTHER_LDFLAGS = "-Wl,-pagezero_size,0x1000";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.dolphin-emu.DolphiniOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				USER_HEADER_SEARCH_PATHS = "$SOURCE_ROOT/../ $SOURCE_ROOT/../../../Source/Core";
@@ -514,6 +515,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/libs",
 				);
+				OTHER_LDFLAGS = "-Wl,-pagezero_size,0x1000";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.dolphin-emu.DolphiniOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				USER_HEADER_SEARCH_PATHS = "$SOURCE_ROOT/../ $SOURCE_ROOT/../../../Source/Core";
