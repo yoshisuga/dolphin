@@ -54,8 +54,10 @@ bool Host_RendererIsFullscreen()
 // Should return a instance of UIView.
 void* Host_GetRenderHandle()
 {
-	UIWindow *window = [[UIApplication sharedApplication] keyWindow];
-	return [[window rootViewController] view];
+	@autoreleasepool {
+		UIWindow *window = [[UIApplication sharedApplication] keyWindow];
+		return (__bridge void*) [[[window rootViewController] view] layer];
+	}
 }
 
 void Host_ConnectWiimote(int wm_idx, bool connect) {}
@@ -85,20 +87,21 @@ void Host_ShowVideoConfig(void* parent, const std::string& backend_name,
 
 static bool MsgAlert(const char* caption, const char* text, bool yes_no, int /*Style*/)
 {
-	// TODO: Check if ARC is enabled
-	NSString* foundationCaption = [NSString stringWithUTF8String:caption];
-	NSString* foundationText = [NSString stringWithUTF8String:text];
+	@autoreleasepool {
+		NSString* foundationCaption = [NSString stringWithUTF8String:caption];
+		NSString* foundationText = [NSString stringWithUTF8String:text];
 	
-	// This needs to be called on the UI thread
-	dispatch_async(dispatch_get_main_queue(), ^{
-		NSString* message = [NSString stringWithFormat:@"Caption: %@\n\nText: %@", foundationCaption, foundationText];
-		UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Alert" message:message delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
-		[alert show];
-	});
+		// This needs to be called on the UI thread
+		dispatch_async(dispatch_get_main_queue(), ^{
+			NSString* message = [NSString stringWithFormat:@"Caption: %@\n\nText: %@", foundationCaption, foundationText];
+			UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Alert" message:message delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
+			[alert show];
+		});
 	
-	NSLog(@"Alert!\nCaption: %@\nText: %@\nyes_no: %i", foundationCaption, foundationText, yes_no);
+		NSLog(@"Alert!\nCaption: %@\nText: %@\nyes_no: %i", foundationCaption, foundationText, yes_no);
 	
-	return false;
+		return false;
+	}
 }
 
 // The following are called from the iOS application.

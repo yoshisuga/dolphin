@@ -41,38 +41,39 @@ void* cInterfaceEAGL::GetFuncAddress(const std::string& name)
 
 bool cInterfaceEAGL::Create(void *window_handle, bool core)
 {
-	// We're using OpenGLES 3
-	if (s_opengl_mode == GLInterfaceMode::MODE_DETECT)
-		s_opengl_mode = GLInterfaceMode::MODE_OPENGLES3;
-	
-	// Get our CAEAGLLayer instance
-	UIView* currentView = reinterpret_cast<UIView*>(window_handle);
-	CAEAGLLayer *eaglLayer = (CAEAGLLayer*) [currentView layer];
-	
-	// Create an EAGLContext for OpenGLES 3
-	eaglContext = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES3];
-	MakeCurrent();
-	
-	// Load all our needed functions.
-	glGenFramebuffers = (PFNGLGENRENDERBUFFERSPROC) GetFuncAddress("glGenFramebuffers");
-	glDeleteFramebuffers = (PFNGLDELETEFRAMEBUFFERSPROC) GetFuncAddress("glDeleteFramebuffers");
-	glBindFramebuffer = (PFNGLBINDFRAMEBUFFERPROC) GetFuncAddress("glBindFramebuffer");
-	glGenRenderbuffers = (PFNGLGENRENDERBUFFERSPROC) GetFuncAddress("glGenRenderbuffers");
-	glDeleteRenderbuffers = (PFNGLDELETERENDERBUFFERSPROC) GetFuncAddress("glDeleteRenderbuffers");
-	glBindRenderbuffer = (PFNGLBINDRENDERBUFFERPROC) GetFuncAddress("glBindRenderbuffer");
-	glFramebufferRenderbuffer = (PFNGLFRAMEBUFFERRENDERBUFFERPROC) GetFuncAddress("glFramebufferRenderbuffer");
-	
-	// Create our framebuffer and renderbuffer
-	glGenFramebuffers(1, &framebuffer);
-	glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
-	
-	glGenRenderbuffers(1, &renderbuffer);
-	glBindRenderbuffer(GL_RENDERBUFFER, renderbuffer);
-	[eaglContext renderbufferStorage:GL_RENDERBUFFER fromDrawable:eaglLayer];
-	
-	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, renderbuffer);
-	
-	return true;
+	@autoreleasepool {
+		// We're using OpenGLES 3
+		if (s_opengl_mode == GLInterfaceMode::MODE_DETECT)
+			s_opengl_mode = GLInterfaceMode::MODE_OPENGLES3;
+		
+		// Get our CAEAGLLayer instance
+		CAEAGLLayer* eaglLayer = (__bridge CAEAGLLayer*) window_handle;
+		
+		// Create an EAGLContext for OpenGLES 3
+		eaglContext = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES3];
+		MakeCurrent();
+		
+		// Load all our needed functions.
+		glGenFramebuffers = (PFNGLGENRENDERBUFFERSPROC) GetFuncAddress("glGenFramebuffers");
+		glDeleteFramebuffers = (PFNGLDELETEFRAMEBUFFERSPROC) GetFuncAddress("glDeleteFramebuffers");
+		glBindFramebuffer = (PFNGLBINDFRAMEBUFFERPROC) GetFuncAddress("glBindFramebuffer");
+		glGenRenderbuffers = (PFNGLGENRENDERBUFFERSPROC) GetFuncAddress("glGenRenderbuffers");
+		glDeleteRenderbuffers = (PFNGLDELETERENDERBUFFERSPROC) GetFuncAddress("glDeleteRenderbuffers");
+		glBindRenderbuffer = (PFNGLBINDRENDERBUFFERPROC) GetFuncAddress("glBindRenderbuffer");
+		glFramebufferRenderbuffer = (PFNGLFRAMEBUFFERRENDERBUFFERPROC) GetFuncAddress("glFramebufferRenderbuffer");
+		
+		// Create our framebuffer and renderbuffer
+		glGenFramebuffers(1, &framebuffer);
+		glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
+		
+		glGenRenderbuffers(1, &renderbuffer);
+		glBindRenderbuffer(GL_RENDERBUFFER, renderbuffer);
+		[eaglContext renderbufferStorage:GL_RENDERBUFFER fromDrawable:eaglLayer];
+		
+		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, renderbuffer);
+		
+		return true;
+	}
 }
 
 bool cInterfaceEAGL::MakeCurrent()
@@ -90,9 +91,6 @@ bool cInterfaceEAGL::ClearCurrent()
 // Close backend
 void cInterfaceEAGL::Shutdown()
 {
-	// TODO: Check if ARC is enabled, if so we don't need to explicitly call release
-	
-	[eaglContext release];
 	eaglContext = nil;
 }
 

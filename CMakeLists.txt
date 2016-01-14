@@ -938,6 +938,12 @@ if(APPLE)
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -x objective-c++ -stdlib=libc++")
 	# Avoid mistaking an object file for a source file on the link command line.
 	set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -x none")
+
+	# For iOS builds, enable ARC.
+	if(IOS)
+		set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fobjc-arc")
+		set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fobjc-arc")
+	endif()
 endif()
 
 add_subdirectory(Source)
