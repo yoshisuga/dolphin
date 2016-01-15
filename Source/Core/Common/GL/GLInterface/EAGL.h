@@ -17,7 +17,7 @@ private:
 	GLuint renderbuffer;
 public:
 	void Swap();
-	void SetMode(GLInterfaceMode mode) { s_opengl_mode = mode; }
+	void SetMode(GLInterfaceMode mode) { s_opengl_mode = GLInterfaceMode::MODE_OPENGLES3; }
 	void* GetFuncAddress(const std::string& name);
 	bool Create(void *window_handle, bool core = true);
 	bool MakeCurrent();
