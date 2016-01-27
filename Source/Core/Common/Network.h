@@ -8,10 +8,10 @@
 
 #include "Common/CommonTypes.h"
 
-enum MACConsumer
+enum class MACConsumer
 {
-	BBA = 0,
-	IOS = 1
+	CONSUMER_BBA,
+	CONSUMER_IOS
 };
 
 enum
